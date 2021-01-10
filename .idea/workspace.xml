@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/dist/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlightHome.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlightHomeSVGComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -38,7 +40,13 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/components/pages/assets" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="hotloader" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -65,7 +73,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610228457418</updated>
-      <workItem from="1610228460836" duration="3944000" />
+      <workItem from="1610228460836" duration="13295000" />
     </task>
     <servers />
   </component>
