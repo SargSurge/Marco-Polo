@@ -55,6 +55,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
+          <HomePage path="/public" />
           <NotFound default />
         </Router>
       </>
