@@ -18,15 +18,10 @@ class GameType extends Component {
   render() {
     return (
       <div className="gametype-base">
-        <div className="gametype-navbar-container">
+        <div className="gametype-container">
           <NavBar />
+          <GameTabs />
         </div>
-<<<<<<< HEAD
-        <div className="gametype-content">HELLLO</div>
-=======
-        <div><GameTabs /></div>
-        <div>HELLLO</div>
->>>>>>> a1692a479604e2a36f0ebfd15abcb9c188743ac9
       </div>
     );
   }

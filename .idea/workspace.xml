@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +75,7 @@
       <workItem from="1610228460836" duration="13470000" />
       <workItem from="1610303062596" duration="123000" />
       <workItem from="1610327294817" duration="8133000" />
-      <workItem from="1610385196304" duration="2331000" />
+      <workItem from="1610385196304" duration="3492000" />
     </task>
     <servers />
   </component>

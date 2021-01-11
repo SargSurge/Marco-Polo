@@ -7,7 +7,7 @@
     min-height: 100vh;
 }
 
-.gametype-navbar-container {
+.gametype-container {
     background: black;
     display: flex;
     flex-direction: column;
