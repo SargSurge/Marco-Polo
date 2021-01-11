@@ -1,0 +1,14 @@
+/*
+    This is the CSS for the GameTabs component
+ */
+
+.gametabs-base {
+    margin-top: 50px;
+}
+
+.gametabs-tab {
+    font-weight: normal;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0;
+}
