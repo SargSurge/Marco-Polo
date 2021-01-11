@@ -11,6 +11,9 @@ import { socket } from "../client-socket.js";
 import { get, post } from "../utilities";
 import GameType from "./pages/GameType";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 /**
  * Define the "App" component as a class.
  */
