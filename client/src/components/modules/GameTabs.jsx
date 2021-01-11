@@ -7,6 +7,8 @@ import PublicGames from "./PublicGames";
 import JoinGame from "./JoinGame";
 import HostGame from "./HostGame";
 
+import "./GameTabs.css";
+
 export class GameTabs extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,7 @@ export class GameTabs extends Component {
   render() {
     return (
       <>
-        <div>
+        <div className="gametabs-base">
           <Nav tabs>
             <NavItem>
               <NavLink
