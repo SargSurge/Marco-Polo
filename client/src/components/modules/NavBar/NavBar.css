@@ -3,7 +3,8 @@
  */
 
 .navbar-base {
-    background: #c8c8c8;
+    background: #459bc5;
+    color: white;
     min-height: 50px;
     width: 100%;
     display: flex;

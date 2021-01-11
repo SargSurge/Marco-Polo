@@ -8,6 +8,13 @@
 }
 
 .gametype-navbar-container {
+    background: black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.gametype-content {
+    text-align: center;
 }

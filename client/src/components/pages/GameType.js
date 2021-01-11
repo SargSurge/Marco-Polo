@@ -20,7 +20,7 @@ class GameType extends Component {
         <div className="gametype-navbar-container">
           <NavBar />
         </div>
-        <div>HELLLO</div>
+        <div className="gametype-content">HELLLO</div>
       </div>
     );
   }
