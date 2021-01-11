@@ -37,7 +37,12 @@ export class GameTabs extends Component {
                   this.toggle("1");
                 }}
               >
-                <h1 style={{ color: this.state.activeTab === "1" ? "black" : "white" }}>Public</h1>
+                <h1
+                  className="gametabs-tab"
+                  style={{ color: this.state.activeTab === "1" ? "black" : "white" }}
+                >
+                  Public
+                </h1>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -47,7 +52,12 @@ export class GameTabs extends Component {
                   this.toggle("2");
                 }}
               >
-                <h1 style={{ color: this.state.activeTab === "2" ? "black" : "white" }}>Private</h1>
+                <h1
+                  className="gametabs-tab"
+                  style={{ color: this.state.activeTab === "2" ? "black" : "white" }}
+                >
+                  Private
+                </h1>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -57,7 +67,12 @@ export class GameTabs extends Component {
                   this.toggle("3");
                 }}
               >
-                <h1 style={{ color: this.state.activeTab === "3" ? "black" : "white" }}>Host</h1>
+                <h1
+                  className="gametabs-tab"
+                  style={{ color: this.state.activeTab === "3" ? "black" : "white" }}
+                >
+                  Host
+                </h1>
               </NavLink>
             </NavItem>
           </Nav>

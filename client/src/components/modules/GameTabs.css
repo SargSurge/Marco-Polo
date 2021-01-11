@@ -3,5 +3,12 @@
  */
 
 .gametabs-base {
-    margin-top: 30px;
+    margin-top: 50px;
+}
+
+.gametabs-tab {
+    font-weight: normal;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0;
 }
