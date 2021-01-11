@@ -34,7 +34,7 @@ export class HostGame extends Component {
     }
 
     togglePrivacy = () => {
-        this.setState({public: !this.state.public})
+        this.setState({public: !this.state.public}, () => console.log(this.state.public))
     }
 
     handleSubmit = (event) => {
@@ -47,10 +47,9 @@ export class HostGame extends Component {
                 <h5 style ={{color: "white"}}>Host Game</h5>    
                 <form onSubmit={this.handleSubmit}>          
                     <input type="text" value={this.state.name} placeholder="Game Name" onChange={this.inputName} />
+                    <h5 style={{color: 'white'}} >Public?</h5>
+                    <input type="checkbox" onChange={this.togglePrivacy} />
                 </form>
-
-                {/* Add Privacy Toggle */}
-
                 <h5 style ={{color: "white"}}>Capacity</h5>    
                 <Slider 
                     defaultValue={3}
