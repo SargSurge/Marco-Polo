@@ -11,26 +11,23 @@ class HomePage extends Component {
   // makes props available in this component
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     return (
-      <div className="homepage-background">
+      <div>
         <div className="homepage-header">
-          <span className='homepage-header-text'>Marco Polo</span>
+          <span className="homepage-header-text">Marco Polo</span>
           {this.props.userId ? (
             <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Logout"
               onLogoutSuccess={this.props.handleLogout}
               onFailure={(err) => console.log(err)}
-              className='homepage-button'
+              className="homepage-button"
             />
           ) : (
             <GoogleLogin

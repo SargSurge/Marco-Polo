@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlightHome.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlightHomeSVGComponent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/flashlight.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +38,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -73,7 +73,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610228457418</updated>
-      <workItem from="1610228460836" duration="13295000" />
+      <workItem from="1610228460836" duration="13470000" />
+      <workItem from="1610303062596" duration="123000" />
+      <workItem from="1610327294817" duration="2123000" />
     </task>
     <servers />
   </component>
@@ -90,5 +92,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
