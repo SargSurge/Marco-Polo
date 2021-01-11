@@ -5,6 +5,7 @@ export class HostGame extends Component {
         return (
             <div>
                 <h5 style ={{color: "white"}}>Host Game</h5>              
+                <input type="text" placeholder="#1234"/>
             </div>
         )
     }
