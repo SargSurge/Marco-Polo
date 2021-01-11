@@ -3,8 +3,13 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Tab Components
+import PublicGames from "./PublicGames";
+import JoinGame from "./JoinGame";
+import HostGame from "./HostGame";
 
-export class TabBar extends Component {
+
+export class GameTabs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,13 +59,13 @@ export class TabBar extends Component {
             <div>
                 <TabContent activeTab = {this.state.activeTab}>
                     <TabPane tabId="1">
-                        <h5 style ={{color: "white"}}>Public Games</h5>
+                        <PublicGames />
                     </TabPane>
                     <TabPane tabId="2">
-                        <h5 style ={{color: "white"}}>Private Games</h5>
+                        <JoinGame />
                     </TabPane>
                     <TabPane tabId="3">
-                        <h5 style ={{color: "white"}}>Host Game</h5>
+                        <HostGame />
                     </TabPane>
                 </TabContent>
             </div>
@@ -69,4 +74,4 @@ export class TabBar extends Component {
     }
 }
 
-export default TabBar
+export default GameTabs
