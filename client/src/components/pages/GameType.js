@@ -21,12 +21,9 @@ class GameType extends Component {
         <div className="gametype-navbar-container">
           <NavBar />
         </div>
-<<<<<<< HEAD
-        <div className="gametype-content">HELLLO</div>
-=======
-        <div><GameTabs /></div>
-        <div>HELLLO</div>
->>>>>>> a1692a479604e2a36f0ebfd15abcb9c188743ac9
+        <div>
+          <GameTabs />
+        </div>
       </div>
     );
   }
