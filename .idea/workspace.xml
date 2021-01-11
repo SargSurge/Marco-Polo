@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -44,6 +52,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/components/modules/NavBar" />
       <recent name="$PROJECT_DIR$/client/src/components/pages/assets" />
     </key>
   </component>
@@ -74,7 +83,7 @@
       <updated>1610228457418</updated>
       <workItem from="1610228460836" duration="13470000" />
       <workItem from="1610303062596" duration="123000" />
-      <workItem from="1610327294817" duration="2465000" />
+      <workItem from="1610327294817" duration="7887000" />
     </task>
     <servers />
   </component>

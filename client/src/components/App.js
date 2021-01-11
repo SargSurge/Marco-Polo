@@ -9,6 +9,7 @@ import "../utilities.css";
 import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
+import GameType from "./pages/GameType";
 
 /**
  * Define the "App" component as a class.
@@ -55,7 +56,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
-          <HomePage path="/public" />
+          <GameType path="/public" />
           <NotFound default />
         </Router>
       </>

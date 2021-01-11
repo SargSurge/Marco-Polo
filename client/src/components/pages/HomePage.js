@@ -18,7 +18,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="homepage-background">
         <div className="homepage-header">
           <span className="homepage-header-text">Marco Polo</span>
           {this.props.userId ? (

@@ -1,0 +1,17 @@
+/*
+    This is the CSS for the NavBar component
+ */
+
+.navbar-base {
+    background: #c8c8c8;
+    min-height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-header {
+    margin-left: 15px;
+    font-size: 25px;
+}

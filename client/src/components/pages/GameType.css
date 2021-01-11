@@ -1,0 +1,13 @@
+/*
+    The CSS for the GameType page
+ */
+
+.gametype-base {
+    background: black;
+    min-height: 100vh;
+}
+
+.gametype-navbar-container {
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,32 @@
+/*
+    The CSS for the NavBar Dropdown
+ */
+
+.navbardropdown-container {
+    display: flex;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.navbardropdown-username {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.navbardropdown-list {
+    position: absolute;
+    margin-top: 13px;
+    width: 143px;
+    background: #79b3c8;
+    border-radius: 3px;
+}
+
+.navbardropdown-list-items {
+    padding: 10px;
+    background: #79b3c8;
+    cursor: pointer;
+}
+
+.navbardropdown-list-items:hover {
+    background: #6987db;
+}

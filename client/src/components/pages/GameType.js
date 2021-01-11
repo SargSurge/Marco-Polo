@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { socket } from "../../client-socket";
+import NavBar from "../modules/NavBar/NavBar";
 
 import "./GameType.css";
 
@@ -15,8 +16,11 @@ class GameType extends Component {
 
   render() {
     return (
-      <div>
-        <NavBar />
+      <div className="gametype-base">
+        <div className="gametype-navbar-container">
+          <NavBar />
+        </div>
+        <div>HELLLO</div>
       </div>
     );
   }
