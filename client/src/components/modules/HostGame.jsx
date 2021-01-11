@@ -1,11 +1,28 @@
 import React, { Component } from 'react'
 
 export class HostGame extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            gameId: null,
+        }
+    }
+
+    inputGameId = (event) => {
+        this.setState({gameId: event.target.value})
+    }
+
+    handleSubmit = (event) => {
+
+    }
+
     render() {
         return (
             <div>
-                <h5 style ={{color: "white"}}>Host Game</h5>              
-                <input type="text" placeholder="#1234"/>
+                <h5 style ={{color: "white"}}>Host Game</h5>    
+                <form onSubmit={this.handleSubmit}>          
+                    <input type="text" value={this.state.gameId} placeholder="#1234"/>
+                </form>
             </div>
         )
     }
