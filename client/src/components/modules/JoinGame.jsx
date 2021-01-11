@@ -21,7 +21,7 @@ export class JoinGame extends Component {
             <div>
                 <h5 style ={{color: "white"}}>Join Game</h5>    
                 <form onSubmit={this.handleSubmit}>          
-                    <input type="text" value={this.state.gameId} placeholder="#1234"/>
+                    <input type="text" value={this.state.gameId} placeholder="#1234" onChange={this.inputGameId} />
                 </form>
             </div>
         )

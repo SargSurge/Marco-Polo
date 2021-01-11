@@ -4,12 +4,12 @@ export class HostGame extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gameId: null,
+            name: null,
         }
     }
 
-    inputGameId = (event) => {
-        this.setState({gameId: event.target.value})
+    inputName = (event) => {
+        this.setState({name: event.target.value});
     }
 
     handleSubmit = (event) => {
@@ -21,7 +21,7 @@ export class HostGame extends Component {
             <div>
                 <h5 style ={{color: "white"}}>Host Game</h5>    
                 <form onSubmit={this.handleSubmit}>          
-                    <input type="text" value={this.state.gameId} placeholder="#1234"/>
+                    <input type="text" value={this.state.name} placeholder="Game Name" onChange={this.inputName} />
                 </form>
             </div>
         )
