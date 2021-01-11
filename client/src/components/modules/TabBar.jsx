@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export class TabBar extends Component {
     constructor(props) {
@@ -20,6 +22,7 @@ export class TabBar extends Component {
 
     render() {
         return (
+            <>
             <div>
                 <Nav tabs>
                     <NavItem>
@@ -47,18 +50,21 @@ export class TabBar extends Component {
                         </NavLink>
                     </NavItem>
                 </Nav>
+            </div>
+            <div>
                 <TabContent activeTab = {this.state.activeTab}>
-                    <TabPane id="1">
+                    <TabPane tabId="1">
                         <h5 style ={{color: "white"}}>Public Games</h5>
                     </TabPane>
-                    <TabPane id="2">
+                    <TabPane tabId="2">
                         <h5 style ={{color: "white"}}>Private Games</h5>
                     </TabPane>
-                    <TabPane id="3">
+                    <TabPane tabId="3">
                         <h5 style ={{color: "white"}}>Host Game</h5>
                     </TabPane>
                 </TabContent>
             </div>
+            </>
         )
     }
 }
