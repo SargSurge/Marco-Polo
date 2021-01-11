@@ -4,7 +4,7 @@ import classnames from "classnames";
 
 // Tab Components
 import PublicGames from "./PublicGames";
-import JoinGame from "./JoinGame";
+import PrivateGame from "./PrivateGame";
 import HostGame from "./HostGame";
 
 import "./GameTabs.css";
@@ -83,7 +83,7 @@ export class GameTabs extends Component {
               <PublicGames />
             </TabPane>
             <TabPane tabId="2">
-              <JoinGame />
+              <PrivateGame />
             </TabPane>
             <TabPane tabId="3">
               <HostGame />

@@ -34,7 +34,7 @@ export class HostGame extends Component {
     }
 
     togglePrivacy = () => {
-        this.setState({public: !this.state.public}, () => console.log(this.state.public))
+        this.setState({public: !this.state.public})
     }
 
     handleSubmit = (event) => {

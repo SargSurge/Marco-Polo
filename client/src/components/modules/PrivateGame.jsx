@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import JoinGameButton from './JoinGameButton';
 
-export class JoinGame extends Component {
+export class PrivateGame extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,9 +24,10 @@ export class JoinGame extends Component {
                 <form onSubmit={this.handleSubmit}>          
                     <input type="text" value={this.state.gameId} placeholder="#1234" onChange={this.inputGameId} />
                 </form>
+                <JoinGameButton gameId = {this.state.gameId} />
             </div>
         )
     }
 }
 
-export default JoinGame
+export default PrivateGame
