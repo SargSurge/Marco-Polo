@@ -36,8 +36,8 @@ class NavBarDropdown extends Component {
           <ExpandMoreIcon />
         </div>
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
-          <div className="navbardropdown-list-items">Profile</div>
           <div className="navbardropdown-list-items">How to Play</div>
+          <div className="navbardropdown-list-items">Profile</div>
           <div className="navbardropdown-list-items">Sign Out</div>
         </div>
       </div>
