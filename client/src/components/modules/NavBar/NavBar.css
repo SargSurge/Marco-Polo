@@ -5,7 +5,7 @@
 .navbar-base {
     background: #459bc5;
     color: white;
-    min-height: 50px;
+    min-height: 60px;
     width: 100%;
     display: flex;
     justify-content: space-between;
