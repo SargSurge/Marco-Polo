@@ -33,7 +33,7 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "mongodb+srv://marcopolo:PhiAlphaBeta424A@cluster0.9jbdw.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const mongoConnectionURL = "mongodb+srv://marcopolo:PhiAlphaBeta424A@cluster0.9jbdw.mongodb.net/marcodb?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
 const databaseName = "marcodb";
 
