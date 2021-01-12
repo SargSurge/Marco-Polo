@@ -4,6 +4,7 @@
 
 .navbar-base {
     background: #459bc5;
+    box-shadow: 1px 5px 12px 1px #5a6e75;
     color: white;
     min-height: 60px;
     width: 100%;
