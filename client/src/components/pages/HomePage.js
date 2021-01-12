@@ -3,9 +3,10 @@ import { get, post } from "../../utilities";
 import { socket } from "../../client-socket";
 import SvgComponent from "./assets/flashlightHomeSVGComponent.js";
 import "./HomePage.css";
+import GameType from "./GameType";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "478686741541-7mat3uoom72iesonik033gsm2n72pbf3.apps.googleusercontent.com";
 
 class HomePage extends Component {
   // makes props available in this component
