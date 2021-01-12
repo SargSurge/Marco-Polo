@@ -30,3 +30,8 @@
 .navbardropdown-list-items:hover {
     background: #6987db;
 }
+
+.navbardropdown-logout {
+    max-width: 143px;
+    overflow: hidden;
+}

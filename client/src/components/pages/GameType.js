@@ -19,7 +19,7 @@ class GameType extends Component {
     return (
       <div className="gametype-base">
         <div className="gametype-container">
-          <NavBar />
+          <NavBar logoutButton={this.props.logoutButton} />
           <GameTabs />
         </div>
       </div>

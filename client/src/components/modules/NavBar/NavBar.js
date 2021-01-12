@@ -18,7 +18,7 @@ class NavBar extends Component {
     return (
       <div className="navbar-base">
         <div className="navbar-header"> Marco Polo </div>
-        <NavBarDropdown />
+        <NavBarDropdown logoutButton={this.props.logoutButton} />
       </div>
     );
   }

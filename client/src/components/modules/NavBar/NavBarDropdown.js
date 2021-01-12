@@ -38,7 +38,7 @@ class NavBarDropdown extends Component {
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
           <div className="navbardropdown-list-items">How to Play</div>
           <div className="navbardropdown-list-items">Profile</div>
-          <div className="navbardropdown-list-items">Sign Out</div>
+          <div className="navbardropdown-logout">{this.props.logoutButton}</div>
         </div>
       </div>
     );

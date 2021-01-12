@@ -18,40 +18,40 @@ class HomePage extends Component {
   componentDidMount() {}
 
   render() {
-
-    const homePage =  (    
-    
-    <div className="homepage-background">
-      <div className="homepage-header">
-      <span className="homepage-header-text">Marco Polo</span>
-      <GoogleLogin
+    const logoutButton = (
+      <GoogleLogout
         clientId={GOOGLE_CLIENT_ID}
-        buttonText="Login"
-        onSuccess={this.props.handleLogin}
+        buttonText="Logout"
+        onLogoutSuccess={this.props.handleLogout}
         onFailure={(err) => console.log(err)}
         className="homepage-button"
       />
-      </div>
-    </div>
+    );
 
-    )
+    const homePage = (
+      <div className="homepage-background">
+        <div className="homepage-header">
+          <span className="homepage-header-text">Marco Polo</span>
+          <GoogleLogin
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={this.props.handleLogin}
+            onFailure={(err) => console.log(err)}
+            className="homepage-button"
+          />
+        </div>
+      </div>
+    );
 
     return (
       <>
-      { this.props.userId ? (
-        <>
-        <GameType />
-        <GoogleLogout
-               clientId={GOOGLE_CLIENT_ID}
-               buttonText="Logout"
-               onLogoutSuccess={this.props.handleLogout}
-               onFailure={(err) => console.log(err)}
-               className="homepage-button"
-             />
-        </>
-      ) : (
-        homePage
-      )}
+        {this.props.userId ? (
+          <>
+            <GameType logoutButton={logoutButton} />
+          </>
+        ) : (
+          homePage
+        )}
       </>
 
       // <div className="homepage-background">
