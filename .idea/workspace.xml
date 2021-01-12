@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +86,7 @@
       <workItem from="1610385196304" duration="6240000" />
       <workItem from="1610428762206" duration="1264000" />
       <workItem from="1610473720902" duration="1784000" />
-      <workItem from="1610490611428" duration="2867000" />
+      <workItem from="1610490611428" duration="2987000" />
     </task>
     <servers />
   </component>
