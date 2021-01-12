@@ -2,8 +2,26 @@
     This is the CSS for the GameTabs component
  */
 
+/*
+potential code if we want a floating color behind the tabs
+display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px;
+    padding-top: 50px;
+    background: #006699;
+    box-shadow: 1px 1px 14px -2px #ffffff;
+    border-radius: 15px;
+    margin-top: 60px;
+ */
+
 .gametabs-base {
-    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
 }
 
 .gametabs-tab {

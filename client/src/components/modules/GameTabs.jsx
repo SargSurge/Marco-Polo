@@ -27,8 +27,8 @@ export class GameTabs extends Component {
 
   render() {
     return (
-      <>
-        <div className="gametabs-base">
+      <div className="gametabs-base">
+        <div>
           <Nav tabs>
             <NavItem>
               <NavLink
@@ -90,7 +90,7 @@ export class GameTabs extends Component {
             </TabPane>
           </TabContent>
         </div>
-      </>
+      </div>
     );
   }
 }
