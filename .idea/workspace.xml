@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/pages/assets/Ultra.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/GameTabs.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/GameTabs.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/GameTabs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/GameTabs.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/GameType.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/GameType.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicGames.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/Skeleton.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/Skeleton.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/utilities.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/utilities.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -46,6 +49,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/components/modules/PublicTab" />
       <recent name="$PROJECT_DIR$/client/src/components/pages/assets" />
       <recent name="$PROJECT_DIR$/client/src/components/modules/NavBar" />
     </key>
@@ -92,7 +96,7 @@
       <workItem from="1610385196304" duration="6240000" />
       <workItem from="1610428762206" duration="1264000" />
       <workItem from="1610473720902" duration="1784000" />
-      <workItem from="1610490611428" duration="16660000" />
+      <workItem from="1610490611428" duration="19501000" />
     </task>
     <servers />
   </component>

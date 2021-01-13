@@ -16,6 +16,8 @@
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
+
 
 :root {
   --primary: #396dff;
@@ -42,7 +44,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Ultra;
+  font-family: Orbitron;
+  letter-spacing: 3px;
   font-weight: normal;
   font-style: normal;
 }

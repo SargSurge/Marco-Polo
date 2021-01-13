@@ -9,6 +9,8 @@
 }
 
 .navbardropdown-username {
+    font-family: Orbitron;
+    letter-spacing: 3px;
     font-size: 20px;
     margin-right: 5px;
 }
@@ -22,6 +24,8 @@
 }
 
 .navbardropdown-list-items {
+    font-family: Orbitron;
+    font-size: 18px;
     padding: 10px;
     background: #79b3c8;
     cursor: pointer;

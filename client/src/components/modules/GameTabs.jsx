@@ -3,7 +3,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 
 // Tab Components
-import PublicGames from "./PublicGames";
+import PublicGames from "./PublicTab/PublicGames";
 import PrivateGame from "./PrivateGame";
 import HostGame from "./HostGame";
 
