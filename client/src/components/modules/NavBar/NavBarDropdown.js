@@ -35,7 +35,7 @@ class NavBarDropdown extends Component {
     return (
       <div className="navbardropdown-base">
         <div className="navbardropdown-container" onClick={this.handleClick}>
-          <div className="navbardropdown-username"> {this.props.user} </div>
+          <div className="navbardropdown-username"> Naseem Hamed </div>
           <ExpandMoreIcon />
         </div>
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
@@ -49,4 +49,3 @@ class NavBarDropdown extends Component {
 }
 
 export default NavBarDropdown;
-

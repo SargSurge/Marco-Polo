@@ -24,7 +24,7 @@ class HomePage extends Component {
         buttonText="Logout"
         onLogoutSuccess={this.props.handleLogout}
         onFailure={(err) => console.log(err)}
-        className="homepage-button"
+        className="homepage-logout"
       />
     );
 

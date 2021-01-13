@@ -13,16 +13,16 @@
 
 @keyframes changeColorInner {
     0% {
-        background-color: black;
+        background-color: #262626;
     }
     100% {
-        background-color: yellow;
+        background-color: #e5f77d;
     }
 }
 
 @keyframes changeColorOuter {
     0% {
-        background-color: black;
+        background-color: #262626;
     }
     100% {
         background-color: #6c7121;
@@ -31,80 +31,285 @@
 
 @keyframes changeColorOuterOuter {
     0% {
-        background-color: black;
+        background-color: #262626;
     }
     100% {
-        background-color: #27290a;
+        background-color: #51541b;
     }
 }
 
 .homepage-background {
-    background-color: black;
+    background-color: #262626;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
     z-index: 20;
 }
 
-.homepage-circle-inner {
-    position: absolute;
-    top: 10%;
-    width: 600px;
-    height: 600px;
-    background-color: yellow;
-    animation: 4s linear 0s 1 changeColorInner;
-    border-radius: 50%;
-    z-index: 30;
+
+@media only screen and (min-height: 975px) {
+
+    .homepage-circle-inner {
+        position: absolute;
+        top: calc(50% - 300px);
+        width: 600px;
+        height: 600px;
+        background-color: #e5f77d;
+        animation: 4s linear 0s 1 changeColorInner;
+        border-radius: 50%;
+        z-index: 30;
+    }
+
+    .homepage-circle-outer {
+        position: absolute;
+        top: calc(50% - 365px);
+        width: 730px;
+        height: 730px;
+        background-color: #6c7121;
+        animation: 5s linear 0s 1 changeColorOuter;
+        border-radius: 50%;
+        z-index: 28;
+    }
+
+    .homepage-circle-outer-outer {
+        position: absolute;
+        top: calc(50% - 450px);
+        width: 900px;
+        height: 900px;
+        background-color: #51541b;
+        animation: 5s linear 0s 1 changeColorOuterOuter;
+        border-radius: 50%;
+        z-index: 25;
+    }
+
+    .homepage-header {
+        color: black;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 40;
+    }
+
+    .homepage-button {
+        position: absolute;
+        animation: 3s ease-in 0s 1 revealButton;
+        top: 50%;
+        width: 250px;
+        z-index: 40;
+    }
+
+    .homepage-logout {
+        width: 143px;
+    }
+
+    .homepage-header-text {
+        font-family: "PT Mono";
+        font-size: 500%;
+        position: absolute;
+        top: 35%;
+        z-index: 40;
+    }
 }
 
-.homepage-circle-outer {
-    position: absolute;
-    top: 9%;
-    width: 625px;
-    height: 625px;
-    background-color: #6c7121;
-    animation: 5s linear 0s 1 changeColorOuter;
-    border-radius: 50%;
-    z-index: 28;
+@media only screen and (max-width: 975px), only screen and (max-height: 975px) {
+
+    .homepage-circle-inner {
+        position: absolute;
+        top: calc(50% - 250px);
+        width: 500px;
+        height: 500px;
+        background-color: #e5f77d;
+        animation: 4s linear 0s 1 changeColorInner;
+        border-radius: 50%;
+        z-index: 30;
+    }
+
+    .homepage-circle-outer {
+        position: absolute;
+        top: calc(50% - 315px);
+        width: 630px;
+        height: 630px;
+        background-color: #6c7121;
+        animation: 5s linear 0s 1 changeColorOuter;
+        border-radius: 50%;
+        z-index: 28;
+    }
+
+    .homepage-circle-outer-outer {
+        position: absolute;
+        top: calc(50% - 400px);
+        width: 800px;
+        height: 800px;
+        background-color: #51541b;
+        animation: 5s linear 0s 1 changeColorOuterOuter;
+        border-radius: 50%;
+        z-index: 25;
+    }
+
+    .homepage-header {
+        color: black;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 40;
+    }
+
+    .homepage-button {
+        position: absolute;
+        animation: 3s ease-in 0s 1 revealButton;
+        top: 50%;
+        width: 250px;
+        z-index: 40;
+    }
+
+    .homepage-logout {
+        width: 143px;
+    }
+
+    .homepage-header-text {
+        font-family: "PT Mono";
+        font-size: 55px;
+        position: absolute;
+        top: 35%;
+        z-index: 40;
+    }
 }
 
-.homepage-circle-outer-outer {
-    position: absolute;
-    top: 8%;
-    width: 650px;
-    height: 650px;
-    background-color: #27290a;
-    animation: 5s linear 0s 1 changeColorOuterOuter;
-    border-radius: 50%;
-    z-index: 25;
+@media only screen and (max-width: 806px), only screen and (max-height: 806px) {
+
+    .homepage-circle-inner {
+        position: absolute;
+        top: calc(50% - 150px);
+        width: 300px;
+        height: 300px;
+        background-color: #e5f77d;
+        animation: 4s linear 0s 1 changeColorInner;
+        border-radius: 50%;
+        z-index: 30;
+    }
+
+    .homepage-circle-outer {
+        position: absolute;
+        top: calc(50% - 215px);
+        width: 430px;
+        height: 430px;
+        background-color: #6c7121;
+        animation: 5s linear 0s 1 changeColorOuter;
+        border-radius: 50%;
+        z-index: 28;
+    }
+
+    .homepage-circle-outer-outer {
+        position: absolute;
+        top: calc(50% - 300px);
+        width: 600px;
+        height: 600px;
+        background-color: #51541b;
+        animation: 5s linear 0s 1 changeColorOuterOuter;
+        border-radius: 50%;
+        z-index: 25;
+    }
+
+    .homepage-header {
+        color: black;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 40;
+    }
+
+    .homepage-button {
+        position: absolute;
+        animation: 3s ease-in 0s 1 revealButton;
+        top: 50%;
+        width: 150px;
+        z-index: 40;
+    }
+
+    .homepage-logout {
+        width: 143px;
+    }
+
+    .homepage-header-text {
+        font-family: "PT Mono";
+        font-size: 30px;
+        position: absolute;
+        top: 40%;
+        z-index: 40;
+    }
 }
 
-.homepage-header {
-    color: black;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 40;
-}
+@media only screen and (max-width: 611px), only screen and (max-height: 611px) {
 
-.homepage-button {
-    position: absolute;
-    animation: 3s ease-in 0s 1 revealButton;
-    top: 50%;
-    width: 250px;
-    z-index: 40;
-}
+    .homepage-circle-inner {
+        position: absolute;
+        top: calc(50% - 50px);
+        width: 100px;
+        height: 100px;
+        background-color: #e5f77d;
+        animation: 4s linear 0s 1 changeColorInner;
+        border-radius: 50%;
+        z-index: 30;
+    }
 
-.homepage-header-text {
-    font-family: "PT Mono";
-    font-size: 600%;
-    position: absolute;
-    top: 30%;
-    z-index: 40;
-}
+    .homepage-circle-outer {
+        position: absolute;
+        top: calc(50% - 115px);
+        width: 230px;
+        height: 230px;
+        background-color: #6c7121;
+        animation: 5s linear 0s 1 changeColorOuter;
+        border-radius: 50%;
+        z-index: 28;
+    }
 
+    .homepage-circle-outer-outer {
+        position: absolute;
+        top: calc(50% - 200px);
+        width: 400px;
+        height: 400px;
+        background-color: #51541b;
+        animation: 5s linear 0s 1 changeColorOuterOuter;
+        border-radius: 50%;
+        z-index: 25;
+    }
+
+    .homepage-header {
+        color: black;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 40;
+    }
+
+    .homepage-button {
+        position: absolute;
+        animation: 3s ease-in 0s 1 revealButton;
+        top: 50%;
+        width: 45px;
+        z-index: 40;
+    }
+
+    .homepage-logout {
+        width: 143px;
+    }
+
+    .homepage-header-text {
+        font-family: "PT Mono";
+        font-size: 10px;
+        position: absolute;
+        top: 45%;
+        z-index: 40;
+    }
+}
 /*
 
 .homepage-flashlight {
