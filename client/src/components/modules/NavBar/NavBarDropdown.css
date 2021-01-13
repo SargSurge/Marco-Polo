@@ -25,6 +25,7 @@
 
 .navbardropdown-list-items {
     font-family: Orbitron;
+    width: 200px;
     font-size: 18px;
     padding: 10px;
     background: #79b3c8;
@@ -36,6 +37,5 @@
 }
 
 .navbardropdown-logout {
-    max-width: 143px;
-    overflow: hidden;
+    max-width: 200px;
 }
