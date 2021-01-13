@@ -46,6 +46,7 @@
     width: 100vw;
     overflow: hidden;
     z-index: 20;
+    
 }
 
 @media only screen and (min-height: 975px) {
@@ -91,14 +92,32 @@
         justify-content: center;
         flex-direction: column;
         z-index: 40;
+        cursor: default;
     }
 
-    .homepage-button {
+    a.homepage-button {
         position: absolute;
         animation: 3s ease-in 0s 1 revealButton;
         top: 50%;
         width: 250px;
         z-index: 40;
+        display:inline-block;
+        padding:0.35em 1.2em;
+        border:0.1em solid  #000000;
+        margin:0 0.3em 0.3em 0;
+        border-radius:0.12em;
+        box-sizing: border-box;
+        font-weight: 300;
+        color: #000000;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    a.homepage-button:hover {
+        color: #FFFFFF;
+        background-color:  #000000;
+        text-decoration: none;
     }
 
     .homepage-logout {
@@ -114,6 +133,7 @@
         position: absolute;
         top: 35%;
         z-index: 40;
+        cursor: default;
     }
 }
 
@@ -160,14 +180,32 @@
         justify-content: center;
         flex-direction: column;
         z-index: 40;
+        cursor: default;
     }
 
-    .homepage-button {
+    a.homepage-button {
         position: absolute;
         animation: 3s ease-in 0s 1 revealButton;
         top: 50%;
         width: 250px;
         z-index: 40;
+        display:inline-block;
+        padding:0.35em 1.2em;
+        border:0.1em solid  #000000;
+        margin:0 0.3em 0.3em 0;
+        border-radius:0.12em;
+        box-sizing: border-box;
+        font-weight: 300;
+        color: #000000;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    a.homepage-button:hover {
+        color: #FFFFFF;
+        background-color:  #000000;
+        text-decoration: none;
     }
 
     .homepage-logout {
@@ -229,14 +267,32 @@
         justify-content: center;
         flex-direction: column;
         z-index: 40;
+        cursor: default;
     }
 
-    .homepage-button {
+    a.homepage-button {
         position: absolute;
         animation: 3s ease-in 0s 1 revealButton;
         top: 50%;
         width: 150px;
         z-index: 40;
+        display:inline-block;
+        padding:0.35em 1.2em;
+        border:0.1em solid  #000000;
+        margin:0 0.3em 0.3em 0;
+        border-radius:0.12em;
+        box-sizing: border-box;
+        font-weight: 300;
+        color: #000000;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    a.homepage-button:hover {
+        color: #FFFFFF;
+        background-color:  #000000;
+        text-decoration: none;
     }
 
     .homepage-logout {
@@ -298,14 +354,32 @@
         justify-content: center;
         flex-direction: column;
         z-index: 40;
+        cursor: default;
     }
 
-    .homepage-button {
+    a.homepage-button {
         position: absolute;
         animation: 3s ease-in 0s 1 revealButton;
         top: 50%;
         width: 45px;
         z-index: 40;
+        display:inline-block;
+        padding:0.35em 1.2em;
+        border:0.1em solid  #000000;
+        margin:0 0.3em 0.3em 0;
+        border-radius:0.12em;
+        box-sizing: border-box;
+        font-weight: 300;
+        color: #000000;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    a.homepage-button:hover {
+        color: #FFFFFF;
+        background-color:  #000000;
+        text-decoration: none;
     }
 
     .homepage-logout {

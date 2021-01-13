@@ -41,7 +41,7 @@ class HomePage extends Component {
             onSuccess={this.props.handleLogin}
             onFailure={(err) => console.log(err)}
             render={renderProps => (
-              <button className="homepage-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>Login</button>
+              <a className="homepage-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>Login</a>
             )}
           />
         </div>
