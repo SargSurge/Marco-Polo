@@ -1,0 +1,14 @@
+/*
+    The CSS for the PublicTables component
+ */
+
+table {
+    color: white;
+    font-family: Orbitron;
+    letter-spacing: 3px;
+    width: 100%;
+}
+
+.publictable-headers {
+    border-bottom: 1px solid white;
+}

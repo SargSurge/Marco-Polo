@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import "./PublicTable.css";
+
 export class PublicTable extends Component {
   constructor(props) {
     super(props);
@@ -36,21 +38,21 @@ export class PublicTable extends Component {
       <>
         <div>
           <table>
-            <tr>
-              <th>Name</th>
-              <th>Creator</th>
-              <th>Capacity</th>
+            <tr className="publictable-headers">
+              <th style={{ width: "50%" }}>Name</th>
+              <th style={{ width: "30%" }}>Creator</th>
+              <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
             </tr>
-            <tr>
-              {Object.keys(data.lobbies).map((lobby, index) => (
-                <>
-                  <td>{"Lobby" + index}</td>
-                  {console.log(data.lobbies[lobby])}
-                  <td>{data.lobbies[lobby].creator}</td>
-                  <td>{data.lobbies[lobby].users.length + "/" + data.lobbies[lobby].capacity}</td>
-                </>
-              ))}
-            </tr>
+            {Object.keys(data.lobbies).map((lobby, index) => (
+              <tr>
+                <td style={{ width: "50%" }}>{"Lobby" + (index + 1)}</td>
+                {console.log(data.lobbies[lobby])}
+                <td style={{ width: "30%" }}>{data.lobbies[lobby].creator}</td>
+                <td style={{ width: "20%", textAlign: "center" }}>
+                  {data.lobbies[lobby].users.length + "/" + data.lobbies[lobby].capacity}
+                </td>
+              </tr>
+            ))}
           </table>
         </div>
       </>

@@ -23,3 +23,7 @@
     cursor: pointer;
     user-select: none;
 }
+
+.gametabs-tabcontent {
+    width: 130%;
+}

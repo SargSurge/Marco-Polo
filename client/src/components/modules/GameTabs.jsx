@@ -77,7 +77,7 @@ export class GameTabs extends Component {
             </NavItem>
           </Nav>
         </div>
-        <div>
+        <div className="gametabs-tabcontent">
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
               <PublicGames />

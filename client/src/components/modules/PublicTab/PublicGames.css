@@ -2,3 +2,14 @@
     The CSS for the PublicGames tab in GameTabs
  */
 
+.publicgames-base {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.publicgames-table {
+    margin-top: 50px;
+    width: 100%;
+    margin-bottom: 50px;
+}
