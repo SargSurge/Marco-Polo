@@ -44,7 +44,7 @@ export class PublicTable extends Component {
               <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
             </tr>
             {Object.keys(data.lobbies).map((lobby, index) => (
-              <tr>
+              <tr key={index}>
                 <td style={{ width: "50%" }}>{"Lobby" + (index + 1)}</td>
                 <td style={{ width: "30%" }}>{data.lobbies[lobby].creator}</td>
                 <td style={{ width: "20%", textAlign: "center" }}>

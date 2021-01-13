@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/HostGame.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/HostGame.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +69,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.hotloader" />
         <item itemvalue="npm.start" />
+        <item itemvalue="npm.hotloader" />
       </list>
     </recent_temporary>
   </component>
@@ -91,6 +89,8 @@
       <workItem from="1610428762206" duration="1264000" />
       <workItem from="1610473720902" duration="1784000" />
       <workItem from="1610490611428" duration="21345000" />
+      <workItem from="1610560645130" duration="790000" />
+      <workItem from="1610562847832" duration="51000" />
     </task>
     <servers />
   </component>
