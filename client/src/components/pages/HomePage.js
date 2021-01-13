@@ -22,10 +22,17 @@ class HomePage extends Component {
       <GoogleLogout
         clientId={GOOGLE_CLIENT_ID}
         buttonText="Logout"
-        onLogoutSuccess={this.props.handleLogout}
+        onLogoutSuccess={() => console.log()}
         onFailure={(err) => console.log(err)}
-        className="navbardropdown-list-items navbardropdown-logout"
-      />
+        render={(renderProps) => (
+          <a
+            className="navbardropdown-list-items navbardropdown-logout"
+            href="http://localhost:5000"
+          >
+            Logout
+          </a>
+        )}
+      ></GoogleLogout>
     );
 
     const homePage = (
@@ -40,8 +47,14 @@ class HomePage extends Component {
             buttonText="Login"
             onSuccess={this.props.handleLogin}
             onFailure={(err) => console.log(err)}
-            render={renderProps => (
-              <a className="homepage-button" onClick={renderProps.onClick} disabled={renderProps.disabled}>Login</a>
+            render={(renderProps) => (
+              <a
+                className="homepage-button"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                Login
+              </a>
             )}
           />
         </div>

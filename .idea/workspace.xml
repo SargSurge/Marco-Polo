@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +70,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="npm.hotloader" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -94,7 +92,7 @@
       <workItem from="1610490611428" duration="21345000" />
       <workItem from="1610560645130" duration="790000" />
       <workItem from="1610562847832" duration="75000" />
-      <workItem from="1610568723701" duration="1956000" />
+      <workItem from="1610568723701" duration="2297000" />
     </task>
     <servers />
   </component>

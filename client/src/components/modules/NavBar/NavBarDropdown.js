@@ -49,15 +49,7 @@ class NavBarDropdown extends Component {
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
           <div className="navbardropdown-list-items">How to Play</div>
           <div className="navbardropdown-list-items">Profile</div>
-          <GoogleLogout 
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={() => console.log()}
-            onFailure={(err) => console.log(err)}
-            render={renderProps => (
-                <a className="navbardropdown-list-items navbardropdown-logout" href='http://localhost:5000'>Logout</a> 
-            )}
-            ></GoogleLogout>
+          {this.props.logoutButton}
         </div>
       </div>
     );
