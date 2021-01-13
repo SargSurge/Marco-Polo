@@ -38,5 +38,17 @@
 }
 
 .navbardropdown-logout {
-    max-width: 200px;
+    color: #ffffff;
+    border-radius: 0 0 3px 3px;
+}
+
+a.navbardropdown-logout
+{
+    display:block;
+    text-decoration: none;
+}
+
+a.navbardropdown-logout:hover {
+    color:#ffffff;
+    text-decoration: none;
 }
