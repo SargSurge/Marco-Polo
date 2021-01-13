@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicGames.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PublicTab/PublicTable.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

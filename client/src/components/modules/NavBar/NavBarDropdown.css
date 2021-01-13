@@ -30,11 +30,13 @@
     font-size: 18px;
     padding: 10px;
     background: #79b3c8;
+    transition: background-color .25s linear;
     cursor: pointer;
 }
 
 .navbardropdown-list-items:hover {
-    background: #6987db;
+    background: #459bc5;
+    color: black !important;
 }
 
 .navbardropdown-logout {

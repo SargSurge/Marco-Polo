@@ -23,7 +23,7 @@ export class PublicGames extends Component {
       <>
         <div className="publicgames-base">
           <div className="publicgames-table">
-            <PublicTable />
+            <PublicTable gameId={this.state.gameId} changeGameId={this.changeGameId} />
           </div>
           {/* Lobby List */}
           <JoinGameButton gameId={this.state.gameId} />

@@ -26,7 +26,15 @@ export class PublicTable extends Component {
               <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
             </tr>
             {Object.keys(this.state.lobbies).map((lobby, index) => (
-              <tr key={index}>
+              <tr
+                className={`publictable-table-row ${
+                  this.props.gameId === this.state.lobbies[lobby].id
+                    ? "publictable-table-row-active"
+                    : ""
+                }`}
+                key={index}
+                onClick={() => this.props.changeGameId(this.state.lobbies[lobby].id)}
+              >
                 <td style={{ width: "50%" }}>{"Lobby" + (index + 1)}</td>
                 <td style={{ width: "30%" }}>{this.state.lobbies[lobby].creator}</td>
                 <td style={{ width: "20%", textAlign: "center" }}>
