@@ -1,39 +1,21 @@
 import React, { Component } from "react";
+import { get, post } from "../../../utilities";
 
 import "./PublicTable.css";
 
 export class PublicTable extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { lobbies: {} };
+  }
+
+  componentDidMount() {
+    get("/api/lobbies", {}).then((lobbies) => {
+      this.setState({ lobbies: lobbies });
+    });
   }
 
   render() {
-    const data = {
-      lobbies: {
-        lobby1: {
-          creator: "Surge",
-          capacity: 5,
-          users: ["Naseem"],
-        },
-        lobby2: {
-          creator: "Naseem",
-          capacity: 7,
-          users: ["Naseem", "Naseem", "Naseem"],
-        },
-        lobby3: {
-          creator: "Sabi",
-          capacity: 5,
-          users: ["Naseem", "Naseem"],
-        },
-        lobby4: {
-          creator: "Entropy",
-          capacity: 5,
-          users: ["Naseem", "Naseem", "Naseem", "Naseem", "Naseem", "Naseem", "Naseem"],
-        },
-      },
-    };
-
     return (
       <>
         <div>
@@ -43,12 +25,14 @@ export class PublicTable extends Component {
               <th style={{ width: "30%" }}>Creator</th>
               <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
             </tr>
-            {Object.keys(data.lobbies).map((lobby, index) => (
+            {Object.keys(this.state.lobbies).map((lobby, index) => (
               <tr key={index}>
                 <td style={{ width: "50%" }}>{"Lobby" + (index + 1)}</td>
-                <td style={{ width: "30%" }}>{data.lobbies[lobby].creator}</td>
+                <td style={{ width: "30%" }}>{this.state.lobbies[lobby].creator}</td>
                 <td style={{ width: "20%", textAlign: "center" }}>
-                  {data.lobbies[lobby].users.length + "/" + data.lobbies[lobby].capacity}
+                  {this.state.lobbies[lobby].users.length +
+                    "/" +
+                    this.state.lobbies[lobby].capacity}
                 </td>
               </tr>
             ))}

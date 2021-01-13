@@ -17,8 +17,9 @@
 
 .navbardropdown-list {
     position: absolute;
+    right: 20px;
     margin-top: 10px;
-    width: 143px;
+    width: 200px;
     background: #79b3c8;
     border-radius: 3px;
 }

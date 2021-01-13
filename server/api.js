@@ -28,7 +28,6 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-  alert(req.user);
   res.send(req.user);
 });
 
@@ -42,6 +41,41 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+// Fake lobby data
+const data = {
+  lobbies: {
+    lobby1: {
+      id: 1234,
+      creator: "Surge",
+      capacity: 5,
+      users: ["Naseem"],
+    },
+    lobby2: {
+      id: 12345,
+      creator: "Naseem",
+      capacity: 7,
+      users: ["Naseem", "Naseem", "Naseem"],
+    },
+    lobby3: {
+      id: 12346,
+      creator: "Sabi",
+      capacity: 5,
+      users: ["Naseem", "Naseem"],
+    },
+    lobby4: {
+      id: 12347,
+      creator: "Entropy",
+      capacity: 9,
+      users: ["Naseem", "Naseem", "Naseem", "Naseem", "Naseem", "Naseem", "Naseem"],
+    },
+  },
+};
+
+// returns lobby data for the public table
+router.get("/lobbies", (req, res) => {
+  res.send(data.lobbies);
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

@@ -10,6 +10,7 @@ class NavBarDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "Username",
       dropdown: "none",
       username: null,
     };
@@ -28,14 +29,17 @@ class NavBarDropdown extends Component {
   };
 
   componentDidMount() {
-    get("/api/whoami");
+    get("/api/whoami", {}).then((user) => {
+      console.log(user);
+      this.setState({ name: user.name });
+    });
   }
 
   render() {
     return (
       <div className="navbardropdown-base">
         <div className="navbardropdown-container" onClick={this.handleClick}>
-          <div className="navbardropdown-username"> Naseem Hamed </div>
+          <div className="navbardropdown-username"> {this.state.name} </div>
           <ExpandMoreIcon />
         </div>
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
