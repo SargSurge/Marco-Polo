@@ -32,6 +32,9 @@ class HomePage extends Component {
       <div className="homepage-background">
         <div className="homepage-header">
           <span className="homepage-header-text">Marco Polo</span>
+          <div className="homepage-circle-inner"></div>
+          <div className="homepage-circle-outer"></div>
+          <div className="homepage-circle-outer-outer"></div>
           <GoogleLogin
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Login"

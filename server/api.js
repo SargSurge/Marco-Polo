@@ -28,13 +28,14 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-
+  alert(req.user);
   res.send(req.user);
 });
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  if (req.user)
+    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
 
