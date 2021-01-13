@@ -18,6 +18,10 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
 
+@font-face {
+  font-family: "Ultra";
+  src: url("./components/pages/assets/Ultra.otf");
+}
 
 :root {
   --primary: #396dff;
@@ -26,6 +30,7 @@
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
   --white: #fff;
+  --special-grey: #262626;
 
   --xs: 4px;
   --s: 8px;
