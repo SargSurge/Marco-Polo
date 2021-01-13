@@ -22,12 +22,12 @@ class HomePage extends Component {
       <GoogleLogout
         clientId={GOOGLE_CLIENT_ID}
         buttonText="Logout"
-        onLogoutSuccess={() => console.log()}
+        onLogoutSuccess={this.props.handleLogout}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
           <a
+            onClick={renderProps.onClick}
             className="navbardropdown-list-items navbardropdown-logout"
-            href="http://localhost:5000"
           >
             Logout
           </a>

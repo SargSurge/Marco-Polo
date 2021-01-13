@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/HomePage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
