@@ -3,12 +3,12 @@
  */
 
 .gametype-base {
-    background: black;
+    background: #262626;
     min-height: 100vh;
 }
 
 .gametype-container {
-    background: black;
+    background: #262626;
     display: flex;
     flex-direction: column;
     justify-content: center;

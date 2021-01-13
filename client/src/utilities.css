@@ -29,14 +29,24 @@
   --s: 8px;
   --m: 16px;
   --l: 24px;
+
+  --header-font: Ultra;
+  --paragraph: Orbitron;
+
+  --letterSpace: -20px;
+  --wordSpace: 35px;
+
 }
+
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
+  font-family: Ultra;
+  font-weight: normal;
+  font-style: normal;
 }
+
 
 form {
   flex-grow: 1;

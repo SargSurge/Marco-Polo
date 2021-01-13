@@ -2,6 +2,8 @@
     This will be the CSS for the HomePage
  */
 
+
+
 @keyframes revealButton {
     0% {
         opacity: 0;
@@ -45,7 +47,6 @@
     overflow: hidden;
     z-index: 20;
 }
-
 
 @media only screen and (min-height: 975px) {
 
@@ -105,7 +106,10 @@
     }
 
     .homepage-header-text {
-        font-family: "PT Mono";
+        font-family: var(--header-font);
+        letter-spacing: var(--letterSpace);
+        word-spacing: var(--wordSpace);
+        color: #262626;
         font-size: 500%;
         position: absolute;
         top: 35%;
@@ -172,6 +176,7 @@
 
     .homepage-header-text {
         font-family: "PT Mono";
+        color: #262626;
         font-size: 55px;
         position: absolute;
         top: 35%;
@@ -237,7 +242,10 @@
     }
 
     .homepage-header-text {
-        font-family: "PT Mono";
+        font-family: var(--header-font);
+        letter-spacing: var(--letterSpace);
+        word-spacing: var(--wordSpace);
+        color: #262626;
         font-size: 30px;
         position: absolute;
         top: 40%;
@@ -304,66 +312,10 @@
 
     .homepage-header-text {
         font-family: "PT Mono";
+        color: #262626;
         font-size: 10px;
         position: absolute;
         top: 45%;
         z-index: 40;
     }
 }
-/*
-
-.homepage-flashlight {
-    position: absolute;
-    margin-top: -25%;
-    margin-right: -170%;
-    right: 0;
-    top: 0;
-    width: 400%;
-    height: 200%;
-    transform: rotate(10deg);
-    z-index: 30;
-}
-.homepage-flashlight-base {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    top: -30px;
-    right: -40px;
-    background: #53585C;
-    transform: rotate(52.85deg);
-}
-
-.homepage-flashlight-circle-dark {
-    position: absolute;
-    width: 153px;
-    height: 160px;
-    top: 25px;
-    right: 37px;
-    border-radius: 50%;
-    background: #71787D;
-}
-
-.homepage-flashlight-circle-bright {
-    position: absolute;
-    width: 100px;
-    height: 110px;
-    top: 55px;
-    right: 70px;
-    border-radius: 50%;
-    background: #E8DBB0;
-}
-
-.homepage-flashlight-triangle {
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: -185px;
-    right: 255px;
-    border-top: 585px solid transparent;
-    border-right: 900px solid #E8DBB0;
-    border-bottom: 585px solid transparent;
-    transform: rotate(25deg);
-    border-radius: 100px;
-    z-index: 30;
-}
- */
