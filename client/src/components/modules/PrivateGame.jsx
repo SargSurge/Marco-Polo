@@ -26,7 +26,7 @@ export class PrivateGame extends Component {
             className="privategame-input"
             type="text"
             value={this.state.gameId}
-            placeholder="#1234"
+            placeholder="test-id-00"
             onChange={this.inputGameId}
           />
         </form>
