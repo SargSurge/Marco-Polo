@@ -51,17 +51,24 @@ router.post("/joingame", (req, res) => {
   Room.findOne({ gameId: gameId }).then((room) => {
     if (room) {
       if (room.numberJoined < room.capacity) {
-        socketManager.userJoinRoom(
-          req.user,
-          socketManager.getSocketFromUserID(req.user._id),
-          gameId
-        );
-        room.numberJoined = room.numberJoined + 1;
-        room.save().then(() => {
-          res.send({
-            msg: "Joined " + room.name + ".",
+        if (!room.players.includes(req.user._id)) {
+          socketManager.userJoinRoom(
+            req.user,
+            socketManager.getSocketFromUserID(req.user._id),
+            gameId
+          );
+          room.numberJoined = room.numberJoined + 1;
+          room.players.push(req.user._id);
+          room.save().then(() => {
+            res.send({
+              msg: "Joined " + room.name + ".",
+            });
           });
-        });
+        } else {
+          res.send({
+            msg: "Already joined " + room.name + " .",
+          });
+        } 
       } else {
         res.send({
           msg: room.name + " is full.",
@@ -87,6 +94,7 @@ router.post("/hostgame", (req, res) => {
       public: public,
       numberJoined: 1,
       gameId: gameId,
+      players: [req.user._id],
     });
     newRoom.save().then(() => res.send({ gameId: gameId }));
   }
