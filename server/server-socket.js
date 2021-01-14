@@ -26,16 +26,11 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
-const userCreateRoom = (user, socket, gameId) => {
-  const userSocket = userToSocketMap[user._id];
-  userSocket.join(gameId)
-  // add room to mongoDB
-};
-
 const userJoinRoom = (user, socket, gameId) => {
   const userSocket = userToSocketMap[user._id];
   userSocket.join(gameId)
 };
+
 
 module.exports = {
   init: (http) => {

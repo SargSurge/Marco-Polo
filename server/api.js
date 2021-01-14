@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Room = require("./models/room");
 
 // import authentication library
 const auth = require("./auth");
@@ -20,6 +21,9 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+
+// id generator for game codes
+const hri = require("human-readable-ids").hri;
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -41,6 +45,33 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.post("/joingame", (req, res) => {
+  const { numberJoined, gameId } = req.body;
+  if (req.user) {
+    socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+    Room.findOne({ gameId: gameId }).then((room) => {
+      room.numberJoined = numberJoined + 1;
+    })
+  }
+})
+
+router.post("/hostgame", (req, res) => {
+  const { name, capacity, public} = req.body;
+  const gameId = hri.random();
+  if (req.user) {
+    socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+    const newRoom = new Room({
+      name: name,
+      capacity: capacity,
+      public: public,
+      numberJoined: 1,
+      gameId: gameId,
+    })
+    newRoom.save().then((room) => console.log('new room added'));
+  }
+})
+
 
 // Fake lobby data
 const data = {
