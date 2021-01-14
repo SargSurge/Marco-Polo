@@ -31,6 +31,12 @@ const userJoinRoom = (user, gameId) => {
   userSocket.join(gameId)
 };
 
+
+// hi sabi, how are you doing?
+// this is from your guardian angel...
+// im just here to remind you to love yourself
+// one favor tho, if you get into apple please get sergio an iphone 13 before they launch
+
 module.exports = {
   init: (http) => {
     io = require("socket.io")(http);
