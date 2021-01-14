@@ -27,3 +27,22 @@
 .gametabs-tabcontent {
     width: 130%;
 }
+
+/*
+    This is the Tabs css
+ */
+
+a.active {
+    background-color: #ff8d00 !important;
+    color: black !important;
+    border-color: #ff8d00 #ff8d00 #ff8d00 !important;
+}
+
+a.nav-link:hover {
+    color: black !important;
+    border-color: #ff8d00 #ff8d00 #ff8d00 !important;
+}
+
+ul.nav-tabs {
+    border-bottom: 1px solid #ff8d00;
+}
