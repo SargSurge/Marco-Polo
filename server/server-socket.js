@@ -2,6 +2,7 @@ let io;
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
+// const codeToRoomMap = {}; // maps game ID to socket room
 
 const getSocketFromUserID = (userid) => userToSocketMap[userid];
 const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
@@ -24,6 +25,12 @@ const removeUser = (user, socket) => {
   if (user) delete userToSocketMap[user._id];
   delete socketToUserMap[socket.id];
 };
+
+const userJoinRoom = (user, socket, gameId) => {
+  const userSocket = userToSocketMap[user._id];
+  userSocket.join(gameId)
+};
+
 
 module.exports = {
   init: (http) => {
