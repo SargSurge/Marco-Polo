@@ -69,9 +69,9 @@ router.post("/hostgame", (req, res) => {
       numberJoined: 1,
       gameId: gameId,
     })
-    newRoom.save();
+    newRoom.save().then(() => res.send({ gameId: gameId }));
   }
-  res.send({ gameId: gameId });
+  
 })
 
 
