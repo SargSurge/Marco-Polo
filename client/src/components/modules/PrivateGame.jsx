@@ -1,33 +1,39 @@
-import React, { Component } from 'react';
-import JoinGameButton from './JoinGameButton';
+import React, { Component } from "react";
+import JoinGameButton from "./JoinGameButton";
+
+import "./PrivateGame.css";
 
 export class PrivateGame extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            gameId: null,
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      gameId: null,
+    };
+  }
 
-    inputGameId = (event) => {
-        this.setState({gameId: event.target.value})
-    }
+  inputGameId = (event) => {
+    this.setState({ gameId: event.target.value });
+  };
 
-    handleSubmit = (event) => {
-        
-    }
+  handleSubmit = (event) => {};
 
-    render() {
-        return (
-            <div>
-                <h5 style ={{color: "white"}}>Join Game</h5>    
-                <form onSubmit={this.handleSubmit}>          
-                    <input type="text" value={this.state.gameId} placeholder="#1234" onChange={this.inputGameId} />
-                </form>
-                <JoinGameButton gameId = {this.state.gameId} />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="privategame-base">
+        <div className="privategame-header">Enter a Game ID Below:</div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="privategame-input"
+            type="text"
+            value={this.state.gameId}
+            placeholder="#1234"
+            onChange={this.inputGameId}
+          />
+        </form>
+        <JoinGameButton gameId={this.state.gameId} />
+      </div>
+    );
+  }
 }
 
-export default PrivateGame
+export default PrivateGame;

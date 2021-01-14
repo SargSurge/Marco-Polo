@@ -14,7 +14,7 @@
 
 .gametabs-tab {
     font-family: Ultra;
-    letter-spacing: -1px;
+    letter-spacing: -10px;
     font-weight: normal;
     font-size: 35px;
     padding-left: 15px;
@@ -25,7 +25,7 @@
 }
 
 .gametabs-tabcontent {
-    width: 130%;
+    width: 140%;
 }
 
 /*

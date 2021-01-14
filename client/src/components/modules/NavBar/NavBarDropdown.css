@@ -13,6 +13,7 @@
     letter-spacing: 3px;
     font-size: 20px;
     margin-right: 5px;
+    user-select: none;
 }
 
 .navbardropdown-list {
