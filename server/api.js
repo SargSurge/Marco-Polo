@@ -63,12 +63,13 @@ router.post("/hostgame", (req, res) => {
     socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
     const newRoom = new Room({
       name: name,
+      creator: req.user.name,
       capacity: capacity,
       public: public,
       numberJoined: 1,
       gameId: gameId,
     })
-    newRoom.save().then((room) => console.log('new room added'));
+    newRoom.save();
   }
 })
 
