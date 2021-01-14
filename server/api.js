@@ -48,14 +48,26 @@ router.post("/initsocket", (req, res) => {
 
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
-  let numberJoined;
-  Room.findOne({ gameId: gameId }).then((room) => {numberJoined = room.numberJoined})
-  socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
   Room.findOne({ gameId: gameId }).then((room) => {
-    room.numberJoined = numberJoined + 1;
-    room.save()
-  }).then(() => {
-    res.send({ gameId: gameId })
+    if (room) {
+      if (room.numberJoined < room.capacity) {
+        socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+        room.numberJoined = room.numberJoined + 1;
+        room.save().then(() => {
+          res.send({
+            msg: 'Joined ' + room.name + '.',
+          })
+        })
+      } else {
+        res.send({
+          msg: room.name + ' is full.',
+        })
+      }
+    } else {
+      res.send({
+        msg: 'The lobby you are looking for does not exist.'
+      })
+    }
   })
 })
 
@@ -74,7 +86,6 @@ router.post("/hostgame", (req, res) => {
     })
     newRoom.save().then(() => res.send({ gameId: gameId }));
   }
-  
 })
 
 

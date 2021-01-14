@@ -11,9 +11,8 @@ export class JoinGameButton extends Component {
   }
 
   handleJoin = () => {
-    // Join this.props.gameId
     post("/api/joingame", { gameId: this.props.gameId }).then((res) => {
-      alert("You joined room " + res.gameId);
+      alert(res.msg);
     })
   };
 
