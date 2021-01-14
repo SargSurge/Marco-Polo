@@ -121,7 +121,9 @@ const data = {
 
 // returns lobby data for the public table
 router.get("/lobbies", (req, res) => {
-  res.send(data.lobbies);
+  Room.find({ public: true }).then((rooms) => {
+    res.send({lobbies: rooms})
+  })
 });
 
 // anything else falls to this "not found" case
