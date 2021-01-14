@@ -20,10 +20,14 @@
 .privategame-input {
     padding-left: 21px;
     border-radius: 40px;
+    font-family: Orbitron;
     font-size: 34px;
     width: 250px;
     height: 70px;
     margin-bottom: 50px;
+    background: #262626;
+    border: 2px solid #459bc5;
+    color: white;
 }
 
 input:focus {

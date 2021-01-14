@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/modules/PrivateGame.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/GameTabs.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/GameTabs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/JoinGameButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/JoinGameButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/NavBar/NavBarDropdown.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PrivateGame.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PrivateGame.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/HostGame.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/HostGame.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/HostGame.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/HostGame.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/JoinGameButton.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/JoinGameButton.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/PrivateGame.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/PrivateGame.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +38,7 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -73,8 +72,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.hotloader" />
         <item itemvalue="npm.start" />
+        <item itemvalue="npm.hotloader" />
       </list>
     </recent_temporary>
   </component>
