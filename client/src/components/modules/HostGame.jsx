@@ -98,7 +98,7 @@ export class HostGame extends Component {
           <input
             className="hostgame-form-input"
             type="text"
-            value={this.state.name}
+            value={this.state.name ? this.state.name : ""}
             placeholder="Game Name"
             onChange={this.inputName}
           />

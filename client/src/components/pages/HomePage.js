@@ -13,12 +13,12 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.logoutButton = <div></div>;
   }
 
-  componentDidMount() {}
-
-  render() {
-    const logoutButton = (
+  componentDidMount() {
+    this.logoutButton = (
       <GoogleLogout
         clientId={GOOGLE_CLIENT_ID}
         buttonText="Logout"
@@ -34,7 +34,10 @@ class HomePage extends Component {
         )}
       ></GoogleLogout>
     );
+    this.props.returnLogoutButton(this.logoutButton);
+  }
 
+  render() {
     const homePage = (
       <div className="homepage-background">
         <div className="homepage-header">
@@ -65,7 +68,7 @@ class HomePage extends Component {
       <>
         {this.props.userId ? (
           <>
-            <GameType logoutButton={logoutButton} />
+            <GameType logoutButton={this.logoutButton} />
           </>
         ) : (
           homePage

@@ -26,6 +26,12 @@ class App extends Component {
     };
   }
 
+  createLogoutButton = (button) => {
+    this.setState({
+      logoutButton: button,
+    });
+  };
+
   componentDidMount() {
     get("/api/whoami").then((user) => {
       if (user._id) {
@@ -58,6 +64,7 @@ class App extends Component {
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
+            returnLogoutButton={this.createLogoutButton}
           />
           <Lobby path="/lobby/:gameID" userId={this.state.userId} />
           <NotFound default />

@@ -25,7 +25,7 @@ export class PrivateGame extends Component {
           <input
             className="privategame-input"
             type="text"
-            value={this.state.gameId}
+            value={this.state.gameId ? this.state.gameId : ""}
             placeholder="test-id-00"
             onChange={this.inputGameId}
           />
