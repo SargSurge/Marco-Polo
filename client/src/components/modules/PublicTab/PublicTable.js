@@ -6,11 +6,12 @@ import "./PublicTable.css";
 export class PublicTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { lobbies: {} };
+    this.state = { lobbies: { lobbies: [] } };
   }
 
   componentDidMount() {
     get("/api/lobbies", {}).then((lobbies) => {
+      console.log(lobbies);
       this.setState({ lobbies: lobbies });
     });
   }
@@ -25,22 +26,22 @@ export class PublicTable extends Component {
               <th style={{ width: "30%" }}>Creator</th>
               <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
             </tr>
-            {Object.keys(this.state.lobbies).map((lobby, index) => (
+            {Object.keys(this.state.lobbies.lobbies).map((lobby, index) => (
               <tr
                 className={`publictable-table-row ${
-                  this.props.gameId === this.state.lobbies[lobby].id
+                  this.props.gameId === lobby.gameId
                     ? "publictable-table-row-active"
                     : ""
                 }`}
                 key={index}
-                onClick={() => this.props.changeGameId(this.state.lobbies[lobby].id)}
+                onClick={() => this.props.changeGameId(lobby.gameId)}
               >
-                <td style={{ width: "50%" }}>{"Lobby" + (index + 1)}</td>
-                <td style={{ width: "30%" }}>{this.state.lobbies[lobby].creator}</td>
+                <td style={{ width: "50%" }}>{lobby.name}</td>
+                <td style={{ width: "30%" }}>{lobby.creator}</td>
                 <td style={{ width: "20%", textAlign: "center" }}>
-                  {this.state.lobbies[lobby].users.length +
+                  {lobby.numberJoined +
                     "/" +
-                    this.state.lobbies[lobby].capacity}
+                    lobby.capacity}
                 </td>
               </tr>
             ))}
