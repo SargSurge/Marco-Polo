@@ -47,13 +47,16 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/joingame", (req, res) => {
-  const { numberJoined, gameId } = req.body;
-  if (req.user) {
-    socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
-    Room.findOne({ gameId: gameId }).then((room) => {
-      room.numberJoined = numberJoined + 1;
-    })
-  }
+  const { gameId } = req.body;
+  let numberJoined;
+  Room.findOne({ gameId: gameId }).then((room) => {numberJoined = room.numberJoined})
+  socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+  Room.findOne({ gameId: gameId }).then((room) => {
+    room.numberJoined = numberJoined + 1;
+    room.save()
+  }).then(() => {
+    res.send({ gameId: gameId })
+  })
 })
 
 router.post("/hostgame", (req, res) => {

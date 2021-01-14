@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { post } from "../../utilities";
 
 import "./JoinGameButton.css";
 
@@ -11,7 +12,9 @@ export class JoinGameButton extends Component {
 
   handleJoin = () => {
     // Join this.props.gameId
-    alert("You joined room " + this.props.gameId);
+    post("/api/joingame", { gameId: this.props.gameId }).then((res) => {
+      alert("You joined room " + res.gameId);
+    })
   };
 
   render() {
