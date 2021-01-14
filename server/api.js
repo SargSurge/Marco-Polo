@@ -60,16 +60,19 @@ router.post("/joingame", (req, res) => {
         room.save().then(() => {
           res.send({
             msg: "Joined " + room.name + ".",
+            canJoin: true,
           });
         });
       } else {
         res.send({
           msg: room.name + " is full.",
+          canJoin: false,
         });
       }
     } else {
       res.send({
         msg: "The lobby you are looking for does not exist.",
+        canJoin: false,
       });
     }
   });

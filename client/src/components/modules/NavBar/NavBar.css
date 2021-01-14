@@ -19,4 +19,6 @@
     word-spacing: 10px;
     margin-left: 25px;
     font-size: 42px;
+    cursor: pointer;
+    user-select: none;
 }
