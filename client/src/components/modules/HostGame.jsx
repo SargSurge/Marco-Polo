@@ -77,7 +77,7 @@ export class HostGame extends Component {
   };
 
   hostGame = () => {
-    if (this.state.name !== null) {
+    if (this.state.name !== null && this.state.name.trim().length !== 0) {
       post("/api/hostgame", {
         name: this.state.name,
         capacity: this.state.capacity,
