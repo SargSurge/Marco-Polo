@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="181f3756-e42a-4549-adc7-bfbe2a856983" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modules/HostGame.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modules/HostGame.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

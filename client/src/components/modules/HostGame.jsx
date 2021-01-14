@@ -41,11 +41,15 @@ export class HostGame extends Component {
   };
 
   hostGame = () => {
-    post("/api/hostgame", {
-      name: this.state.name,
-      capacity: this.state.capacity,
-      public: this.state.public,
-    }).then((res) => console.log("you just hosted a game with id: " + res.gameId));
+    if (this.state.name !== null) {
+      post("/api/hostgame", {
+        name: this.state.name,
+        capacity: this.state.capacity,
+        public: this.state.public,
+      }).then((res) => alert("You just hosted a game with id: " + res.gameId));
+    } else {
+      alert("Enter a game id idiot");
+    }
   };
 
   render() {
