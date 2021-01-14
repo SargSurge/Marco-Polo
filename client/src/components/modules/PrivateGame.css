@@ -1,0 +1,31 @@
+/*
+    The CSS for the PrivateGame component
+*/
+
+.privategame-base  {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.privategame-header {
+    font-family: Orbitron;
+    color: white;
+    font-size: 25px;
+    margin-bottom: 50px;
+}
+
+.privategame-input {
+    padding-left: 21px;
+    border-radius: 40px;
+    font-size: 34px;
+    width: 250px;
+    height: 70px;
+    margin-bottom: 50px;
+}
+
+input:focus {
+    outline: none;
+}
