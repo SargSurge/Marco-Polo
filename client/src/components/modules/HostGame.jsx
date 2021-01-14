@@ -45,7 +45,7 @@ export class HostGame extends Component {
         return (
             <div>
                 <h5 style ={{color: "white"}}>Host Game</h5>    
-                <form onSubmit={this.handleSubmit}>          
+                <form>          
                     <input type="text" value={this.state.name} placeholder="Game Name" onChange={this.inputName} />
                     <h5 style={{color: 'white'}} >Public?</h5>
                     <input type="checkbox" onChange={this.togglePrivacy} />
