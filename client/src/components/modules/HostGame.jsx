@@ -3,6 +3,7 @@ import Slider from "@material-ui/core/Slider";
 import { post } from "../../utilities";
 
 import "./HostGame.css";
+import { navigate } from "@reach/router";
 
 // marks for material-ui slider
 // currently disabled, can enable in props of slider
@@ -81,7 +82,10 @@ export class HostGame extends Component {
         name: this.state.name,
         capacity: this.state.capacity,
         public: this.state.public,
-      }).then((res) => alert("You just hosted a game with id: " + res.gameId));
+      }).then((res) => {
+        alert("You just hosted a game with id: " + res.gameId);
+        navigate(`/lobby/${res.gameId}`);
+      });
     } else {
       alert("Enter a game id idiot");
     }

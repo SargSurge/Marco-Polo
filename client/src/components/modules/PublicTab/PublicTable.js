@@ -21,26 +21,30 @@ export class PublicTable extends Component {
       <>
         <div>
           <table>
-            <tr className="publictable-headers">
-              <th style={{ width: "50%" }}>Name</th>
-              <th style={{ width: "30%" }}>Creator</th>
-              <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
-            </tr>
-            {this.state.lobbies.map((lobby, index) => (
-              <tr
-                className={`publictable-table-row ${
-                  this.props.gameId === lobby.gameId ? "publictable-table-row-active" : ""
-                }`}
-                key={index}
-                onClick={() => this.props.changeGameId(lobby.gameId)}
-              >
-                <td style={{ width: "50%" }}>{lobby.name}</td>
-                <td style={{ width: "30%" }}>{lobby.creator}</td>
-                <td style={{ width: "20%", textAlign: "center" }}>
-                  {lobby.numberJoined + "/" + lobby.capacity}
-                </td>
+            <thead>
+              <tr className="publictable-headers">
+                <th style={{ width: "50%" }}>Name</th>
+                <th style={{ width: "30%" }}>Creator</th>
+                <th style={{ width: "20%", textAlign: "center" }}>Capacity</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {this.state.lobbies.map((lobby, index) => (
+                <tr
+                  className={`publictable-table-row ${
+                    this.props.gameId === lobby.gameId ? "publictable-table-row-active" : ""
+                  }`}
+                  key={index}
+                  onClick={() => this.props.changeGameId(lobby.gameId)}
+                >
+                  <td style={{ width: "50%" }}>{lobby.name}</td>
+                  <td style={{ width: "30%" }}>{lobby.creator}</td>
+                  <td style={{ width: "20%", textAlign: "center" }}>
+                    {lobby.numberJoined + "/" + lobby.capacity}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </>

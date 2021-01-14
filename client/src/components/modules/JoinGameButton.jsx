@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { post } from "../../utilities";
+import { navigate } from "@reach/router";
 
 import "./JoinGameButton.css";
 
@@ -13,7 +14,8 @@ export class JoinGameButton extends Component {
   handleJoin = () => {
     post("/api/joingame", { gameId: this.props.gameId }).then((res) => {
       alert(res.msg);
-    })
+      if (res.canJoin) navigate(`/lobby/${this.props.gameId}`);
+    });
   };
 
   render() {

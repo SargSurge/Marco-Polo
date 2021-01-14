@@ -12,6 +12,7 @@ import { get, post } from "../utilities";
 import GameType from "./pages/GameType";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Lobby from "./pages/Lobby";
 
 /**
  * Define the "App" component as a class.
@@ -58,6 +59,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
+          <Lobby path="/lobby/:gameID" userId={this.state.userId} />
           <NotFound default />
         </Router>
       </>
