@@ -26,11 +26,10 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
-const userJoinRoom = (user, socket, gameId) => {
+const userJoinRoom = (user, gameId) => {
   const userSocket = userToSocketMap[user._id];
   userSocket.join(gameId)
 };
-
 
 module.exports = {
   init: (http) => {
@@ -47,6 +46,7 @@ module.exports = {
 
   addUser: addUser,
   removeUser: removeUser,
+  userJoinRoom: userJoinRoom,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
