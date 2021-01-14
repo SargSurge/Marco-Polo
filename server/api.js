@@ -124,7 +124,10 @@ const data = {
 
 // returns lobby data for the public table
 router.get("/lobbies", (req, res) => {
-  Room.find({ public: true }).then((rooms) => {
+  Room.find({
+    public: true,
+    $expr: { $lt: ["$numberJoined", "$capacity"] },
+  }).then((rooms) => {
     res.send({ lobbies: rooms });
   });
 });
