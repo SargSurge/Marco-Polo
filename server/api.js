@@ -71,6 +71,7 @@ router.post("/hostgame", (req, res) => {
     })
     newRoom.save();
   }
+  res.send({ gameId: gameId });
 })
 
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Slider from '@material-ui/core/Slider';
+import { post } from "../../utilities";
+
 
 // marks for material-ui slider
 // currently disabled, can enable in props of slider
@@ -37,8 +39,12 @@ export class HostGame extends Component {
         this.setState({public: !this.state.public})
     }
 
-    handleSubmit = (event) => {
-
+    hostGame = () => {
+        post('/api/hostgame', {
+            name: this.state.name,
+            capacity: this.state.capacity,
+            public: this.state.public,
+        }).then((res) => console.log('you just hosted a game with id: ' + res.gameId))
     }
 
     render() {
@@ -61,6 +67,9 @@ export class HostGame extends Component {
                     max={10}
                     onChange={this.changeCapacity}
                 />
+                <button className="hostGame-button" onClick={this.hostGame}>
+                    Host Game
+                </button>
             </div>
         )
     }
