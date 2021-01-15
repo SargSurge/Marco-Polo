@@ -14,14 +14,6 @@ export class PublicGames extends Component {
     };
   }
 
-  componentDidMount() {
-    socket.on("updateLobbiesAll", () => {
-      console.log("updating");
-      post("/api/checkempty", {}).then((res) => {});
-    });
-    
-  }
-
   changeGameId = (value) => {
     this.setState({
       gameId: value,

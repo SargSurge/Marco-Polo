@@ -38,7 +38,7 @@ const userJoinRoom = (user, gameId) => {
 };
 
 const userLeaveGame = (socket) => {
-  socket.emit("updateLobbiesAll");
+  io.emit("updateLobbiesAll");
   let roomKeys = Object.keys(socket.rooms);
   let socketIdIndex = roomKeys.indexOf( socket.id );
   roomKeys.splice( socketIdIndex, 1 );
@@ -66,7 +66,7 @@ module.exports = {
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
-      socket.on("updateLobbies", () => socket.broadcast.emit("updateLobbiesAll"));
+      socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
       socket.on('disconnecting', () => userLeaveGame(socket));
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);

@@ -11,10 +11,27 @@ export class PublicTable extends Component {
   }
 
   componentDidMount() {
+    //post("/api/checkempty", {});
     get("/api/lobbies", {}).then((lobbies) => {
       console.log(lobbies.lobbies);
       this.setState({ lobbies: lobbies.lobbies });
     }); 
+
+    socket.on("updateLobbiesAll", () => {
+      console.log("received");
+      post("/api/checkempty", {}).then((res) => {
+        if (res.update) {
+          get("/api/lobbies", {}).then((lobbies) => {
+            console.log(lobbies.lobbies);
+            this.setState({ lobbies: lobbies.lobbies });
+        });
+      }
+      });
+      get("/api/lobbies", {}).then((lobbies) => {
+        console.log(lobbies.lobbies);
+        this.setState({ lobbies: lobbies.lobbies });
+      }); 
+    });
   }
 
   render() {

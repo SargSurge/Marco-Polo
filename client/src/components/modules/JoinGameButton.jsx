@@ -13,7 +13,7 @@ export class JoinGameButton extends Component {
   }
 
   handleJoin = () => {
-    socket.emit("updateLobbiesAll");
+    socket.emit("updateLobbies");
     post("/api/joingame", { gameId: this.props.gameId }).then((res) => {
       alert(res.msg);
       if (res.canJoin) {
