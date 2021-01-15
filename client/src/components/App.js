@@ -101,7 +101,7 @@ class App extends Component {
             loginButton={loginButton}
             logoutButton={logoutButton}
           />
-          <Lobby path="/lobby/:gameID" userId={this.state.userId} logoutButton={logoutButton} />
+          <Lobby path="/lobby/:gameId" userId={this.state.userId} logoutButton={logoutButton} />
           <NotFound default />
         </Router>
       </>
