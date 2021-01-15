@@ -70,7 +70,7 @@ router.post("/joingame", (req, res) => {
             msg: "Already joined " + room.name + " .",
             canJoin: false,
           });
-        } 
+        }
       } else {
         res.send({
           msg: room.name + " is full.",
@@ -111,6 +111,15 @@ router.get("/lobbies", (req, res) => {
     $expr: { $lt: ["$numberJoined", "$capacity"] },
   }).then((rooms) => {
     res.send({ lobbies: rooms });
+  });
+});
+
+// returns specific lobby data
+router.get("/lobby", (req, res) => {
+  Room.findOne({
+    gameId: req.query.gameId,
+  }).then((lobby) => {
+    res.send({ lobby: lobby });
   });
 });
 
