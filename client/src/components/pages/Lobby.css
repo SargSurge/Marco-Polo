@@ -5,6 +5,7 @@
 .lobby-base {
     background: #262626;
     min-height: 100vh;
+    width: 100%;
 }
 
 .lobby-container {
@@ -13,4 +14,109 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.lobby-content {
+    margin-top: 100px;
+    color: white;
+    font-family: Orbitron;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.lobby-content-header {
+    display: flex;
+    width: 50%;
+    margin: 20px;
+    margin-left: 40px !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lobby-content-header-name {
+    font-size: 40px;
+}
+
+.lobby-content-header-buttoncontainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.lobby-content-header-playercount {
+    font-size: 30px;
+    margin-right: 40px;
+}
+
+.lobby-content-header-reset {
+    font-family: Orbitron;
+    width: 200px;
+    padding: 0.35em 1.2em;
+    border:0.1em solid  #459bc5;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    background-color: #262626;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    color: white;
+}
+
+.lobby-content-header-reset:hover {
+    color: black;
+    background-color:  #459bc5;
+    text-decoration: none;
+}
+
+.lobby-content-settings {
+    margin-left: 40px;
+    width: 60%;
+}
+
+.lobby-content-settings-type {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.lobby-content-setting-slidercontainer {
+    display: flex;
+}
+
+.lobby-content-setting-slider {
+    width: 70% !important;
+    color: #ff8d00 !important;
+    margin-bottom: 60px !important;
+    margin-right: 20px;
+}
+
+.lobby-big-button {
+    width: 250px;
+    height: 75px;
+    margin-left: 20px;
+}
+
+.lobby-content-footer {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lobby-content-footer-gameID {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/*
+    Slider CSS
+ */
+
+.MuiSlider-markLabel {
+    color: white !important;
 }

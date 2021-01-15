@@ -115,6 +115,15 @@ router.get("/lobbies", (req, res) => {
   });
 });
 
+// returns specific lobby data
+router.get("/lobby", (req, res) => {
+  Room.findOne({
+    gameId: req.query.gameId,
+  }).then((lobby) => {
+    res.send({ lobby: lobby });
+  });
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

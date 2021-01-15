@@ -4,9 +4,6 @@ import { socket } from "../../client-socket";
 import SvgComponent from "./assets/flashlightHomeSVGComponent.js";
 import "./HomePage.css";
 import GameType from "./GameType";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-
-const GOOGLE_CLIENT_ID = "478686741541-7mat3uoom72iesonik033gsm2n72pbf3.apps.googleusercontent.com";
 
 class HomePage extends Component {
   // makes props available in this component
@@ -15,26 +12,7 @@ class HomePage extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
-
   render() {
-    const logoutButton = (
-      <GoogleLogout
-        clientId={GOOGLE_CLIENT_ID}
-        buttonText="Logout"
-        onLogoutSuccess={this.props.handleLogout}
-        onFailure={(err) => console.log(err)}
-        render={(renderProps) => (
-          <a
-            onClick={renderProps.onClick}
-            className="navbardropdown-list-items navbardropdown-logout"
-          >
-            Logout
-          </a>
-        )}
-      ></GoogleLogout>
-    );
-
     const homePage = (
       <div className="homepage-background">
         <div className="homepage-header">
@@ -42,21 +20,8 @@ class HomePage extends Component {
           <div className="homepage-circle-inner"></div>
           <div className="homepage-circle-outer"></div>
           <div className="homepage-circle-outer-outer"></div>
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={this.props.handleLogin}
-            onFailure={(err) => console.log(err)}
-            render={(renderProps) => (
-              <a
-                className="homepage-button"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                Login
-              </a>
-            )}
-          />
+
+          {this.props.loginButton}
         </div>
       </div>
     );
@@ -65,7 +30,7 @@ class HomePage extends Component {
       <>
         {this.props.userId ? (
           <>
-            <GameType logoutButton={logoutButton} />
+            <GameType logoutButton={this.props.logoutButton} />
           </>
         ) : (
           homePage

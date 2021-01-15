@@ -77,7 +77,7 @@ export class HostGame extends Component {
   };
 
   hostGame = () => {
-    if (this.state.name !== null) {
+    if (this.state.name !== null && this.state.name.trim().length !== 0) {
       post("/api/hostgame", {
         name: this.state.name,
         capacity: this.state.capacity,
@@ -98,7 +98,7 @@ export class HostGame extends Component {
           <input
             className="hostgame-form-input"
             type="text"
-            value={this.state.name}
+            value={this.state.name ? this.state.name : ""}
             placeholder="Game Name"
             onChange={this.inputName}
           />

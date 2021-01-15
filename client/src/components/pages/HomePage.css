@@ -46,7 +46,10 @@
     width: 100vw;
     overflow: hidden;
     z-index: 20;
-    
+}
+
+.homepage-button {
+    user-select: none;
 }
 
 @media only screen and (min-height: 975px) {
