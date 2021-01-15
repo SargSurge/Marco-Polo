@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Slider from "@material-ui/core/Slider";
 import { post } from "../../utilities";
+import { socket } from "../../client-socket";
 
 import "./HostGame.css";
 import { navigate } from "@reach/router";
@@ -78,6 +79,7 @@ export class HostGame extends Component {
 
   hostGame = () => {
     if (this.state.name !== null && this.state.name.trim().length !== 0) {
+      socket.emit("updateLobbies");
       post("/api/hostgame", {
         name: this.state.name,
         capacity: this.state.capacity,

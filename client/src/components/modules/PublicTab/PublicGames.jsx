@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import JoinGameButton from "../JoinGameButton";
 import { get, post } from "../../../utilities";
 import PublicTable from "./PublicTable";
+import { socket } from "../../../client-socket";
 
 import "./PublicGames.css";
 
@@ -14,7 +15,11 @@ export class PublicGames extends Component {
   }
 
   componentDidMount() {
-    post("/api/checkempty", {}).then((res) => {});
+    socket.on("updateLobbiesAll", () => {
+      console.log("updating");
+      post("/api/checkempty", {}).then((res) => {});
+    });
+    
   }
 
   changeGameId = (value) => {
