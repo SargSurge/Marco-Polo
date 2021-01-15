@@ -56,69 +56,73 @@ class Lobby extends Component {
       <div className="lobby-base">
         <div className="lobby-container">
           <NavBar logoutButton={this.props.logoutButton} />
-          <div className="lobby-content">
-            <div className="lobby-content-header">
-              <div className="lobby-content-header-name">{this.state.lobby.name}</div>
-              <div className="lobby-content-header-buttoncontainer">
-                <div className="lobby-content-header-playercount">
-                  {this.state.lobby.numberJoined} / {this.state.lobby.capacity}
-                </div>
-                <button
-                  className="lobby-content-header-reset"
-                  type="button"
-                  onClick={() => {
-                    this.setState({ sliders: this.resetSettings() });
-                  }}
-                >
-                  Reset Settings
-                </button>
-              </div>
-            </div>
-            <div className="lobby-content-settings">
-              {Object.keys(this.settings).map((type, indexFirst) => (
-                <>
-                  <div className="lobby-content-settings-type" key={"Type " + indexFirst}>
-                    {type}
+          <div className="lobby-content-container">
+            <div className="lobby-content-left">
+              <div className="lobby-content-left-header">
+                <div className="lobby-content-left-header-name">{this.state.lobby.name}</div>
+                <div className="lobby-content-left-header-buttoncontainer">
+                  <div className="lobby-content-left-header-playercount">
+                    {this.state.lobby.numberJoined} / {this.state.lobby.capacity}
                   </div>
-                  {Object.keys(this.settings[type]).map((setting, index) => (
-                    <div
-                      className="lobby-content-setting-slidercontainer"
-                      key={"SliderCont " + index}
-                    >
-                      <Slider
-                        className="lobby-content-setting-slider"
-                        value={this.state.sliders[type + setting + index]}
-                        aria-labelledby="discrete-slider"
-                        valueLabelDisplay="on"
-                        step={this.settings[type][setting][3]}
-                        min={this.settings[type][setting][0]}
-                        max={this.settings[type][setting][2]}
-                        onChange={(event, value) => {
-                          let tempSliders = { ...this.state.sliders };
-                          tempSliders[type + setting + index] = value;
-                          this.setState({ sliders: tempSliders });
-                        }}
-                        key={type + setting + index}
-                      />
-                      <div key={"SliderName" + index}>{setting}</div>
+                  <button
+                    className="lobby-content-left-header-reset"
+                    type="button"
+                    onClick={() => {
+                      this.setState({ sliders: this.resetSettings() });
+                    }}
+                  >
+                    Reset Settings
+                  </button>
+                </div>
+              </div>
+              <div className="lobby-content-left-settings">
+                {Object.keys(this.settings).map((type, indexFirst) => (
+                  <>
+                    <div className="lobby-content-left-settings-type" key={"Type " + indexFirst}>
+                      {type}
                     </div>
-                  ))}
-                </>
-              ))}
-              <div className="lobby-content-footer">
-                <button
-                  type="button"
-                  className="lobby-content-header-reset lobby-big-button"
-                  onClick={() => {
-                    navigator.clipboard.writeText(this.state.lobby.gameId);
-                  }}
-                >
-                  Copy Game ID
-                </button>
-                <div>{this.state.lobby.gameId}</div>
+                    {Object.keys(this.settings[type]).map((setting, index) => (
+                      <div
+                        className="lobby-content-left-setting-slidercontainer"
+                        key={"SliderCont " + index}
+                      >
+                        <Slider
+                          className="lobby-content-left-setting-slider"
+                          value={this.state.sliders[type + setting + index]}
+                          aria-labelledby="discrete-slider"
+                          valueLabelDisplay="on"
+                          step={this.settings[type][setting][3]}
+                          min={this.settings[type][setting][0]}
+                          max={this.settings[type][setting][2]}
+                          onChange={(event, value) => {
+                            let tempSliders = { ...this.state.sliders };
+                            tempSliders[type + setting + index] = value;
+                            this.setState({ sliders: tempSliders });
+                          }}
+                          key={type + setting + index}
+                        />
+                        <div key={"SliderName" + index}>{setting}</div>
+                      </div>
+                    ))}
+                  </>
+                ))}
+                <div className="lobby-content-left-footer">
+                  <button
+                    type="button"
+                    className="lobby-content-left-header-reset lobby-big-button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(this.state.lobby.gameId);
+                    }}
+                  >
+                    Copy Game ID
+                  </button>
+                  <div>{this.state.lobby.gameId}</div>
+                </div>
               </div>
             </div>
-            <Chat />
+            <div className="lobby-content-right">
+              <Chat />
+            </div>
           </div>
         </div>
       </div>

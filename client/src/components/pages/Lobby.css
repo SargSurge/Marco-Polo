@@ -17,39 +17,45 @@
     width: 100%;
 }
 
-.lobby-content {
+.lobby-content-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.lobby-content-left {
     margin-top: 100px;
     color: white;
     font-family: Orbitron;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 65%;
 }
 
-.lobby-content-header {
+.lobby-content-left-header {
     display: flex;
-    width: 50%;
+    width: 70%;
     margin: 20px;
     margin-left: 40px !important;
     justify-content: space-between;
     align-items: center;
 }
 
-.lobby-content-header-name {
+.lobby-content-left-header-name {
     font-size: 40px;
 }
 
-.lobby-content-header-buttoncontainer {
+.lobby-content-left-header-buttoncontainer {
     display: flex;
     flex-direction: row;
 }
 
-.lobby-content-header-playercount {
+.lobby-content-left-header-playercount {
     font-size: 30px;
     margin-right: 40px;
 }
 
-.lobby-content-header-reset {
+.lobby-content-left-header-reset {
     font-family: Orbitron;
     width: 200px;
     padding: 0.35em 1.2em;
@@ -64,27 +70,27 @@
     color: white;
 }
 
-.lobby-content-header-reset:hover {
+.lobby-content-left-header-reset:hover {
     color: black;
     background-color:  #459bc5;
     text-decoration: none;
 }
 
-.lobby-content-settings {
+.lobby-content-left-settings {
     margin-left: 40px;
-    width: 60%;
+    width: 100%;
 }
 
-.lobby-content-settings-type {
+.lobby-content-left-settings-type {
     margin-bottom: 10px;
     font-size: 20px;
 }
 
-.lobby-content-setting-slidercontainer {
+.lobby-content-left-setting-slidercontainer {
     display: flex;
 }
 
-.lobby-content-setting-slider {
+.lobby-content-left-setting-slider {
     width: 70% !important;
     color: #ff8d00 !important;
     margin-bottom: 60px !important;
@@ -97,12 +103,17 @@
     margin-right: 20px;
 }
 
-.lobby-content-footer {
+.lobby-content-left-footer {
     width: 70%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+
+
+.lobby-content-right {
+
 }
 
 
