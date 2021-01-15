@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
+import { get } from "../../utilities";
 
 import "./Lobby.css";
 import Slider from "@material-ui/core/Slider";
@@ -24,7 +25,10 @@ class Lobby extends Component {
       },
     };
 
-    this.state = { sliders: this.resetSettings() };
+    this.state = { 
+      lobby: {},
+      sliders: this.resetSettings(), 
+    };
   }
 
   resetSettings = () => {
@@ -38,13 +42,12 @@ class Lobby extends Component {
   };
 
   componentDidMount() {
-    //get("/api/lobby", { gameId: this.props.gameId })
-    //  .then((res) => {
-    //    this.setState({
-    //      lobby: res.lobby,
-    //    });
-    //  })
-    //  .then(() => console.log(this.state.lobby));
+    get("/api/lobby", { gameId: this.props.gameId })
+     .then((res) => {
+       this.setState({
+         lobby: res.lobby,
+       });
+     }).then(() => console.log(this.state.lobby));
   }
 
   render() {
@@ -54,9 +57,9 @@ class Lobby extends Component {
           <NavBar logoutButton={this.props.logoutButton} />
           <div className="lobby-content">
             <div className="lobby-content-header">
-              <div className="lobby-content-header-name">Lobby One</div>
+              <div className="lobby-content-header-name">{this.state.lobby.name}</div>
               <div className="lobby-content-header-buttoncontainer">
-                <div className="lobby-content-header-playercount">10/10</div>
+                <div className="lobby-content-header-playercount">{this.state.lobby.numberJoined} / {this.state.lobby.capacity}</div>
                 <button
                   className="lobby-content-header-reset"
                   type="button"
@@ -104,7 +107,7 @@ class Lobby extends Component {
                   Save Settings
                 </button>
                 <div className="lobby-content-footer-gameID">
-                  <div>Test-Game-ID</div>
+                  <div>{this.state.lobby.gameId}</div>
                   <button type="button" className="lobby-content-header-reset lobby-big-button">
                     Copy Game ID
                   </button>
