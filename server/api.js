@@ -46,18 +46,19 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.post("/checkempty", (req, res) => {
+  Room.deleteMany({ numberJoined: 0 }).then((room) => {
+  });
+});
+
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
     if (room) {
       if (room.numberJoined < room.capacity) {
-        if (!room.players.includes(req.user._id)) {
-          socketManager.userJoinRoom(
-            req.user,
-            socketManager.getSocketFromUserID(req.user._id),
-            gameId
-          );
-          room.numberJoined = room.numberJoined + 1;
+        if (req.user && !room.players.includes(req.user._id)) {
+          socketManager.userJoinRoom(req.user, gameId);
+          room.numberJoined++;
           room.players.push(req.user._id);
           room.save().then(() => {
             res.send({
@@ -70,7 +71,7 @@ router.post("/joingame", (req, res) => {
             msg: "Already joined " + room.name + " .",
             canJoin: false,
           });
-        } 
+        }
       } else {
         res.send({
           msg: room.name + " is full.",
@@ -90,7 +91,7 @@ router.post("/hostgame", (req, res) => {
   const { name, capacity, public } = req.body;
   const gameId = hri.random();
   if (req.user) {
-    socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+    socketManager.userJoinRoom(req.user, gameId);
     const newRoom = new Room({
       name: name,
       creator: req.user.name,

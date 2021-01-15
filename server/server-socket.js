@@ -1,12 +1,16 @@
 let io;
 
+const Room = require("./models/room");
+
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
+const disconnectedUserToGameMap = {}; // maps disconnected userIDs to GameIDs
 // const codeToRoomMap = {}; // maps game ID to socket room
 
 const getSocketFromUserID = (userid) => userToSocketMap[userid];
 const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
 const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
+const getDisconnected = () => disconnectedUserToGameMap;
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
@@ -28,8 +32,34 @@ const removeUser = (user, socket) => {
 
 const userJoinRoom = (user, gameId) => {
   const userSocket = userToSocketMap[user._id];
-  userSocket.join(gameId)
+  userSocket.join(gameId);
 };
+
+const deletefromDisconnected = (userId) => {
+  delete disconnectedUserToGameMap[userId];
+};
+
+const userLeaveGame = (socket) => {
+  let roomKeys = Object.keys(socket.rooms);
+  let socketIdIndex = roomKeys.indexOf( socket.id );
+  roomKeys.splice( socketIdIndex, 1 );
+  let user = getUserFromSocketID(socket.id);
+  
+  if (user) {
+    let gameId = roomKeys[0];
+    let userId = user._id;
+    Room.findOne({ gameId: gameId }).then((room) => {
+      if (room) {
+        room.numberJoined--;
+        const index = room.players.indexOf(userId);
+        if (index) {
+          room.players.splice(index, 1);
+        }
+        room.save();
+      }
+    });
+  }
+}
 
 module.exports = {
   init: (http) => {
@@ -37,9 +67,12 @@ module.exports = {
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
+      socket.on('disconnecting', () => {
+        userLeaveGame(socket);
+      });
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
-        removeUser(user, socket);
+        //removeUser(user, socket);
       });
     });
   },
@@ -51,5 +84,7 @@ module.exports = {
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
   getSocketFromSocketID: getSocketFromSocketID,
+  getDisconnected: getDisconnected,
+  deletefromDisconnected: deletefromDisconnected,
   getIo: () => io,
 };

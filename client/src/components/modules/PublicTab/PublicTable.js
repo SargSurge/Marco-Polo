@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { get, post } from "../../../utilities";
+import { socket } from "../../../client-socket";
 
 import "./PublicTable.css";
 
@@ -14,6 +15,11 @@ export class PublicTable extends Component {
       console.log(lobbies.lobbies);
       this.setState({ lobbies: lobbies.lobbies });
     });
+    post("/api/checkempty", {}).then((res) => {});
+  }
+
+  componentDidUpdate() {
+    
   }
 
   render() {
