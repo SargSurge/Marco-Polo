@@ -25,9 +25,9 @@ class Lobby extends Component {
       },
     };
 
-    this.state = { 
+    this.state = {
       lobby: {},
-      sliders: this.resetSettings(), 
+      sliders: this.resetSettings(),
     };
   }
 
@@ -43,11 +43,12 @@ class Lobby extends Component {
 
   componentDidMount() {
     get("/api/lobby", { gameId: this.props.gameId })
-     .then((res) => {
-       this.setState({
-         lobby: res.lobby,
-       });
-     }).then(() => console.log(this.state.lobby));
+      .then((res) => {
+        this.setState({
+          lobby: res.lobby,
+        });
+      })
+      .then(() => console.log(this.state.lobby));
   }
 
   render() {
@@ -59,7 +60,9 @@ class Lobby extends Component {
             <div className="lobby-content-header">
               <div className="lobby-content-header-name">{this.state.lobby.name}</div>
               <div className="lobby-content-header-buttoncontainer">
-                <div className="lobby-content-header-playercount">{this.state.lobby.numberJoined} / {this.state.lobby.capacity}</div>
+                <div className="lobby-content-header-playercount">
+                  {this.state.lobby.numberJoined} / {this.state.lobby.capacity}
+                </div>
                 <button
                   className="lobby-content-header-reset"
                   type="button"
@@ -103,15 +106,16 @@ class Lobby extends Component {
                 </>
               ))}
               <div className="lobby-content-footer">
-                <button type="button" className="lobby-content-header-reset lobby-big-button">
-                  Save Settings
+                <button
+                  type="button"
+                  className="lobby-content-header-reset lobby-big-button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(this.state.lobby.gameId);
+                  }}
+                >
+                  Copy Game ID
                 </button>
-                <div className="lobby-content-footer-gameID">
-                  <div>{this.state.lobby.gameId}</div>
-                  <button type="button" className="lobby-content-header-reset lobby-big-button">
-                    Copy Game ID
-                  </button>
-                </div>
+                <div>{this.state.lobby.gameId}</div>
               </div>
             </div>
             <Chat />

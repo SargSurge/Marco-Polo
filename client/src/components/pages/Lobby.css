@@ -94,24 +94,17 @@
 .lobby-big-button {
     width: 250px;
     height: 75px;
-    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .lobby-content-footer {
     width: 70%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
-.lobby-content-footer-gameID {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-}
 
 /*
     Slider CSS
