@@ -4,13 +4,11 @@ const Room = require("./models/room");
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
-const disconnectedUserToGameMap = {}; // maps disconnected userIDs to GameIDs
 // const codeToRoomMap = {}; // maps game ID to socket room
 
 const getSocketFromUserID = (userid) => userToSocketMap[userid];
 const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
 const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
-const getDisconnected = () => disconnectedUserToGameMap;
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
@@ -33,10 +31,6 @@ const removeUser = (user, socket) => {
 const userJoinRoom = (user, gameId) => {
   const userSocket = userToSocketMap[user._id];
   userSocket.join(gameId);
-};
-
-const deletefromDisconnected = (userId) => {
-  delete disconnectedUserToGameMap[userId];
 };
 
 const userLeaveGame = (socket) => {
@@ -72,7 +66,7 @@ module.exports = {
       });
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
-        //removeUser(user, socket);
+        removeUser(user, socket);
       });
     });
   },
@@ -84,7 +78,5 @@ module.exports = {
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
   getSocketFromSocketID: getSocketFromSocketID,
-  getDisconnected: getDisconnected,
-  deletefromDisconnected: deletefromDisconnected,
   getIo: () => io,
 };

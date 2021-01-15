@@ -47,8 +47,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/checkempty", (req, res) => {
-  Room.deleteMany({ numberJoined: 0 }).then((room) => {
-  });
+  Room.deleteMany({ numberJoined: 0 }).then((room) => {});
 });
 
 router.post("/joingame", (req, res) => {

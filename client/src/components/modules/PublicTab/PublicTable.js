@@ -14,12 +14,7 @@ export class PublicTable extends Component {
     get("/api/lobbies", {}).then((lobbies) => {
       console.log(lobbies.lobbies);
       this.setState({ lobbies: lobbies.lobbies });
-    });
-    post("/api/checkempty", {}).then((res) => {});
-  }
-
-  componentDidUpdate() {
-    
+    }); 
   }
 
   render() {
