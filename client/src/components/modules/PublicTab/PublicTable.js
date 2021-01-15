@@ -11,7 +11,7 @@ export class PublicTable extends Component {
   }
 
   componentDidMount() {
-    //post("/api/checkempty", {});
+    post("/api/checkempty", {});
     get("/api/lobbies", {}).then((lobbies) => {
       console.log(lobbies.lobbies);
       this.setState({ lobbies: lobbies.lobbies });
