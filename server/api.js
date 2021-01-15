@@ -54,8 +54,7 @@ router.post("/joingame", (req, res) => {
         if (!room.players.includes(req.user._id)) {
           socketManager.userJoinRoom(
             req.user,
-            socketManager.getSocketFromUserID(req.user._id),
-            gameId
+            gameId,
           );
           room.numberJoined = room.numberJoined + 1;
           room.players.push(req.user._id);
@@ -90,7 +89,7 @@ router.post("/hostgame", (req, res) => {
   const { name, capacity, public } = req.body;
   const gameId = hri.random();
   if (req.user) {
-    socketManager.userJoinRoom(req.user, socketManager.getSocketFromUserID(req.user._id), gameId);
+    socketManager.userJoinRoom(req.user, gameId);
     const newRoom = new Room({
       name: name,
       creator: req.user.name,
