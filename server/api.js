@@ -53,7 +53,7 @@ router.post("/checkempty", (req, res) => {
       res.send({update: true})
     }
   })
-  .catch(err => console.error('Delete failed with error: ${err}'));
+  .catch(err => console.log('Delete failed with error: ${err}'));
 });
 
 router.post("/joingame", (req, res) => {
