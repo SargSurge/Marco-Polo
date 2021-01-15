@@ -13,10 +13,14 @@ import GameType from "./pages/GameType";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Lobby from "./pages/Lobby";
+import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 /**
  * Define the "App" component as a class.
  */
+
+const GOOGLE_CLIENT_ID = "478686741541-7mat3uoom72iesonik033gsm2n72pbf3.apps.googleusercontent.com";
+
 class App extends Component {
   // makes props available in this component
   constructor(props) {
@@ -24,21 +28,6 @@ class App extends Component {
     this.state = {
       userId: undefined,
     };
-  }
-
-  createLogoutButton = (button) => {
-    this.setState({
-      logoutButton: button,
-    });
-  };
-
-  componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
-      }
-    });
   }
 
   handleLogin = (res) => {
@@ -53,9 +42,54 @@ class App extends Component {
   handleLogout = () => {
     this.setState({ userId: undefined });
     post("/api/logout");
+    navigate("/");
   };
 
+  componentDidMount() {
+    get("/api/whoami").then((user) => {
+      if (user._id) {
+        // they are registed in the database, and currently logged in.
+        this.setState({ userId: user._id });
+      }
+    });
+  }
+
   render() {
+    const logoutButton = (
+      <GoogleLogout
+        clientId={GOOGLE_CLIENT_ID}
+        buttonText="Logout"
+        onLogoutSuccess={this.handleLogout}
+        onFailure={(err) => console.log(err)}
+        render={(renderProps) => (
+          <a
+            onClick={renderProps.onClick}
+            className="navbardropdown-list-items navbardropdown-logout"
+          >
+            Logout
+          </a>
+        )}
+      />
+    );
+
+    const loginButton = (
+      <GoogleLogin
+        clientId={GOOGLE_CLIENT_ID}
+        buttonText="Login"
+        onSuccess={this.handleLogin}
+        onFailure={(err) => console.log(err)}
+        render={(renderProps) => (
+          <a
+            className="homepage-button"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            Login
+          </a>
+        )}
+      />
+    );
+
     return (
       <>
         <Router>
@@ -64,9 +98,10 @@ class App extends Component {
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
-            returnLogoutButton={this.createLogoutButton}
+            loginButton={loginButton}
+            logoutButton={logoutButton}
           />
-          <Lobby path="/lobby/:gameID" userId={this.state.userId} />
+          <Lobby path="/lobby/:gameID" userId={this.state.userId} logoutButton={logoutButton} />
           <NotFound default />
         </Router>
       </>
