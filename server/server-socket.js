@@ -66,7 +66,7 @@ module.exports = {
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
-      socket.on("updateLobbies", () => socket.emit("updateLobbiesAll"));
+      socket.on("updateLobbies", () => socket.broadcast.emit("updateLobbiesAll"));
       socket.on('disconnecting', () => userLeaveGame(socket));
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
