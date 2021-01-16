@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import JoinGameButton from "../JoinGameButton";
 import { get, post } from "../../../utilities";
 import PublicTable from "./PublicTable";
+import { socket } from "../../../client-socket";
 
 import "./PublicGames.css";
 
@@ -11,10 +12,6 @@ export class PublicGames extends Component {
     this.state = {
       gameId: null,
     };
-  }
-
-  componentDidMount() {
-    post("/api/checkempty", {}).then((res) => {});
   }
 
   changeGameId = (value) => {

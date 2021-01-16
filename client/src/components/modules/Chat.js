@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { socket } from "../../client-socket";
-import NavBar from "../modules/NavBar/NavBar";
+
+import "./Chat.css";
 
 class Chat extends Component {
   // makes props available in this component
@@ -13,7 +14,7 @@ class Chat extends Component {
   componentDidMount() {}
 
   render() {
-    return <div className="chat-base"></div>;
+    return <div className="chat-base">This is the chat</div>;
   }
 }
 

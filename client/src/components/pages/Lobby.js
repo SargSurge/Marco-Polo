@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
 import { get } from "../../utilities";
-
+import RoundTable from "../modules/RoundTable";
 import "./Lobby.css";
 import Slider from "@material-ui/core/Slider";
 
@@ -16,12 +16,12 @@ class Lobby extends Component {
       "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
       "Marco Settings": {
         "Vision Radius": [0, 50, 100, 5],
-        "Light Bomb Cooldown": [0, 15, 30, 5],
+        "Light Bomb Timer": [0, 15, 30, 5],
         "Tag Reach": [0, 50, 100, 5],
       },
       "Polo Settings": {
         "Vision Radius": [0, 50, 100, 5],
-        "Teleport Bomb Cooldown": [0, 50, 100, 5],
+        "Teleport Bomb Timer": [0, 50, 100, 5],
       },
     };
 
@@ -121,6 +121,7 @@ class Lobby extends Component {
               </div>
             </div>
             <div className="lobby-content-right">
+              <RoundTable numJoined={10} />
               <Chat />
             </div>
           </div>

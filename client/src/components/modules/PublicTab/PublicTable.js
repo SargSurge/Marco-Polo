@@ -10,11 +10,26 @@ export class PublicTable extends Component {
     this.state = { lobbies: [] };
   }
 
-  componentDidMount() {
+  updateLobbies = () => {
     get("/api/lobbies", {}).then((lobbies) => {
       console.log(lobbies.lobbies);
       this.setState({ lobbies: lobbies.lobbies });
     }); 
+  }
+
+  componentDidMount() {
+    post("/api/checkempty", {});
+    this.updateLobbies();
+
+    socket.on("updateLobbiesAll", () => {
+      console.log("received");
+      post("/api/checkempty", {}).then((res) => {
+        if (res.update) {
+          this.updateLobbies();
+        }
+      });
+      this.updateLobbies();
+    });
   }
 
   render() {
