@@ -12,10 +12,6 @@ class RoundTable extends Component {
   render() {
     const players = [];
 
-    // cos(36/180*3.14159)*476/2   ==== X
-
-    // sin(36/180*3.14159)*476/2   ==== Y
-
     //          <div
     //             className="roundtable-playerName"
     //             style={{
