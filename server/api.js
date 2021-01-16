@@ -46,21 +46,12 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/checkempty", (req, res) => {
-  Room.deleteMany({ numberJoined: 0 })
-  .then((result) => {
-    if (result && result.deletedCount > 0) {
-      res.send({update: true})
-    }
-  })
-  .catch(err => console.log('Delete failed with error: ${err}'));
-});
-
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
     if (room) {
       if (room.numberJoined < room.capacity) {
+        console.log(room, req.user);
         if (req.user && !room.players.includes(req.user._id)) {
           socketManager.userJoinRoom(req.user, gameId);
           room.numberJoined++;

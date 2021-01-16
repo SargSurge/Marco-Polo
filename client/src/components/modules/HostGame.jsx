@@ -79,7 +79,6 @@ export class HostGame extends Component {
 
   hostGame = () => {
     if (this.state.name !== null && this.state.name.trim().length !== 0) {
-      socket.emit("updateLobbies");
       post("/api/hostgame", {
         name: this.state.name,
         capacity: this.state.capacity,
@@ -87,7 +86,7 @@ export class HostGame extends Component {
       }).then((res) => {
         alert("You just hosted a game with id: " + res.gameId);
         navigate(`/lobby/${res.gameId}`);
-      });
+      }).then(socket.emit("updateLobbies"));
     } else {
       alert("Enter a game id idiot");
     }

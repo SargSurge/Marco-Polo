@@ -18,16 +18,8 @@ export class PublicTable extends Component {
   }
 
   componentDidMount() {
-    post("/api/checkempty", {});
     this.updateLobbies();
-
     socket.on("updateLobbiesAll", () => {
-      console.log("received");
-      post("/api/checkempty", {}).then((res) => {
-        if (res.update) {
-          this.updateLobbies();
-        }
-      });
       this.updateLobbies();
     });
   }
