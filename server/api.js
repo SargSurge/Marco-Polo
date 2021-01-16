@@ -89,7 +89,7 @@ router.post("/joingame", (req, res) => {
 });
 
 router.post("/hostgame", (req, res) => {
-  const { name, capacity, public } = req.body;
+  const { name, capacity, public, settings } = req.body;
   const gameId = hri.random();
   if (req.user) {
     socketManager.userJoinRoom(req.user, gameId);
@@ -101,6 +101,7 @@ router.post("/hostgame", (req, res) => {
       numberJoined: 1,
       gameId: gameId,
       players: [req.user._id],
+      settings: settings,
     });
     newRoom
       .save()
