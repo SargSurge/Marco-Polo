@@ -42,6 +42,8 @@ class App extends Component {
   handleLogout = () => {
     this.setState({ userId: undefined });
     post("/api/logout");
+    console.log("logging out")
+    socket.emit("logout");
     navigate("/");
   };
 
