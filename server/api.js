@@ -47,7 +47,13 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/checkempty", (req, res) => {
-  Room.deleteMany({ numberJoined: 0 }).then((room) => {});
+  Room.deleteMany({ numberJoined: 0 })
+  .then((result) => {
+    if (result && result.deletedCount > 0) {
+      res.send({update: true})
+    }
+  })
+  .catch(err => console.log('Delete failed with error: ${err}'));
 });
 
 router.post("/joingame", (req, res) => {

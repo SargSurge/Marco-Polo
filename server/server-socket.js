@@ -28,12 +28,17 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
+const updateLobbiesAll = (socket) => {
+  socket.emit("updateLobbies");
+}
+
 const userJoinRoom = (user, gameId) => {
   const userSocket = userToSocketMap[user._id];
   userSocket.join(gameId);
 };
 
 const userLeaveGame = (socket) => {
+  io.emit("updateLobbiesAll");
   let roomKeys = Object.keys(socket.rooms);
   let socketIdIndex = roomKeys.indexOf( socket.id );
   roomKeys.splice( socketIdIndex, 1 );
@@ -61,9 +66,9 @@ module.exports = {
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
-      socket.on('disconnecting', () => {
-        userLeaveGame(socket);
-      });
+      socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
+      socket.on("logout", () => userLeaveGame(socket));
+      socket.on('disconnecting', () => userLeaveGame(socket));
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
@@ -74,6 +79,7 @@ module.exports = {
   addUser: addUser,
   removeUser: removeUser,
   userJoinRoom: userJoinRoom,
+  updateLobbiesAll : updateLobbiesAll,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { socket } from "../../client-socket";
 
 import "./JoinGameButton.css";
 
@@ -12,9 +13,12 @@ export class JoinGameButton extends Component {
   }
 
   handleJoin = () => {
+    socket.emit("updateLobbies");
     post("/api/joingame", { gameId: this.props.gameId }).then((res) => {
       alert(res.msg);
-      if (res.canJoin) navigate(`/lobby/${this.props.gameId}`);
+      if (res.canJoin) {
+        navigate(`/lobby/${this.props.gameId}`);
+      }
     });
   };
 
