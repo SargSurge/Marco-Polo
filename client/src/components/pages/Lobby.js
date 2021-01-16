@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import RoundTable from "../modules/RoundTable";
 import "./Lobby.css";
 import Slider from "@material-ui/core/Slider";
@@ -39,7 +39,7 @@ class Lobby extends Component {
         tempSliderState[type + setting + index] = this.settings[type][setting][1];
       });
     });
-    
+    post("/api/updateLobbySettings", { settings: tempSliderState })
     return tempSliderState;
   };
 
@@ -56,6 +56,9 @@ class Lobby extends Component {
   componentDidMount() {
     this.updateLobby();
     socket.on("updateLobbiesAll", () => {
+      this.updateLobby();
+    });
+    socket.on("updateLobbySettings", () => {
       this.updateLobby();
     });
   }

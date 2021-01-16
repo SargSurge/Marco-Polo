@@ -114,10 +114,15 @@ router.post("/updateLobbySettings", (req,res) => {
   Room.findOne({
     gameId: req.query.gameId,
   }).then((lobby) => {
-    res.send({ lobby: lobby });
-  });
+    if (lobby) {
+      lobby.settings = req.settings;
+      lobby.save()
+      .then((lobby) => socketManager.getIo().to(lobby.gameId).emit("updateLobbySettings"))
+      .catch((err) => console.log(err));
+  }
 
-})
+});
+});
 
 // returns lobby data for the public table
 router.get("/lobbies", (req, res) => {
