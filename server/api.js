@@ -48,39 +48,44 @@ router.post("/initsocket", (req, res) => {
 
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
-  Room.findOne({ gameId: gameId }).then((room) => {
-    if (room) {
-      if (room.numberJoined < room.capacity) {
-        console.log(room, req.user);
-        if (req.user && !room.players.includes(req.user._id)) {
-          socketManager.userJoinRoom(req.user, gameId);
-          room.numberJoined++;
-          room.players.push(req.user._id);
-          room.save().then(() => {
+  Room.findOne({ gameId: gameId })
+    .then((room) => {
+      if (room) {
+        if (room.numberJoined < room.capacity) {
+          console.log(room, req.user);
+          if (req.user && !room.players.includes(req.user._id)) {
+            socketManager.userJoinRoom(req.user, gameId);
+            room.numberJoined++;
+            room.players.push(req.user._id);
+            room
+              .save()
+              .then(() => {
+                res.send({
+                  msg: "Joined " + room.name + ".",
+                  canJoin: true,
+                });
+              })
+              .catch((err) => console.log(err));
+          } else {
             res.send({
-              msg: "Joined " + room.name + ".",
-              canJoin: true,
+              msg: "Already joined " + room.name + " .",
+              canJoin: false,
             });
-          });
+          }
         } else {
           res.send({
-            msg: "Already joined " + room.name + " .",
+            msg: room.name + " is full.",
             canJoin: false,
           });
         }
       } else {
         res.send({
-          msg: room.name + " is full.",
+          msg: "The lobby you are looking for does not exist.",
           canJoin: false,
         });
       }
-    } else {
-      res.send({
-        msg: "The lobby you are looking for does not exist.",
-        canJoin: false,
-      });
-    }
-  });
+    })
+    .catch((err) => console.log(err));
 });
 
 router.post("/hostgame", (req, res) => {
@@ -97,7 +102,10 @@ router.post("/hostgame", (req, res) => {
       gameId: gameId,
       players: [req.user._id],
     });
-    newRoom.save().then(() => res.send({ gameId: gameId }));
+    newRoom
+      .save()
+      .then(() => res.send({ gameId: gameId }))
+      .catch((err) => console.log(err));
   }
 });
 
@@ -106,18 +114,22 @@ router.get("/lobbies", (req, res) => {
   Room.find({
     public: true,
     $expr: { $lt: ["$numberJoined", "$capacity"] },
-  }).then((rooms) => {
-    res.send({ lobbies: rooms });
-  });
+  })
+    .then((rooms) => {
+      res.send({ lobbies: rooms });
+    })
+    .catch((err) => console.log(err));
 });
 
 // returns specific lobby data
 router.get("/lobby", (req, res) => {
   Room.findOne({
     gameId: req.query.gameId,
-  }).then((lobby) => {
-    res.send({ lobby: lobby });
-  });
+  })
+    .then((lobby) => {
+      res.send({ lobby: lobby });
+    })
+    .catch((err) => console.log(err));
 });
 
 // anything else falls to this "not found" case

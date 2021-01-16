@@ -83,10 +83,13 @@ export class HostGame extends Component {
         name: this.state.name,
         capacity: this.state.capacity,
         public: this.state.public,
-      }).then((res) => {
-        alert("You just hosted a game with id: " + res.gameId);
-        navigate(`/lobby/${res.gameId}`);
-      }).then(socket.emit("updateLobbies"));
+      })
+        .then((res) => {
+          alert("You just hosted a game with id: " + res.gameId);
+          navigate(`/lobby/${res.gameId}`);
+        })
+        .then(socket.emit("updateLobbies"))
+        .catch((err) => console.log(err));
     } else {
       alert("Enter a game id idiot");
     }

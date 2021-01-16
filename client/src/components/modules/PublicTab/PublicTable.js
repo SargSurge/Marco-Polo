@@ -11,11 +11,13 @@ export class PublicTable extends Component {
   }
 
   updateLobbies = () => {
-    get("/api/lobbies", {}).then((lobbies) => {
-      console.log(lobbies.lobbies);
-      this.setState({ lobbies: lobbies.lobbies });
-    }); 
-  }
+    get("/api/lobbies", {})
+      .then((lobbies) => {
+        console.log(lobbies.lobbies);
+        this.setState({ lobbies: lobbies.lobbies });
+      })
+      .catch((err) => console.log(err));
+  };
 
   componentDidMount() {
     this.updateLobbies();
