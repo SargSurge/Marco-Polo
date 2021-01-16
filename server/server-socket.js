@@ -1,5 +1,6 @@
 let io;
 
+const room = require("./models/room");
 const Room = require("./models/room");
 
 const userToSocketMap = {}; // maps user ID to socket object
@@ -38,7 +39,6 @@ const userJoinRoom = (user, gameId) => {
 };
 
 const userLeaveGame = (socket) => {
-  io.emit("updateLobbiesAll");
   let roomKeys = Object.keys(socket.rooms);
   let socketIdIndex = roomKeys.indexOf( socket.id );
   roomKeys.splice( socketIdIndex, 1 );
@@ -54,7 +54,13 @@ const userLeaveGame = (socket) => {
         if (index) {
           room.players.splice(index, 1);
         }
-        room.save();
+        room.save().then((room) => {
+          if (room.numberJoined === 0) {
+            Room.deleteOne({gameId : gameId})
+            .then(result => console.log('deleted one'))
+            .catch(err => console.log('Delete failed with error: ${err}'));
+            }
+        }).then(io.emit("updateLobbiesAll"));
       }
     });
   }
