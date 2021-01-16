@@ -113,7 +113,12 @@
 
 
 .lobby-content-right {
-
+    color: white;
+    font-family: Orbitron;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35%;
 }
 
 
