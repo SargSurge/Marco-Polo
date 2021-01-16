@@ -37,7 +37,7 @@ router.get("/whoami", (req, res) => {
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user)
+  if (req.user) 
     socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
@@ -96,10 +96,20 @@ router.post("/hostgame", (req, res) => {
       numberJoined: 1,
       gameId: gameId,
       players: [req.user._id],
+      settings: 
     });
     newRoom.save().then(() => res.send({ gameId: gameId }));
   }
 });
+
+router.post("/updateLobbySettings", (req,res) => {
+  Room.findOne({
+    gameId: req.query.gameId,
+  }).then((lobby) => {
+    res.send({ lobby: lobby });
+  });
+
+})
 
 // returns lobby data for the public table
 router.get("/lobbies", (req, res) => {

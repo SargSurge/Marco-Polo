@@ -29,7 +29,7 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
-const updateLobbiesAll = (socket) => {
+const sendChat = (socket) => {
   socket.emit("updateLobbies");
 }
 
@@ -85,7 +85,7 @@ module.exports = {
   addUser: addUser,
   removeUser: removeUser,
   userJoinRoom: userJoinRoom,
-  updateLobbiesAll : updateLobbiesAll,
+  sendChat : sendChat,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,

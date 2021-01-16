@@ -5,6 +5,7 @@ import { get } from "../../utilities";
 import RoundTable from "../modules/RoundTable";
 import "./Lobby.css";
 import Slider from "@material-ui/core/Slider";
+import { socket } from "../../client-socket";
 
 class Lobby extends Component {
   // makes props available in this component
@@ -38,10 +39,11 @@ class Lobby extends Component {
         tempSliderState[type + setting + index] = this.settings[type][setting][1];
       });
     });
+    
     return tempSliderState;
   };
 
-  componentDidMount() {
+  updateLobby = () => {
     get("/api/lobby", { gameId: this.props.gameId })
       .then((res) => {
         this.setState({
@@ -49,6 +51,13 @@ class Lobby extends Component {
         });
       })
       .then(() => console.log(this.state.lobby));
+  }
+
+  componentDidMount() {
+    this.updateLobby();
+    socket.on("updateLobbiesAll", () => {
+      this.updateLobby();
+    });
   }
 
   render() {
