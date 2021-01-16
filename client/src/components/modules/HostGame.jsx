@@ -9,6 +9,20 @@ import { navigate } from "@reach/router";
 // marks for material-ui slider
 // currently disabled, can enable in props of slider
 // marks = {marks}
+
+const settings = {
+  "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
+      "Marco Settings": {
+        "Vision Radius": [0, 50, 100, 5],
+        "Light Bomb Timer": [0, 15, 30, 5],
+        "Tag Reach": [0, 50, 100, 5],
+      },
+      "Polo Settings": {
+        "Vision Radius": [0, 50, 100, 5],
+        "Teleport Bomb Timer": [0, 50, 100, 5],
+      },
+};
+
 const marks = [
   {
     value: 0,
@@ -83,10 +97,14 @@ export class HostGame extends Component {
         name: this.state.name,
         capacity: this.state.capacity,
         public: this.state.public,
-      }).then((res) => {
-        alert("You just hosted a game with id: " + res.gameId);
-        navigate(`/lobby/${res.gameId}`);
-      }).then(socket.emit("updateLobbies"));
+        settings: settings,
+      })
+        .then((res) => {
+          alert("You just hosted a game with id: " + res.gameId);
+          navigate(`/lobby/${res.gameId}`);
+        })
+        .then(socket.emit("updateLobbies"))
+        .catch((err) => console.log(err));
     } else {
       alert("Enter a game id idiot");
     }

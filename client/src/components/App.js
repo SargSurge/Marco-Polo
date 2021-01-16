@@ -33,27 +33,31 @@ class App extends Component {
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id });
-      post("/api/initsocket", { socketid: socket.id });
-    });
+    post("/api/login", { token: userToken })
+      .then((user) => {
+        this.setState({ userId: user._id });
+        post("/api/initsocket", { socketid: socket.id });
+      })
+      .catch((err) => console.log(err));
   };
 
   handleLogout = () => {
     this.setState({ userId: undefined });
     post("/api/logout");
-    console.log("logging out")
+    console.log("logging out");
     socket.emit("logout");
     navigate("/");
   };
 
   componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
-      }
-    });
+    get("/api/whoami")
+      .then((user) => {
+        if (user._id) {
+          // they are registed in the database, and currently logged in.
+          this.setState({ userId: user._id });
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
