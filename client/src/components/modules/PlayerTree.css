@@ -80,7 +80,7 @@
     padding: 5px 10px;
     width: 130px;
     text-decoration: none;
-    color: #459bc5;
+    color: white;
     display: inline-block;
 
     border-radius: 5px;
@@ -94,6 +94,7 @@
 
 .playertree-loaded {
     border: 1px solid #459bc5 !important;
+    color: #459bc5;
     animation: userLoaded .5s infinite;
     animation-direction: alternate-reverse;
     -webkit-animation: userLoaded .5s infinite;
