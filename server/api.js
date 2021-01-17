@@ -57,7 +57,7 @@ router.post("/joingame", (req, res) => {
             if (!room.players.includes(req.user)) {
               socketManager.userJoinRoom(req.user, gameId);
               room.numberJoined++;
-              room.players.push(req.user._id);
+              room.players.push(req.user);
               room
                 .save()
                 .then(() => {

@@ -46,11 +46,10 @@ const userLeaveGame = (socket) => {
 
   if (user) {
     let gameId = roomKeys[0];
-    let userId = user;
     Room.findOne({ gameId: gameId }).then((room) => {
       if (room) {
         room.numberJoined--;
-        const index = room.players.indexOf(userId);
+        const index = room.players.indexOf(user);
         if (index) {
           room.players.splice(index, 1);
         }
