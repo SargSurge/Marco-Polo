@@ -1,3 +1,119 @@
 /*
     The CSS for the PlayerTree component
  */
+
+@keyframes userLoaded {
+    from {
+        box-shadow: 0px 0px 1px 1px #00ff4e;
+        color: #79d696;
+        border: 1px solid #00ff4e !important;
+    } to {
+        box-shadow: 0px 0px 7px 1px #00ff4e;
+        color: #00ff4e;
+        border: 1px solid #00ff4e !important;
+    }
+}
+
+
+.playertree-base {
+    height: 40%;
+    width: 200%;
+    margin-left: -15%;
+}
+
+.playertree-base ul {
+    padding-top: 10px; position: relative;
+
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.playertree-base li {
+    float: left; text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 10px 0px 0 5px;
+
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.playertree-base li::before, .playertree-base li::after{
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%; height: 10px;
+}
+.playertree-base li::after{
+    right: auto; left: 50%;
+    border-left: 1px solid #ccc;
+}
+
+.playertree-base li:only-child::after, .playertree-base li:only-child::before {
+    display: none;
+}
+
+.playertree-base li:only-child{ padding-top: 0;}
+
+.playertree-base li:first-child::before, .playertree-base li:last-child::after{
+    border: 0 none;
+}
+.playertree-base li:last-child::before{
+    border-right: 1px solid #ccc;
+    border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+}
+.playertree-base li:first-child::after{
+    border-radius: 5px 0 0 0;
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+}
+.playertree-base ul ul::before{
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0; height: 10px;
+}
+.playertree-base li div{
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    width: 130px;
+    text-decoration: none;
+    color: #459bc5;
+    display: inline-block;
+
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.playertree-loaded {
+    /*animation: userLoaded 1s infinite;
+    animation-direction: alternate-reverse;
+     */
+}
+
+.playertree-loaded::after {
+    animation: userLoaded 1s infinite;
+    animation-direction: alternate-reverse;
+}
+
+/*
+.playertree-base li div:hover, .playertree-base li div:hover+ul li div {
+    background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+}
+ */
+
+.playertree-base li div:hover+ul li::after,
+.playertree-base li div:hover+ul li::before,
+.playertree-base li div:hover+ul::before,
+.playertree-base li div:hover+ul ul::before{
+    border-color:  #94a0b4;
+}
