@@ -175,7 +175,11 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
   });
   message.save().then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
   .catch((err) => console.log(err));
-  Room.findOneAndUpdate({gameId : gameId}, {$push : {chat : message}});
+  Room.findOneAndUpdate({gameId : gameId}, {$push : {chat : message}}, {new : true}, (err,doc) => {
+    if (err) {
+      console.log(err);
+    }
+  });
   res.send(message);
   });
 
