@@ -15,8 +15,10 @@
 
 .playertree-base {
     height: 40%;
-    width: 200%;
+    width: 300%;
     margin-left: -15%;
+    display: flex;
+    justify-content: center;
 }
 
 .playertree-base ul {
