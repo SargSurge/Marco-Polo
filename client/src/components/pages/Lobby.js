@@ -50,13 +50,14 @@ class Lobby extends Component {
         });
       })
       .catch((err) => console.log("${err}"));
-  }
+  };
 
   updateLobbySettings = (lobby) => {
     this.setState({
-        sliders: lobby.settings,
-      });
-  }
+      sliders: lobby.settings,
+      lobby: lobby,
+    });
+  };
 
   componentDidMount() {
     this.updateLobby();
@@ -65,8 +66,12 @@ class Lobby extends Component {
     });
     socket.on("updateLobbySettings", (lobby) => {
       this.updateLobbySettings(lobby);
-      console.log(lobby);
     });
+  }
+
+  componentWillUnmount() {
+    socket.off("updateLobbiesAll");
+    socket.off("updateLobbySettings");
   }
 
   render() {
@@ -87,7 +92,10 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
-                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.resetSettings() });
+                      post("/api/updateLobbySettings", {
+                        gameId: this.props.gameId,
+                        settings: this.resetSettings(),
+                      });
                     }}
                   >
                     Reset Settings
@@ -117,7 +125,10 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: tempSliders});
+                            post("/api/updateLobbySettings", {
+                              gameId: this.props.gameId,
+                              settings: tempSliders,
+                            });
                           }}
                           key={type + setting + index}
                         />
@@ -143,8 +154,9 @@ class Lobby extends Component {
               </div>
             </div>
             <div className="lobby-content-right">
-              <PlayerTree users={["Naseem", "Sabi", "Sergio", "Nicholas"]} />
-              <Chat />
+              <div className="lobby-content-right-header">Usable Test Subjects</div>
+              <PlayerTree user={this.state.lobby.players} />
+              <Chat gameId={this.props.gameId}/>
             </div>
           </div>
         </div>

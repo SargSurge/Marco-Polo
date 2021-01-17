@@ -34,7 +34,6 @@ class NavBarDropdown extends Component {
 
   componentDidMount() {
     get("/api/whoami", {}).then((user) => {
-      console.log(user);
       this.setState({ name: user.name });
     });
   }

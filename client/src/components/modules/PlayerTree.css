@@ -4,21 +4,21 @@
 
 @keyframes userLoaded {
     from {
-        box-shadow: 0px 0px 1px 1px #00ff4e;
-        color: #79d696;
-        border: 1px solid #00ff4e !important;
+        box-shadow: 0px 0px 1px 1px #459bc5;
+        color: #459bc5;
     } to {
-        box-shadow: 0px 0px 7px 1px #00ff4e;
-        color: #00ff4e;
-        border: 1px solid #00ff4e !important;
+        box-shadow: 0px 0px 12px 1px #459bc5;
+        color: #459bc5;
     }
 }
 
 
 .playertree-base {
     height: 40%;
-    width: 200%;
+    width: 300%;
     margin-left: -15%;
+    display: flex;
+    justify-content: center;
 }
 
 .playertree-base ul {
@@ -81,8 +81,9 @@
     border: 1px solid #ccc;
     padding: 5px 10px;
     width: 130px;
+    word-break: break-all;
     text-decoration: none;
-    color: #459bc5;
+    color: white;
     display: inline-block;
 
     border-radius: 5px;
@@ -95,10 +96,17 @@
 }
 
 .playertree-loaded {
-    animation: userLoaded 1s infinite;
+    border: 1px solid #459bc5 !important;
+    color: #459bc5;
+    animation: userLoaded .5s infinite;
     animation-direction: alternate-reverse;
-    -webkit-animation: userLoaded 1s infinite;
+    -webkit-animation: userLoaded .5s infinite;
     -webkit-animation-direction: alternate-reverse;
+}
+
+.playertree-loaded:hover {
+    width: 200px;
+    word-spacing: 130px;
 }
 
 /*

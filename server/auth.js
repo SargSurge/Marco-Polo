@@ -28,6 +28,7 @@ function getOrCreateUser(user) {
     const newUser = new User({
       name: user.name,
       googleid: user.sub,
+      currentGame: null,
     });
 
     return newUser.save();
