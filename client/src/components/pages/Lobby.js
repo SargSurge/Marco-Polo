@@ -48,7 +48,7 @@ class Lobby extends Component {
       .then((res) => {
         this.setState({
           lobby: res.lobby,
-          users: res.lobby.users,
+          users: res.lobby.players,
         });
       })
       .catch((err) => console.log("${err}"));
@@ -58,7 +58,7 @@ class Lobby extends Component {
     this.setState({
         sliders: lobby.settings,
         lobby: lobby,
-        users: lobby.users,
+        users: lobby.players,
       });
   }
 
