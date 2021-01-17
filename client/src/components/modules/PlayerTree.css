@@ -15,8 +15,10 @@
 
 .playertree-base {
     height: 40%;
-    width: 200%;
+    width: 300%;
     margin-left: -15%;
+    display: flex;
+    justify-content: center;
 }
 
 .playertree-base ul {
@@ -79,6 +81,7 @@
     border: 1px solid #ccc;
     padding: 5px 10px;
     width: 130px;
+    word-break: break-all;
     text-decoration: none;
     color: white;
     display: inline-block;
@@ -103,6 +106,7 @@
 
 .playertree-loaded:hover {
     width: 200px;
+    word-spacing: 130px;
 }
 
 /*
