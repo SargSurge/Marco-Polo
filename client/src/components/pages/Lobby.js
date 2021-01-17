@@ -87,7 +87,7 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
-                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
+                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.resetSettings() });
                     }}
                   >
                     Reset Settings
@@ -117,7 +117,7 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
+                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: tempSliders});
                           }}
                           key={type + setting + index}
                         />
