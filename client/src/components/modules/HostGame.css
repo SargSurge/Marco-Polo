@@ -41,6 +41,8 @@
 .hostgame-form-checkbox {
     height: 18px;
     width: 18px;
+    box-shadow: 0 0 12px 1px #459bc5;
+    border: 1px solid #459bc5 !important;
 }
 
 .hostgame-slider {
