@@ -58,7 +58,7 @@ class Lobby extends Component {
     this.setState({
       sliders: lobby.settings,
       lobby: lobby,
-      users: res.lobby.users,
+      users: lobby.users,
     });
   };
 
@@ -69,8 +69,12 @@ class Lobby extends Component {
     });
     socket.on("updateLobbySettings", (lobby) => {
       this.updateLobbySettings(lobby);
-      console.log(lobby);
     });
+  }
+
+  componentWillUnmount() {
+    socket.off("updateLobbiesAll");
+    socket.off("updateLobbySettings");
   }
 
   render() {
