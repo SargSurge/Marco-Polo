@@ -5,3 +5,7 @@ export const socket = socketIOClient(endpoint);
 socket.on("connect", () => {
   post("/api/initsocket", { socketid: socket.id });
 });
+
+export const move = (user, gameId, dir) => {
+  socket.emit("move", dir, gameId, user);
+};

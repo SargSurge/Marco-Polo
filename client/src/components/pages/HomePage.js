@@ -17,9 +17,9 @@ class HomePage extends Component {
   }
 
   clickLogin = () => {
-    document.getElementById("login-button").click();
-    window.removeEventListener('keypress', this.clickLogin)
-
+    try {
+      document.getElementById("login-button").click();
+    } catch(e) {}
   }
 
   render() {
