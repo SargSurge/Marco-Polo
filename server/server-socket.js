@@ -12,7 +12,7 @@ const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
 const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
 
 const addUser = (user, socket) => {
-  const oldSocket = userToSocketMap[user._id];
+  const oldSocket = userToSocketMap[user];
   if (oldSocket && oldSocket.id !== socket.id) {
     // there was an old tab open for this user, force it to disconnect
     // FIXME: is this the behavior you want?
@@ -20,51 +20,53 @@ const addUser = (user, socket) => {
     delete socketToUserMap[oldSocket.id];
   }
 
-  userToSocketMap[user._id] = socket;
+  userToSocketMap[user] = socket;
   socketToUserMap[socket.id] = user;
 };
 
 const removeUser = (user, socket) => {
-  if (user) delete userToSocketMap[user._id];
+  if (user) delete userToSocketMap[user];
   delete socketToUserMap[socket.id];
 };
 
 const updateLobbiesAll = (socket) => {
   socket.emit("updateLobbies");
-}
+};
 
 const userJoinRoom = (user, gameId) => {
-  const userSocket = userToSocketMap[user._id];
+  const userSocket = userToSocketMap[user];
   userSocket.join(gameId);
 };
 
 const userLeaveGame = (socket) => {
   let roomKeys = Object.keys(socket.rooms);
-  let socketIdIndex = roomKeys.indexOf( socket.id );
-  roomKeys.splice( socketIdIndex, 1 );
+  let socketIdIndex = roomKeys.indexOf(socket.id);
+  roomKeys.splice(socketIdIndex, 1);
   let user = getUserFromSocketID(socket.id);
-  
+
   if (user) {
     let gameId = roomKeys[0];
-    let userId = user._id;
     Room.findOne({ gameId: gameId }).then((room) => {
       if (room) {
         room.numberJoined--;
-        const index = room.players.indexOf(userId);
+        const index = room.players.indexOf(user);
         if (index) {
           room.players.splice(index, 1);
         }
-        room.save().then((room) => {
-          if (room.numberJoined === 0) {
-            Room.deleteOne({gameId : gameId})
-            .then(result => console.log('deleted one'))
-            .catch(err => console.log('Delete failed with error: ${err}'));
+        room
+          .save()
+          .then((room) => {
+            if (room.numberJoined === 0) {
+              Room.deleteOne({ gameId: gameId })
+                .then((result) => console.log("deleted one"))
+                .catch((err) => console.log("Delete failed with error: ${err}"));
             }
-        }).then(io.emit("updateLobbiesAll"));
+          })
+          .then(io.emit("updateLobbiesAll"));
       }
     });
   }
-}
+};
 
 module.exports = {
   init: (http) => {
@@ -74,7 +76,7 @@ module.exports = {
       console.log(`socket has connected ${socket.id}`);
       socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
       socket.on("logout", () => userLeaveGame(socket));
-      socket.on('disconnecting', () => userLeaveGame(socket));
+      socket.on("disconnecting", () => userLeaveGame(socket));
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
@@ -85,7 +87,7 @@ module.exports = {
   addUser: addUser,
   removeUser: removeUser,
   userJoinRoom: userJoinRoom,
-  updateLobbiesAll : updateLobbiesAll,
+  updateLobbiesAll: updateLobbiesAll,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,

@@ -56,10 +56,10 @@ router.post("/joingame", (req, res) => {
         if (room.numberJoined < room.capacity) {
           console.log(room, req.user);
           if (req.user) {
-            if (!room.players.includes(req.user._id)) {
+            if (!room.players.includes(req.user)) {
               socketManager.userJoinRoom(req.user, gameId);
               room.numberJoined++;
-              room.players.push(req.user._id);
+              room.players.push(req.user);
               room
                 .save()
                 .then(() => {
@@ -71,7 +71,7 @@ router.post("/joingame", (req, res) => {
                 .catch((err) => console.log(err));
             } else {
               res.send({
-                msg: "Joined " + room.name + ".",
+                msg: "Joined " + room.name + " again.",
                 canJoin: true,
               });
             }
@@ -109,8 +109,8 @@ router.post("/hostgame", (req, res) => {
       public: public,
       numberJoined: 1,
       gameId: gameId,
-      players: [req.user._id],
       settings: settings,
+      players: [req.user],
     });
     newRoom
       .save()
