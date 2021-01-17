@@ -40,33 +40,33 @@
     -moz-transition: all 0.5s;
 }
 
-.playertree-base li::before, .playertree-base li::after{
+.playertree-applypseudo::before, .playertree-applypseudo::after{
     content: '';
     position: absolute; top: 0; right: 50%;
     border-top: 1px solid #ccc;
     width: 50%; height: 10px;
 }
-.playertree-base li::after{
+.playertree-applypseudo::after{
     right: auto; left: 50%;
     border-left: 1px solid #ccc;
 }
 
-.playertree-base li:only-child::after, .playertree-base li:only-child::before {
+.playertree-applypseudo:only-child::after, .playertree-applypseudo:only-child::before {
     display: none;
 }
 
-.playertree-base li:only-child{ padding-top: 0;}
+.playertree-applypseudo:only-child{ padding-top: 0;}
 
-.playertree-base li:first-child::before, .playertree-base li:last-child::after{
+.playertree-applypseudo:first-child::before, .playertree-applypseudo:last-child::after{
     border: 0 none;
 }
-.playertree-base li:last-child::before{
+.playertree-applypseudo:last-child::before{
     border-right: 1px solid #ccc;
     border-radius: 0 5px 0 0;
     -webkit-border-radius: 0 5px 0 0;
     -moz-border-radius: 0 5px 0 0;
 }
-.playertree-base li:first-child::after{
+.playertree-applypseudo:first-child::after{
     border-radius: 5px 0 0 0;
     -webkit-border-radius: 5px 0 0 0;
     -moz-border-radius: 5px 0 0 0;
@@ -77,7 +77,7 @@
     border-left: 1px solid #ccc;
     width: 0; height: 10px;
 }
-.playertree-base li div{
+.playertree-applypseudo div{
     border: 1px solid #ccc;
     padding: 5px 10px;
     width: 130px;
@@ -115,9 +115,9 @@
 }
  */
 
-.playertree-base li div:hover+ul li::after,
-.playertree-base li div:hover+ul li::before,
-.playertree-base li div:hover+ul::before,
-.playertree-base li div:hover+ul ul::before{
+.playertree-applypseudo div:hover+ul li::after,
+.playertree-applypseudo div:hover+ul li::before,
+.playertree-applypseudo div:hover+ul::before,
+.playertree-applypseudo div:hover+ul ul::before{
     border-color:  #94a0b4;
 }

@@ -158,7 +158,11 @@ class Lobby extends Component {
             </div>
             <div className="lobby-content-right">
               <div className="lobby-content-right-header">Usable Test Subjects</div>
-              <PlayerTree user={this.state.lobby.players} />
+              {this.state.lobby.capacity ? (
+                <PlayerTree user={this.state.lobby.players} capacity={this.state.lobby.capacity} />
+              ) : (
+                ""
+              )}
               <Chat />
             </div>
           </div>
