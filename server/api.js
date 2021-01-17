@@ -173,11 +173,10 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
     },
     content: content,
   });
-  message.save();
-
-  socketManager.getIo().to(gameId).emit("new_message", message);
+  message.save().then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
+  .catch((err) => console.log(err));
   Room.findOneAndUpdate({gameId : gameId}, {$push : {chat : message}});
-  res.send({});
+  res.send(message);
   });
 
 router.post("/updateLobbySettings", (req, res) => {
@@ -192,7 +191,7 @@ router.post("/updateLobbySettings", (req, res) => {
         .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
         .catch((err) => console.log(err));
     }
-  });
+  }).catch((err) => console.log(err));
   res.send({});
 });
 

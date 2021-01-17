@@ -152,7 +152,7 @@ class Lobby extends Component {
             </div>
             <div className="lobby-content-right">
               <PlayerTree users={["Naseem", "Sabi", "Sergio", "Nicholas"]} />
-              <Chat />
+              <Chat gameId={this.props.gameId}/>
             </div>
           </div>
         </div>
