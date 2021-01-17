@@ -53,6 +53,7 @@ class App extends Component {
         this.setState({ userId: user._id });
       }
     });
+
   }
 
   render() {
@@ -80,13 +81,16 @@ class App extends Component {
         onSuccess={this.handleLogin}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
+          <>
           <a
+            id='login-button'
             className="homepage-button"
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
           >
             Login
           </a>
+          </>
         )}
       />
     );
