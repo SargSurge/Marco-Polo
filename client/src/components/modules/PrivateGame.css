@@ -27,6 +27,7 @@
     margin-bottom: 50px;
     background: #262626;
     border: 2px solid #459bc5;
+    box-shadow: 0 0 6px 2px #459bc5;
     color: white;
 }
 

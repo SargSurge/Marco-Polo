@@ -18,14 +18,15 @@
 }
 
 .hostgame-form-input {
+    font-family: Orbitron;
     width: 250px;
     height: 40px;
     border-radius: 20px;
     padding-left: 15px;
     background: #262626;
     border: 2px solid #459bc5;
+    box-shadow: 0 0 6px 2px #459bc5 !important;
     color: white;
-    font-family: Orbitron;
 }
 
 .hostgame-form-checkbox-container {
@@ -56,6 +57,7 @@
     margin:0 0.3em 0.3em 0;
     border-radius:0.12em;
     box-sizing: border-box;
+    box-shadow: 0 0 6px 2px #459bc5;
     font-weight: 300;
     color: white;
     background-color: #262626;
@@ -69,6 +71,12 @@
     background-color:  #459bc5;
     text-decoration: none;
 }
+
+.hostgame-button:focus {
+    outline: none;
+    text-decoration: none;
+}
+
 
 /*
     Slider CSS

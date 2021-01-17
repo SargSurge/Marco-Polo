@@ -41,8 +41,10 @@ a.active {
 a.nav-link:hover {
     color: black !important;
     border-color: #ff8d00 #ff8d00 #ff8d00 !important;
+    box-shadow: 0 0 6px 2px #ff8d00 !important;
 }
 
 ul.nav-tabs {
     border-bottom: 1px solid #ff8d00;
+    box-shadow: 0 0 6px 2px #ff8d00;
 }
