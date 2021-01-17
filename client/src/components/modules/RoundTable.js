@@ -12,17 +12,6 @@ class RoundTable extends Component {
   render() {
     const players = [];
 
-    //          <div
-    //             className="roundtable-playerName"
-    //             style={{
-    //               transform: `translateX(${Math.cos((angle / 180) * Math.PI) * 600}px) translateY(${
-    //                 Math.sin((angle / 180) * Math.PI) * 600
-    //               }px)`,
-    //             }}
-    //           >
-    //             Naseem
-    //           </div>
-
     let angle = 360 / this.props.numJoined;
     for (let i = 0; i < this.props.numJoined; i++) {
       let y_change =
