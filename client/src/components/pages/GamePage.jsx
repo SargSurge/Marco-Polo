@@ -44,31 +44,31 @@ export class GamePage extends Component {
     }
 
     move = (dir) => {
-        post('/move', {dir: dir, user: this.props.user, gameId: this.props.gameId})
+        post('/move', {dir: dir, user: this.props.user, gameId: this.props.gameId});
     }
 
-    updatePosition() {
-        let positionUpdate = {x: 0, y: 0};
-        const SPEED = 20;
-        const dirMap = {
-            up: ['y',1],
-            down: ['y',-1],
-            right: ['x',1],
-            left: ['x',-1],
-        }
-        Object.keys(this.state.movement).map((dir, index) => {
-            if (this.state.movement[dir]) {
-                positionUpdate[dirMap[dir][0]] += SPEED * dirMap[dir][1];
-            }
-        })
-        this.setState({
-            position: {
-                ...this.state.position,
-                x: this.state.position.x += positionUpdate.x,
-                y: this.state.position.y += positionUpdate.y,
-            }
-        })
-    }
+    // updatePosition() {
+    //     let positionUpdate = {x: 0, y: 0};
+    //     const SPEED = 20;
+    //     const dirMap = {
+    //         up: ['y',1],
+    //         down: ['y',-1],
+    //         right: ['x',1],
+    //         left: ['x',-1],
+    //     }
+    //     Object.keys(this.state.movement).map((dir, index) => {
+    //         if (this.state.movement[dir]) {
+    //             positionUpdate[dirMap[dir][0]] += SPEED * dirMap[dir][1];
+    //         }
+    //     })
+    //     this.setState({
+    //         position: {
+    //             ...this.state.position,
+    //             x: this.state.position.x += positionUpdate.x,
+    //             y: this.state.position.y += positionUpdate.y,
+    //         }
+    //     })
+    // }
 
     render() {
         return (
