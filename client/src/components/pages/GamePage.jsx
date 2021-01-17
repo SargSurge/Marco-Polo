@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import GameCanvas from '../modules/GameCanvas';
 
 export class GamePage extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export class GamePage extends Component {
             position: {
                 x: 0,
                 y: 0,
+                color: 'white',
             }
 
         }
@@ -61,7 +63,7 @@ export class GamePage extends Component {
 
     updatePosition() {
         let positionUpdate = {x: 0, y: 0};
-        const SPEED = 1;
+        const SPEED = 10;
         const dirMap = {
             up: ['y',1],
             down: ['y',-1],
@@ -70,11 +72,12 @@ export class GamePage extends Component {
         }
         Object.keys(this.state.movement).map((dir, index) => {
             if (this.state.movement[dir]) {
-                positionUpdate[dirMap[dir][0]] += dirMap[dir][1];
+                positionUpdate[dirMap[dir][0]] += SPEED * dirMap[dir][1];
             }
         })
         this.setState({
             position: {
+                ...this.state.position,
                 x: this.state.position.x += positionUpdate.x,
                 y: this.state.position.y += positionUpdate.y,
             }
@@ -83,6 +86,7 @@ export class GamePage extends Component {
 
     render() {
         return (
+            <>
             <div>
                 <h3>W: {`${this.state.movement.up}`}</h3>
                 <h3>A: {`${this.state.movement.left}`}</h3>
@@ -90,6 +94,10 @@ export class GamePage extends Component {
                 <h3>D: {`${this.state.movement.right}`}</h3>
                 <h3>Position: x: {`${this.state.position.x}`} / y: {`${this.state.position.y}`}</h3>
             </div>
+            <div>
+                <GameCanvas update={{players: [this.state.position]}} />
+            </div>
+            </>
         )
     }
 }
