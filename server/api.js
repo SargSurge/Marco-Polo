@@ -159,7 +159,9 @@ router.get("/lobby", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/move", (req, res))
+router.get("/move", (req, res) => {
+  
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
