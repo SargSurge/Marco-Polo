@@ -27,6 +27,7 @@ class Lobby extends Component {
     };
 
     this.state = {
+      users: [],
       lobby: {},
       sliders: this.resetSettings(),
     };
@@ -47,6 +48,7 @@ class Lobby extends Component {
       .then((res) => {
         this.setState({
           lobby: res.lobby,
+          users: res.lobby.users,
         });
       })
       .catch((err) => console.log("${err}"));
@@ -55,6 +57,8 @@ class Lobby extends Component {
   updateLobbySettings = (lobby) => {
     this.setState({
         sliders: lobby.settings,
+        lobby: lobby,
+        users: res.lobby.users,
       });
   }
 
