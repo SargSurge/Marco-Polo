@@ -46,6 +46,8 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+// lmao
+
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId })
