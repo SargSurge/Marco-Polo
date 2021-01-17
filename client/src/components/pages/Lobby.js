@@ -52,15 +52,15 @@ class Lobby extends Component {
         });
       })
       .catch((err) => console.log("${err}"));
-  }
+  };
 
   updateLobbySettings = (lobby) => {
     this.setState({
-        sliders: lobby.settings,
-        lobby: lobby,
-        users: res.lobby.users,
-      });
-  }
+      sliders: lobby.settings,
+      lobby: lobby,
+      users: res.lobby.users,
+    });
+  };
 
   componentDidMount() {
     this.updateLobby();
@@ -91,7 +91,10 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
-                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.resetSettings() });
+                      post("/api/updateLobbySettings", {
+                        gameId: this.props.gameId,
+                        settings: this.resetSettings(),
+                      });
                     }}
                   >
                     Reset Settings
@@ -121,7 +124,10 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: tempSliders});
+                            post("/api/updateLobbySettings", {
+                              gameId: this.props.gameId,
+                              settings: tempSliders,
+                            });
                           }}
                           key={type + setting + index}
                         />
@@ -147,7 +153,7 @@ class Lobby extends Component {
               </div>
             </div>
             <div className="lobby-content-right">
-              <PlayerTree users={["Naseem", "Sabi", "Sergio", "Nicholas"]} />
+              <PlayerTree user={this.state.users} />
               <Chat />
             </div>
           </div>
