@@ -10,6 +10,7 @@
     margin:0 0.3em 0.3em 0;
     margin-bottom: 50px !important;
     border-radius:0.12em;
+    box-shadow: 0 0 6px 2px #459bc5;
     box-sizing: border-box;
     font-weight: 300;
     color: white;
@@ -23,4 +24,9 @@
     color: black;
     background-color:  #459bc5;
     text-decoration: none;
+}
+
+.joingamebutton-button:focus {
+    text-decoration: none;
+    outline: none;
 }

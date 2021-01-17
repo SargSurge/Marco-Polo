@@ -95,14 +95,10 @@
 }
 
 .playertree-loaded {
-    /*animation: userLoaded 1s infinite;
-    animation-direction: alternate-reverse;
-     */
-}
-
-.playertree-loaded::after {
     animation: userLoaded 1s infinite;
     animation-direction: alternate-reverse;
+    -webkit-animation: userLoaded 1s infinite;
+    -webkit-animation-direction: alternate-reverse;
 }
 
 /*
