@@ -101,7 +101,7 @@ export class HostGame extends Component {
       })
         .then((res) => {
           if (res.msg == "Invalid") {
-            navigate('../');
+            navigate("../");
           } else if (res.msg) {
             alert(res.msg);
           } else {
@@ -126,7 +126,7 @@ export class HostGame extends Component {
             value={this.state.name ? this.state.name : ""}
             placeholder="Game Name"
             onChange={this.inputName}
-            maxlength="25"
+            maxLength="25"
           />
           <div className="hostgame-form-checkbox-container">
             <h5 style={{ color: "white" }}>Public?</h5>
