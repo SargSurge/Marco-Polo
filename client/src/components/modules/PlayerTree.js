@@ -41,8 +41,8 @@ class PlayerTree extends Component {
               {this.props.user
                 ? this.props.user.length >= 1
                   ? this.props.user[0].name
-                  : "Player1"
-                : "Player1"}
+                  : "Player"
+                : "Player"}
             </div>
             <ul>
               <li
@@ -66,8 +66,8 @@ class PlayerTree extends Component {
                   {this.props.user
                     ? this.props.user.length >= 2
                       ? this.props.user[1].name
-                      : "Player2"
-                    : "Player2"}
+                      : "Player"
+                    : "Player"}
                 </div>
                 <ul>
                   <li
@@ -91,8 +91,8 @@ class PlayerTree extends Component {
                       {this.props.user
                         ? this.props.user.length >= 4
                           ? this.props.user[3].name
-                          : "Player4"
-                        : "Player4"}
+                          : "Player"
+                        : "Player"}
                     </div>
                     <ul>
                       <li
@@ -116,8 +116,8 @@ class PlayerTree extends Component {
                           {this.props.user
                             ? this.props.user.length >= 8
                               ? this.props.user[7].name
-                              : "Player8"
-                            : "Player8"}
+                              : "Player"
+                            : "Player"}
                         </div>
                       </li>
                     </ul>
@@ -143,8 +143,8 @@ class PlayerTree extends Component {
                       {this.props.user
                         ? this.props.user.length >= 6
                           ? this.props.user[5].name
-                          : "Player6"
-                        : "Player6"}
+                          : "Player"
+                        : "Player"}
                     </div>
                     <ul>
                       <li
@@ -168,8 +168,8 @@ class PlayerTree extends Component {
                           {this.props.user
                             ? this.props.user.length >= 10
                               ? this.props.user[9].name
-                              : "Player10"
-                            : "Player10"}
+                              : "Player"
+                            : "Player"}
                         </div>
                       </li>
                     </ul>
@@ -193,8 +193,8 @@ class PlayerTree extends Component {
                   {this.props.user
                     ? this.props.user.length >= 3
                       ? this.props.user[2].name
-                      : "Player3"
-                    : "Player3"}
+                      : "Player"
+                    : "Player"}
                 </div>
                 <ul>
                   <li
@@ -218,8 +218,8 @@ class PlayerTree extends Component {
                       {this.props.user
                         ? this.props.user.length >= 5
                           ? this.props.user[4].name
-                          : "Player5"
-                        : "Player5"}
+                          : "Player"
+                        : "Player"}
                     </div>
                     <ul>
                       <li
@@ -243,8 +243,8 @@ class PlayerTree extends Component {
                           {this.props.user
                             ? this.props.user.length >= 9
                               ? this.props.user[8].name
-                              : "Player9"
-                            : "Player9"}
+                              : "Player"
+                            : "Player"}
                         </div>
                       </li>
                     </ul>
@@ -270,8 +270,8 @@ class PlayerTree extends Component {
                       {this.props.user
                         ? this.props.user.length >= 7
                           ? this.props.user[6].name
-                          : "Player7"
-                        : "Player7"}
+                          : "Player"
+                        : "Player"}
                     </div>
                   </li>
                 </ul>
