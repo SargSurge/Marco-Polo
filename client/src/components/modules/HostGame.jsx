@@ -100,7 +100,9 @@ export class HostGame extends Component {
         settings: settings,
       })
         .then((res) => {
-          if (res.msg) {
+          if (res.msg == "Invalid") {
+            navigate('../');
+          } else if (res.msg) {
             alert(res.msg);
           } else {
             alert("You just hosted a game with id: " + res.gameId);

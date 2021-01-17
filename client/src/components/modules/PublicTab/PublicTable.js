@@ -13,7 +13,6 @@ export class PublicTable extends Component {
   updateLobbies = () => {
     get("/api/lobbies", {})
       .then((lobbies) => {
-        console.log(lobbies.lobbies);
         this.setState({ lobbies: lobbies.lobbies });
       })
       .catch((err) => console.log(err));
@@ -24,6 +23,10 @@ export class PublicTable extends Component {
     socket.on("updateLobbiesAll", () => {
       this.updateLobbies();
     });
+  }
+
+  componentWillUnmount() {
+    socket.off("updateLobbiesAll");
   }
 
   render() {

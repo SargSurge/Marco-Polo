@@ -1,7 +1,7 @@
 let io;
 
-const room = require("./models/room");
 const Room = require("./models/room");
+const User = require("./models/user");
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
@@ -65,6 +65,13 @@ const userLeaveGame = (socket) => {
           .then(io.emit("updateLobbiesAll"));
       }
     });
+
+    User.findOne({ googleid : user.googleid}).then((leaving_user) => {
+      if (leaving_user) {
+        leaving_user.currentGame = null;
+        leaving_user.save();
+      }
+    });
   }
 };
 
@@ -77,6 +84,11 @@ module.exports = {
       socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
       socket.on("logout", () => userLeaveGame(socket));
       socket.on("disconnecting", () => userLeaveGame(socket));
+      socket.on("transport close", () => {
+        userLeaveGame(socket);
+        const user = getUserFromSocketID(socket.id);
+        removeUser(user, socket);
+      });
       socket.on("disconnect", (reason) => {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
