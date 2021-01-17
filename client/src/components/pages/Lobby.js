@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import "./Lobby.css";
+import { socket } from "../../client-socket";
 import Slider from "@material-ui/core/Slider";
 import PlayerTree from "../modules/PlayerTree";
 
@@ -41,14 +42,31 @@ class Lobby extends Component {
     return tempSliderState;
   };
 
-  componentDidMount() {
+  updateLobby = () => {
     get("/api/lobby", { gameId: this.props.gameId })
       .then((res) => {
         this.setState({
           lobby: res.lobby,
         });
       })
-      .then(() => console.log(this.state.lobby));
+      .catch((err) => console.log("${err}"));
+  }
+
+  updateLobbySettings = (lobby) => {
+    this.setState({
+        sliders: lobby.settings,
+      });
+  }
+
+  componentDidMount() {
+    this.updateLobby();
+    socket.on("updateLobbiesAll", () => {
+      this.updateLobby();
+    });
+    socket.on("updateLobbySettings", (lobby) => {
+      this.updateLobbySettings(lobby);
+      console.log(lobby);
+    });
   }
 
   render() {
@@ -69,6 +87,7 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
+                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
                     }}
                   >
                     Reset Settings
@@ -98,6 +117,7 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
+                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
                           }}
                           key={type + setting + index}
                         />

@@ -37,7 +37,7 @@ router.get("/whoami", (req, res) => {
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user)
+  if (req.user) 
     socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
@@ -53,22 +53,29 @@ router.post("/joingame", (req, res) => {
       if (room) {
         if (room.numberJoined < room.capacity) {
           console.log(room, req.user);
-          if (req.user && !room.players.includes(req.user)) {
-            socketManager.userJoinRoom(req.user, gameId);
-            room.numberJoined++;
-            room.players.push(req.user);
-            room
-              .save()
-              .then(() => {
-                res.send({
-                  msg: "Joined " + room.name + ".",
-                  canJoin: true,
-                });
-              })
-              .catch((err) => console.log(err));
+          if (req.user) {
+            if (!room.players.includes(req.user)) {
+              socketManager.userJoinRoom(req.user, gameId);
+              room.numberJoined++;
+              room.players.push(req.user._id);
+              room
+                .save()
+                .then(() => {
+                  res.send({
+                    msg: "Joined " + room.name + ".",
+                    canJoin: true,
+                  });
+                })
+                .catch((err) => console.log(err));
+            } else {
+              res.send({
+                msg: "Joined " + room.name + " again.",
+                canJoin: true,
+              });
+            }
           } else {
             res.send({
-              msg: "Already joined " + room.name + " .",
+              msg: "TEMP : Invalid User, ",
               canJoin: false,
             });
           }
@@ -89,7 +96,7 @@ router.post("/joingame", (req, res) => {
 });
 
 router.post("/hostgame", (req, res) => {
-  const { name, capacity, public } = req.body;
+  const { name, capacity, public, settings } = req.body;
   const gameId = hri.random();
   if (req.user) {
     socketManager.userJoinRoom(req.user, gameId);
@@ -100,13 +107,33 @@ router.post("/hostgame", (req, res) => {
       public: public,
       numberJoined: 1,
       gameId: gameId,
+      settings: settings,
       players: [req.user],
     });
     newRoom
       .save()
       .then(() => res.send({ gameId: gameId }))
       .catch((err) => console.log(err));
+  } else {
+    res.send({
+      msg: "Invalid user",
+    });
   }
+});
+
+router.post("/updateLobbySettings", (req,res) => {
+  const { gameId, settings } = req.body;
+  Room.findOne({
+    gameId: gameId,
+  }).then((lobby) => {
+    if (lobby) {
+      lobby.settings = settings;
+      lobby.save()
+      .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
+      .catch((err) => console.log(err));
+    }
+  });
+  res.send({});
 });
 
 // returns lobby data for the public table
