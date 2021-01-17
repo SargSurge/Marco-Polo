@@ -12,6 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Room = require("./models/room");
+const Message = require("./models/message");
 
 // import authentication library
 const auth = require("./auth");
@@ -52,12 +53,10 @@ router.post("/joingame", (req, res) => {
   if (req.user) {
     User.findOne({ googleid: req.user.googleid })
       .then((user) => {
-        console.log(user);
         if (user && (user.currentGame === gameId || !user.currentGame)) {
           Room.findOne({ gameId: gameId }).then((room) => {
             if (room) {
               if (room.numberJoined < room.capacity) {
-                console.log(room.players, req.user);
                 if (req.user) {
                   if (!room.players.some((p) => p._id === req.user._id)) {
                     socketManager.userJoinRoom(req.user, gameId);
@@ -132,6 +131,7 @@ router.post("/hostgame", (req, res) => {
           gameId: gameId,
           settings: settings,
           players: [req.user],
+          chat: [],
         });
         newRoom
           .save()
@@ -152,6 +152,37 @@ router.post("/hostgame", (req, res) => {
   }
 });
 
+router.get("/chat", (req,res) => {
+  Room.findOne({gameId : req.query.gameId})
+  .then((room) => {
+    if (room) {
+      res.send(room.chat);
+    }
+  })
+  .catch((err) => console.log(err));
+});
+
+router.post("/message", auth.ensureLoggedIn, (req, res) => {
+  // insert this message into the database
+  const {gameId, content} = req.body;
+  const message = new Message({
+    gameId: gameId,
+    sender: {
+      _id: req.user._id,
+      name: req.user.name,
+    },
+    content: content,
+  });
+  message.save().then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
+  .catch((err) => console.log(err));
+  Room.findOneAndUpdate({gameId : gameId}, {$push : {chat : message}}, {new : true}, (err,doc) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.send(message);
+  });
+
 router.post("/updateLobbySettings", (req, res) => {
   const { gameId, settings } = req.body;
   Room.findOne({
@@ -164,7 +195,7 @@ router.post("/updateLobbySettings", (req, res) => {
         .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
         .catch((err) => console.log(err));
     }
-  });
+  }).catch((err) => console.log(err));
   res.send({});
 });
 

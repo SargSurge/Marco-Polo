@@ -9,6 +9,7 @@ const RoomSchema = new mongoose.Schema({
     gameId: String,
     players: Array,
     settings: Object,
+    chat: Array,
 })
 
 module.exports = mongoose.model("room", RoomSchema);

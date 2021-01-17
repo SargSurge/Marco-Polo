@@ -27,7 +27,6 @@ class Lobby extends Component {
     };
 
     this.state = {
-      //users: [],
       lobby: {},
       sliders: this.resetSettings(),
     };
@@ -48,7 +47,6 @@ class Lobby extends Component {
       .then((res) => {
         this.setState({
           lobby: res.lobby,
-          //users: res.lobby.users,
         });
       })
       .catch((err) => console.log("${err}"));
@@ -58,7 +56,6 @@ class Lobby extends Component {
     this.setState({
       sliders: lobby.settings,
       lobby: lobby,
-      //users: lobby.players,
     });
   };
 
@@ -163,7 +160,7 @@ class Lobby extends Component {
               ) : (
                 ""
               )}
-              <Chat />
+              <Chat gameId={this.props.gameId} />
             </div>
           </div>
         </div>
