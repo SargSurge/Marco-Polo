@@ -4,13 +4,11 @@
 
 @keyframes userLoaded {
     from {
-        box-shadow: 0px 0px 1px 1px #00ff4e;
-        color: #79d696;
-        border: 1px solid #00ff4e !important;
+        box-shadow: 0px 0px 1px 1px #459bc5;
+        color: #459bc5;
     } to {
-        box-shadow: 0px 0px 7px 1px #00ff4e;
-        color: #00ff4e;
-        border: 1px solid #00ff4e !important;
+        box-shadow: 0px 0px 12px 1px #459bc5;
+        color: #459bc5;
     }
 }
 
@@ -95,10 +93,15 @@
 }
 
 .playertree-loaded {
-    animation: userLoaded 1s infinite;
+    border: 1px solid #459bc5 !important;
+    animation: userLoaded .5s infinite;
     animation-direction: alternate-reverse;
-    -webkit-animation: userLoaded 1s infinite;
+    -webkit-animation: userLoaded .5s infinite;
     -webkit-animation-direction: alternate-reverse;
+}
+
+.playertree-loaded:hover {
+    width: 200px;
 }
 
 /*
