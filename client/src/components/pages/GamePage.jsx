@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { move } from '../../client-socket';
+import { post } from '../../utilities';
 import GameCanvas from '../modules/GameCanvas';
 
 export class GamePage extends Component {
@@ -21,49 +23,33 @@ export class GamePage extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
-        document.addEventListener('keyup', this.handleKeyUp);
+        window.addEventListener('keydown', this.handleInput);
     }
 
-    handleKeyDown = (event) => {
+    handleInput = (event) => {
         switch (event.code) {
             case 'KeyA': // A
-                this.setState({movement: {...this.state.movement, left: true}});
+                this.move("left");
                 break;
             case 'KeyW': // W
-                this.setState({movement: {...this.state.movement, up: true}});
+                this.move("up");
                 break;
             case 'KeyD': // D
-                this.setState({movement: {...this.state.movement, right: true}});
+                this.move("right");
                 break;
             case 'KeyS': // S
-                this.setState({movement: {...this.state.movement, down: true}});
+                this.move("down");
                 break;
         }
-        this.updatePosition();
     }
 
-    handleKeyUp = (event) => {
-        switch (event.code) {
-            case 'KeyA': // A
-                this.setState({movement: {...this.state.movement, left: false}});
-                break;
-            case 'KeyW': // W
-                this.setState({movement: {...this.state.movement, up: false}});
-                break;
-            case 'KeyD': // D
-                this.setState({movement: {...this.state.movement, right: false}});
-                break;
-            case 'KeyS': // S
-                this.setState({movement: {...this.state.movement, down: false}});
-                break;
-        }
-        this.updatePosition();
+    move = (dir) => {
+        post('/move', {dir: dir, user: this.props.user, gameId: this.props.gameId})
     }
 
     updatePosition() {
         let positionUpdate = {x: 0, y: 0};
-        const SPEED = 10;
+        const SPEED = 20;
         const dirMap = {
             up: ['y',1],
             down: ['y',-1],
