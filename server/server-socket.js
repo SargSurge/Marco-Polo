@@ -20,12 +20,12 @@ const addUser = (user, socket) => {
     delete socketToUserMap[oldSocket.id];
   }
 
-  userToSocketMap[user] = socket;
+  userToSocketMap[user._id] = socket;
   socketToUserMap[socket.id] = user;
 };
 
 const removeUser = (user, socket) => {
-  if (user) delete userToSocketMap[user];
+  if (user) delete userToSocketMap[user._id];
   delete socketToUserMap[socket.id];
 };
 
@@ -34,7 +34,7 @@ const updateLobbiesAll = (socket) => {
 };
 
 const userJoinRoom = (user, gameId) => {
-  const userSocket = userToSocketMap[user];
+  const userSocket = userToSocketMap[user._id];
   userSocket.join(gameId);
 };
 
