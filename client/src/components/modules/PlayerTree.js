@@ -34,7 +34,7 @@ class PlayerTree extends Component {
                         <div>Naseem</div>
                       </li>
                       <li>
-                        <div>Naseem</div>
+                        <div className="playertree-loaded">Naseem</div>
                       </li>
                     </ul>
                   </li>
