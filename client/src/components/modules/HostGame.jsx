@@ -12,15 +12,15 @@ import { navigate } from "@reach/router";
 
 const settings = {
   "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
-      "Marco Settings": {
-        "Vision Radius": [0, 50, 100, 5],
-        "Light Bomb Timer": [0, 15, 30, 5],
-        "Tag Reach": [0, 50, 100, 5],
-      },
-      "Polo Settings": {
-        "Vision Radius": [0, 50, 100, 5],
-        "Teleport Bomb Timer": [0, 50, 100, 5],
-      },
+  "Marco Settings": {
+    "Vision Radius": [0, 50, 100, 5],
+    "Light Bomb Timer": [0, 15, 30, 5],
+    "Tag Reach": [0, 50, 100, 5],
+  },
+  "Polo Settings": {
+    "Vision Radius": [0, 50, 100, 5],
+    "Teleport Bomb Timer": [0, 50, 100, 5],
+  },
 };
 
 const marks = [
@@ -102,8 +102,7 @@ export class HostGame extends Component {
         .then((res) => {
           if (res.msg) {
             alert(res.msg);
-          }
-          else {
+          } else {
             alert("You just hosted a game with id: " + res.gameId);
             navigate(`/lobby/${res.gameId}`);
           }
@@ -125,6 +124,7 @@ export class HostGame extends Component {
             value={this.state.name ? this.state.name : ""}
             placeholder="Game Name"
             onChange={this.inputName}
+            maxlength="25"
           />
           <div className="hostgame-form-checkbox-container">
             <h5 style={{ color: "white" }}>Public?</h5>

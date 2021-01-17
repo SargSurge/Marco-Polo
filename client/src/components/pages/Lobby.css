@@ -43,6 +43,8 @@
 
 .lobby-content-left-header-name {
     font-size: 40px;
+    width: 430px;
+    word-break: break-all;
 }
 
 .lobby-content-left-header-buttoncontainer {
