@@ -3,6 +3,7 @@ import { Router, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import HomePage from "./pages/HomePage";
+import GamePage from "./pages/GamePage";
 
 import "../utilities.css";
 
@@ -85,13 +86,16 @@ class App extends Component {
         onSuccess={this.handleLogin}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
+          <>
           <a
+            id='login-button'
             className="homepage-button"
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
           >
             Login
           </a>
+          </>
         )}
       />
     );
@@ -108,6 +112,7 @@ class App extends Component {
             logoutButton={logoutButton}
           />
           <Lobby path="/lobby/:gameId" userId={this.state.userId} logoutButton={logoutButton} />
+          <GamePage path="/game-test" />
           <NotFound default />
         </Router>
       </>
