@@ -8,7 +8,6 @@ class PlayerTree extends Component {
   }
 
   componentDidMount() {
-    console.log("begin");
     document.querySelectorAll("li").forEach(function (a) {
       if (a.className == "playertree-notloaded") {
         a.remove();
