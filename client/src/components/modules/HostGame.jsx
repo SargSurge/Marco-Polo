@@ -100,8 +100,13 @@ export class HostGame extends Component {
         settings: settings,
       })
         .then((res) => {
-          alert("You just hosted a game with id: " + res.gameId);
-          navigate(`/lobby/${res.gameId}`);
+          if (res.msg) {
+            alert(res.msg);
+          }
+          else {
+            alert("You just hosted a game with id: " + res.gameId);
+            navigate(`/lobby/${res.gameId}`);
+          }
         })
         .then(socket.emit("updateLobbies"))
         .catch((err) => console.log(err));

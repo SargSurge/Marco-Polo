@@ -29,7 +29,7 @@ const removeUser = (user, socket) => {
   delete socketToUserMap[socket.id];
 };
 
-const sendChat = (socket) => {
+const updateLobbiesAll = (socket) => {
   socket.emit("updateLobbies");
 }
 
@@ -68,7 +68,7 @@ const userLeaveGame = (socket) => {
 
 module.exports = {
   init: (http) => {
-    io = require("socket.io")(http);
+    io = require("socket.io")(http, {'pingTimeout': 30000});
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
@@ -85,7 +85,7 @@ module.exports = {
   addUser: addUser,
   removeUser: removeUser,
   userJoinRoom: userJoinRoom,
-  sendChat : sendChat,
+  updateLobbiesAll : updateLobbiesAll,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,

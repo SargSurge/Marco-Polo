@@ -53,22 +53,29 @@ router.post("/joingame", (req, res) => {
       if (room) {
         if (room.numberJoined < room.capacity) {
           console.log(room, req.user);
-          if (req.user && !room.players.includes(req.user._id)) {
-            socketManager.userJoinRoom(req.user, gameId);
-            room.numberJoined++;
-            room.players.push(req.user._id);
-            room
-              .save()
-              .then(() => {
-                res.send({
-                  msg: "Joined " + room.name + ".",
-                  canJoin: true,
-                });
-              })
-              .catch((err) => console.log(err));
+          if (req.user) {
+            if (!room.players.includes(req.user._id)) {
+              socketManager.userJoinRoom(req.user, gameId);
+              room.numberJoined++;
+              room.players.push(req.user._id);
+              room
+                .save()
+                .then(() => {
+                  res.send({
+                    msg: "Joined " + room.name + ".",
+                    canJoin: true,
+                  });
+                })
+                .catch((err) => console.log(err));
+            } else {
+              res.send({
+                msg: "Joined " + room.name + ".",
+                canJoin: true,
+              });
+            }
           } else {
             res.send({
-              msg: "Already joined " + room.name + " .",
+              msg: "TEMP : Invalid User, ",
               canJoin: false,
             });
           }
@@ -107,21 +114,26 @@ router.post("/hostgame", (req, res) => {
       .save()
       .then(() => res.send({ gameId: gameId }))
       .catch((err) => console.log(err));
+  } else {
+    res.send({
+      msg: "Invalid user",
+    });
   }
 });
 
 router.post("/updateLobbySettings", (req,res) => {
+  const { gameId, settings } = req.body;
   Room.findOne({
-    gameId: req.query.gameId,
+    gameId: gameId,
   }).then((lobby) => {
     if (lobby) {
-      lobby.settings = req.settings;
+      lobby.settings = settings;
       lobby.save()
-      .then((lobby) => socketManager.getIo().to(lobby.gameId).emit("updateLobbySettings"))
+      .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
       .catch((err) => console.log(err));
-  }
-
-});
+    }
+  });
+  res.send({});
 });
 
 // returns lobby data for the public table

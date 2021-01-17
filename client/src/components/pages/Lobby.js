@@ -39,7 +39,6 @@ class Lobby extends Component {
         tempSliderState[type + setting + index] = this.settings[type][setting][1];
       });
     });
-    post("/api/updateLobbySettings", { settings: tempSliderState })
     return tempSliderState;
   };
 
@@ -50,7 +49,13 @@ class Lobby extends Component {
           lobby: res.lobby,
         });
       })
-      .then(() => console.log(this.state.lobby));
+      .catch((err) => console.log("${err}"));
+  }
+
+  updateLobbySettings = (lobby) => {
+    this.setState({
+        sliders: lobby.settings,
+      });
   }
 
   componentDidMount() {
@@ -58,8 +63,9 @@ class Lobby extends Component {
     socket.on("updateLobbiesAll", () => {
       this.updateLobby();
     });
-    socket.on("updateLobbySettings", () => {
-      this.updateLobby();
+    socket.on("updateLobbySettings", (lobby) => {
+      this.updateLobbySettings(lobby);
+      console.log(lobby);
     });
   }
 
@@ -81,6 +87,7 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
+                      post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
                     }}
                   >
                     Reset Settings
@@ -110,6 +117,7 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
+                            post("/api/updateLobbySettings", { gameId : this.props.gameId, settings: this.state.sliders });
                           }}
                           key={type + setting + index}
                         />
