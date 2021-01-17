@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
 import { get, post } from "../../utilities";
-import RoundTable from "../modules/RoundTable";
 import "./Lobby.css";
-import Slider from "@material-ui/core/Slider";
 import { socket } from "../../client-socket";
+import Slider from "@material-ui/core/Slider";
+import PlayerTree from "../modules/PlayerTree";
 
 class Lobby extends Component {
   // makes props available in this component
@@ -121,7 +121,9 @@ class Lobby extends Component {
                           }}
                           key={type + setting + index}
                         />
-                        <div key={"SliderName" + index}>{setting}</div>
+                        <div className="lobby-content-left-setting-name" key={"SliderName" + index}>
+                          {setting}
+                        </div>
                       </div>
                     ))}
                   </>
@@ -141,7 +143,7 @@ class Lobby extends Component {
               </div>
             </div>
             <div className="lobby-content-right">
-              <RoundTable numJoined={10} />
+              <PlayerTree users={["Naseem", "Sabi", "Sergio", "Nicholas"]} />
               <Chat />
             </div>
           </div>
