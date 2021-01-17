@@ -46,7 +46,7 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-// lmao
+// lmao, please be signed now
 
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
