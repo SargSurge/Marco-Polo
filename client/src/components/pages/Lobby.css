@@ -34,7 +34,7 @@
 
 .lobby-content-left-header {
     display: flex;
-    width: 70%;
+    width: 85%;
     margin: 20px;
     margin-left: 40px !important;
     justify-content: space-between;
@@ -52,8 +52,8 @@
 
 .lobby-content-left-header-playercount {
     font-size: 30px;
-    margin-right: 40px;
-    width: 100px;
+    margin-right: 20px;
+    width: 120px;
 }
 
 .lobby-content-left-header-reset {
