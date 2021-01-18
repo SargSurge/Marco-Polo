@@ -37,10 +37,23 @@ export const drawCanvas = (drawState) => {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   // draw all the players
-  Object.values(drawState.players).forEach((p) => {
-    drawPlayer(context, p.x, p.y, p.color);
-  });
+
+  Object.keys(drawState.players).map((id, index) => {
+    const {x, y} = drawState.players[id].position;
+    const color = "white" // drawState.player.color
+    drawPlayer(context, x, y, color);
+  })
+
+  // Object.values(drawState.players).forEach((p) => {
+  //   drawPlayer(context, p.x, p.y, p.color);
+  // });
 };
 
 
 // {players: [{x: 0, y: 0, color: white}]}
+
+// gameState = {winner: null/user, players : {id : { position : {x :  1, y:  1},  user, color : orange, role : marco/polo, powerups : {type : cooldown}}}}
+
+
+
+// {players: [{x:, y:, color:}]}

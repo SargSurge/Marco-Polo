@@ -13,6 +13,7 @@ const express = require("express");
 const User = require("./models/user");
 const Room = require("./models/room");
 const Message = require("./models/message");
+const GameState = require("./models/gamestate");
 
 // import authentication library
 const auth = require("./auth");
@@ -22,6 +23,9 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+
+//import game logic
+const logic = require('./logic');
 
 // id generator for game codes
 const hri = require("human-readable-ids").hri;
@@ -222,9 +226,50 @@ router.get("/lobby", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/move", (req, res) => {
+router.post("/move", (req, res) => {
+  const { dir, userId, gameId } = req.body;
+  console.log("user", userId,dir);
+  logic.updatePlayerPosition(dir, gameId, userId);
+  res.send({});
+});
+
+router.post("/leavegame", (req, res) => {
+  const { user } = req.body;
+  if (user) {
+    let socket = socketManager.getSocketFromUserID(user._id);
+    socketManager.userLeaveGame(socket);
+  }
+  res.send({});
+})
+
+router.post("/creategame", (req, res) => {
+  const { gameId } = req.body;
+  
+
+  Room.findOne({gameId: gameId}).then((room) => {
+    console.log('room',room.players);
+    let playersObject = {};
+    let playersArray = room.players;
+    console.log('array',playersArray);
+    for (let i = 0; i < playersArray.length; i++) {
+      let player = playersArray[i];
+      console.log(player);
+      playersObject[player._id] = {position: {x: 0, y: 0}, user: player, color: 'white', role: 'marco', powerups: {lightbomb: 45}};
+    };
+
+    console.log('playersObject', playersObject)
+  
+    const gameState = new GameState({
+      gameId: gameId,
+      winner: null,
+      players: playersObject,
+    });
+  
+    gameState.save().then(() => res.send({}));
+  })
   
 });
+
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
@@ -233,3 +278,7 @@ router.all("*", (req, res) => {
 });
 
 module.exports = router;
+
+
+
+// gameState = {winner: null/user, players : {id : { position : {x :  1, y:  1},  user, color : orange, role : marco/polo, powerups : {type : cooldown}}}}

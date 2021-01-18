@@ -4,6 +4,7 @@ import Chat from "../modules/Chat";
 import { get, post } from "../../utilities";
 import "./Lobby.css";
 import { socket } from "../../client-socket";
+import { navigate } from "@reach/router";
 import Slider from "@material-ui/core/Slider";
 import PlayerTree from "../modules/PlayerTree";
 
@@ -148,6 +149,16 @@ class Lobby extends Component {
                     }}
                   >
                     Copy Game ID
+                  </button>
+                  <button
+                    type="button"
+                    className="lobby-content-left-header-reset lobby-big-button"
+                    onClick={() => {
+                      post("/api/creategame", {gameId: this.state.lobby.gameId});
+                      navigate(`../game/${this.state.lobby.gameId}`);
+                    }}
+                  >
+                    Start Game
                   </button>
                   <div>{this.state.lobby.gameId}</div>
                 </div>

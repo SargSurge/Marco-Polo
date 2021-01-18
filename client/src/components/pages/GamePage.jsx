@@ -1,29 +1,32 @@
 import React, { Component } from 'react'
-import { move } from '../../client-socket';
-import { post } from '../../utilities';
+import { socket} from '../../client-socket';
+import { get, post } from '../../utilities';
 import GameCanvas from '../modules/GameCanvas';
+import { drawCanvas } from '../../canvasManager';
+
 
 export class GamePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movement: {
-                up: false,
-                down: false,
-                left: false,
-                right: false,
-            },
-            position: {
-                x: 0,
-                y: 0,
-                color: 'white',
-            }
-
+            user: undefined,
         }
     }
 
     componentDidMount() {
+        get('/api/whoami', {}).then((user) => {
+            this.setState({user: user});
+        })
+
         window.addEventListener('keydown', this.handleInput);
+        socket.on("update", (gameState) => {
+            this.processUpdate(gameState);
+        })
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleInput);
+        socket.off("update");
     }
 
     handleInput = (event) => {
@@ -44,7 +47,12 @@ export class GamePage extends Component {
     }
 
     move = (dir) => {
-        post('/move', {dir: dir, user: this.props.user, gameId: this.props.gameId});
+        //render movement for me
+        post('/api/move', {dir: dir, userId: this.state.user._id, gameId: this.props.gameId}).then(() => {});
+    }
+
+    processUpdate = (gameState) => {
+        drawCanvas(gameState);
     }
 
     // updatePosition() {
@@ -73,15 +81,15 @@ export class GamePage extends Component {
     render() {
         return (
             <>
-            <div>
+            {/* <div>
                 <h3>W: {`${this.state.movement.up}`}</h3>
                 <h3>A: {`${this.state.movement.left}`}</h3>
                 <h3>S: {`${this.state.movement.down}`}</h3>
                 <h3>D: {`${this.state.movement.right}`}</h3>
                 <h3>Position: x: {`${this.state.position.x}`} / y: {`${this.state.position.y}`}</h3>
-            </div>
+            </div> */}
             <div>
-                <GameCanvas update={{players: [this.state.position]}} />
+                <canvas id="game-canvas" width="800px" height="800px" />
             </div>
             </>
         )
