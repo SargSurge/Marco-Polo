@@ -4,7 +4,6 @@ import { socket } from "../../client-socket";
 import Message from "./Message.js";
 
 import "./Chat.css";
-import { responsiveFontSizes } from "@material-ui/core";
 
 class Chat extends Component {
   // makes props available in this component
@@ -32,9 +31,7 @@ class Chat extends Component {
 
   // called when the user hits "Submit" for a new post
   handleSubmit = () => {
-    post("/api/message", 
-    { gameId: this.props.gameId, 
-      content: this.state.value });
+    post("/api/message", { gameId: this.props.gameId, content: this.state.value });
   };
 
   handleChange = (event) => {
@@ -43,15 +40,18 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="u-flex">
+      <div className="chat-base">
         <div>
           {this.state.messages.map((m, i) => (
-            <Message message={m} key={i} />))}
+            <Message message={m} key={i} />
+          ))}
         </div>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        <button type="submit" value="Submit" onClick={this.handleSubmit}>
-          Submit
-        </button>
+        <div>
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <button type="submit" value="Submit" onClick={this.handleSubmit}>
+            Submit
+          </button>
+        </div>
       </div>
     );
   }
