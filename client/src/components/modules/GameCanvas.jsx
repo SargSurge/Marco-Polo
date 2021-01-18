@@ -1,33 +1,41 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { socket } from '../../client-socket';
+import { drawCanvas } from '../../canvasManager';
 
 export class GameCanvas extends Component {
     constructor(props) {
         super(props);
-        this.canvasRef = React.createRef();
     }
 
     componentDidMount() {
-        const canvas = canvasRef.current
-        const context = canvas.getContext('2d')
-        
-        // Initial Draw
-        context.fillStyle = '#000000'
-        context.fillRect(0, 0, context.canvas.width, context.canvas.height)
+        this.processUpdate(this.props.update);
     }
 
     componentDidUpdate() {
-        drawPlayer();
+        console.log(this.props.update)
+        this.processUpdate(this.props.update);
     }
 
-    drawPlayer = () => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+    processUpdate = (update) => {
+        drawCanvas(update);
     }
+
+    // playerData = [{x: 0, y: 0}], a position object for each player on the map   
+    // drawPlayers = (playerData) => {
+    //     const canvas = this.canvasRef.current;
+    //     const ctx = canvas.getContext('2d');
+    //     for (let i; i < playerData.length; i++) {
+    //         let circle = new Path2D();
+    //         circle.arc(playerData[i].x, playerData[i].y, 25, 0, 2 * Math.PI);
+    //         ctx.fillStyle = '#000000'
+    //         ctx.fill(circle);
+    //     }
+    // }
 
     render() {
         return (
             <div>
-                <canvas width="100%" ref={this.canvasRef} />
+                <canvas id="game-canvas" width="800px" height="800px" />
             </div>
         )
     }

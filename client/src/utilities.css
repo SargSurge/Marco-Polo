@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "Ultra";
-  src: url("./components/pages/assets/Ultra.otf");
+  src: url("./components/pages/assets/Ultra.otf"), url("./components/pages/assets/Ultra.ttf"), url("./components/pages/assets/Ultra.woff");
 }
 
 :root {

@@ -32,17 +32,13 @@ class NavBarDropdown extends Component {
     }
   };
 
-  componentDidMount() {
-    get("/api/whoami", {}).then((user) => {
-      this.setState({ name: user.name });
-    });
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div className="navbardropdown-base">
         <div className="navbardropdown-container" onClick={this.handleClick}>
-          <div className="navbardropdown-username"> {this.state.name} </div>
+          <div className="navbardropdown-username"> {this.props.user.name} </div>
           <ExpandMoreIcon />
         </div>
         <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>

@@ -28,6 +28,7 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
+      user: undefined
     };
   }
 
@@ -55,7 +56,7 @@ class App extends Component {
       .then((user) => {
         if (user._id) {
           // they are registed in the database, and currently logged in.
-          this.setState({ userId: user._id });
+          this.setState({ userId: user._id, user: user });
         }
       })
       .catch((err) => console.log(err));
@@ -112,7 +113,7 @@ class App extends Component {
             logoutButton={logoutButton}
           />
           <Lobby path="/lobby/:gameId" userId={this.state.userId} logoutButton={logoutButton} />
-          <GamePage path="/game-test" />
+          <GamePage path="/game/:gameId" user={this.state.user} />
           <NotFound default />
         </Router>
       </>
