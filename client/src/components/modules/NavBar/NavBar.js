@@ -29,7 +29,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navbar-base">
-        <div className="navbar-header" onClick={() => this.leaveGame(this.user)}>
+        <div className="navbar-header" onClick={() => this.leaveGame(this.state.user)}>
           {" "}
           Marco Polo{" "}
         </div>

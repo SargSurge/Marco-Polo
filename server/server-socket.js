@@ -39,39 +39,40 @@ const userJoinRoom = (user, gameId) => {
 };
 
 const userLeaveGame = (socket) => {
-  let roomKeys = Object.keys(socket.rooms);
-  let socketIdIndex = roomKeys.indexOf(socket.id);
-  roomKeys.splice(socketIdIndex, 1);
-  let user = getUserFromSocketID(socket.id);
+  if (socket) {
+    let roomKeys = Object.keys(socket.rooms);
+    let socketIdIndex = roomKeys.indexOf(socket.id);
+    roomKeys.splice(socketIdIndex, 1);
+    let user = getUserFromSocketID(socket.id);
 
-  if (user) {
-    let gameId = roomKeys[0];
-    Room.findOne({ gameId: gameId }).then((room) => {
-      if (room) {
-        room.numberJoined--;
-        const index = room.players.indexOf(user);
-        if (index) {
-          room.players.splice(index, 1);
+    if (user) {
+      let gameId = roomKeys[0];
+      Room.findOne({ gameId: gameId }).then((room) => {
+        if (room) {
+          room.numberJoined--;
+          const index = room.players.indexOf(user);
+          if (index) {
+            room.players.splice(index, 1);
+          }
+          room
+            .save()
+            .then((room) => {
+              if (room.numberJoined === 0) {
+                Room.deleteOne({ gameId: gameId })
+                  .then((result) => console.log("deleted one"))
+                  .catch((err) => console.log("Delete failed with error: ${err}"));
+              }
+            })
+            .then(io.emit("updateLobbiesAll"));
         }
-        room
-          .save()
-          .then((room) => {
-            if (room.numberJoined === 0) {
-              Room.deleteOne({ gameId: gameId })
-                .then((result) => console.log("deleted one"))
-                .catch((err) => console.log("Delete failed with error: ${err}"));
-            }
-          })
-          .then(io.emit("updateLobbiesAll"));
-      }
-    });
-
-    User.findOne({ googleid : user.googleid}).then((leaving_user) => {
-      if (leaving_user) {
-        leaving_user.currentGame = null;
-        leaving_user.save();
-      }
-    });
+      });
+      User.findOneAndUpdate({ googleid : user.googleid}, {$set: {currentGame : null}}, {new : true}, (err,doc) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(doc);
+      });
+    }
   }
 };
 
@@ -90,6 +91,7 @@ module.exports = {
         removeUser(user, socket);
       });
       socket.on("disconnect", (reason) => {
+        userLeaveGame(socket);
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
       });
@@ -100,6 +102,7 @@ module.exports = {
   removeUser: removeUser,
   userJoinRoom: userJoinRoom,
   updateLobbiesAll: updateLobbiesAll,
+  userLeaveGame: userLeaveGame,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
