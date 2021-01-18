@@ -109,6 +109,10 @@
     word-spacing: 130px;
 }
 
+.playertree-base ul:empty {
+    display: none;
+}
+
 /*
 .playertree-base li div:hover, .playertree-base li div:hover+ul li div {
     background: #c8e4f8; color: #000; border: 1px solid #94a0b4;

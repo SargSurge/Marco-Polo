@@ -20,7 +20,6 @@ class PlayerTree extends Component {
       <div className="playertree-base">
         <ul>
           <li
-            id={34}
             className={
               this.props.user
                 ? this.props.capacity >= 1
