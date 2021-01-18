@@ -8,11 +8,12 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    width: 97%;
     height: 50%;
     max-height: 50%;
     padding: 10px;
     border: 1px solid #00ff38;
+    box-shadow: 0 0 7px 1px #00fe39;
 }
 
 .chat-messages {
