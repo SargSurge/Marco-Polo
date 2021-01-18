@@ -13,9 +13,16 @@ const dirMap = {
 updatePlayerPosition = (dir, gameId, userId) => {
     GameState.findOne({gameId: gameId}).then((gameState) => {
         if (userId) {
-            console.log('game',gameState);
-            let playerPos = gameState.players[userId].position;
-            playerPos[dirMap[dir][0]] += SPEED * dirMap[dir][1];
+            let {x, y} = gameState.players[userId].position;
+            if (dirMap[dir][0] == 'x') {
+                x = x + SPEED * dirMap[dir][1];
+            } else {
+                y = y + SPEED * dirMap[dir][1];
+            }
+            //gameState.players[userId].position[dirMap[dir][0]] += SPEED * dirMap[dir][1];
+            console.log('position', {x: x, y: y});
+            gameState.players[userId].position = {x: x, y: y};
+
             gameState.save().then(() => {
                 socketManager.getIo().in(gameId).emit("update", gameState);
             });

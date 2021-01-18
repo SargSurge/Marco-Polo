@@ -228,7 +228,6 @@ router.get("/lobby", (req, res) => {
 
 router.post("/move", (req, res) => {
   const { dir, userId, gameId } = req.body;
-  console.log("user", userId,dir);
   logic.updatePlayerPosition(dir, gameId, userId);
   res.send({});
 });
@@ -247,17 +246,12 @@ router.post("/creategame", (req, res) => {
   
 
   Room.findOne({gameId: gameId}).then((room) => {
-    console.log('room',room.players);
     let playersObject = {};
     let playersArray = room.players;
-    console.log('array',playersArray);
     for (let i = 0; i < playersArray.length; i++) {
       let player = playersArray[i];
-      console.log(player);
       playersObject[player._id] = {position: {x: 0, y: 0}, user: player, color: 'white', role: 'marco', powerups: {lightbomb: 45}};
     };
-
-    console.log('playersObject', playersObject)
   
     const gameState = new GameState({
       gameId: gameId,
