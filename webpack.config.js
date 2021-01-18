@@ -62,9 +62,6 @@ module.exports = {
           {
             loader: "file-loader",
           },
-          {
-            loader: "ttf-loader",
-          },
         ],
       },
     ],
