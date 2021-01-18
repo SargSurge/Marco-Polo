@@ -4,6 +4,7 @@ import { socket } from "../../client-socket";
 import Message from "./Message.js";
 
 import "./Chat.css";
+import MessageBox from "./MessageBox";
 
 class Chat extends Component {
   // makes props available in this component
@@ -32,6 +33,7 @@ class Chat extends Component {
   // called when the user hits "Submit" for a new post
   handleSubmit = () => {
     post("/api/message", { gameId: this.props.gameId, content: this.state.value });
+    this.setState({ value: "" });
   };
 
   handleChange = (event) => {
@@ -41,13 +43,18 @@ class Chat extends Component {
   render() {
     return (
       <div className="chat-base">
-        <div>
-          {this.state.messages.map((m, i) => (
-            <Message message={m} key={i} />
-          ))}
+        <div className="chat-messages">
+          {this.state.messages ? <MessageBox messages={this.state.messages} /> : ""}
         </div>
-        <div>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <div className="chat-input-container">
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") this.handleSubmit();
+            }}
+          />
           <button type="submit" value="Submit" onClick={this.handleSubmit}>
             Submit
           </button>

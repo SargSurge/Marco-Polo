@@ -3,10 +3,36 @@
  */
 
 .chat-base {
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     width: 100%;
-    height: 30%;
+    height: 50%;
+    max-height: 50%;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 97%;
+    max-height: 97%;
+    overflow: scroll;
+}
+
+.chat-input-container {
+    width: 100%;
+    position: absolute;
+    z-index: 30;
+    bottom: 0;
+}
+
+.chat-input-container input {
+    width: 90%;
+}
+
+.chat-input-container button {
+    width: 10%;
 }
