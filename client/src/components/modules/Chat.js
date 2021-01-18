@@ -32,8 +32,10 @@ class Chat extends Component {
 
   // called when the user hits "Submit" for a new post
   handleSubmit = () => {
-    post("/api/message", { gameId: this.props.gameId, content: this.state.value });
-    this.setState({ value: "" });
+    if (this.state.value !== "") {
+      post("/api/message", { gameId: this.props.gameId, content: this.state.value });
+      this.setState({ value: "" });
+    }
   };
 
   handleChange = (event) => {
@@ -48,6 +50,7 @@ class Chat extends Component {
         </div>
         <div className="chat-input-container">
           <input
+            placeholder="Chat with friends"
             type="text"
             value={this.state.value}
             onChange={this.handleChange}
