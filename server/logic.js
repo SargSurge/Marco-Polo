@@ -28,25 +28,6 @@ updatePlayerPosition = (userId, gameId, dir, io) => {
   gameStates[gameId] = stream;
 };
 
-/*
-updatePlayerPosition = (userId, gameId, dir, io) => {
-  const posToUpdate = `players.${userId}.position.${dirMap[dir][0]}`;
-  GameState.findOneAndUpdate(
-    { gameId: gameId },
-    {
-      $inc: { [posToUpdate]: SPEED * dirMap[dir][1] },
-    }
-  )
-    .then((gameState1) => {
-      gameState = gameState1;
-      //io.in(gameId).emit("update", gameState);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-};
- */
-
 module.exports = {
   updatePlayerPosition: updatePlayerPosition,
   gameStates: gameStates,
