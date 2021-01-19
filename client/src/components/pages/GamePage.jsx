@@ -24,6 +24,10 @@ export class GamePage extends Component {
             this.setState({user: user});
         })
 
+        get('/api/initialRender', {gameId: this.props.gameId}).then((res) => {
+            this.processUpdate(res.initialRender);
+        })
+
         window.addEventListener('keydown', this.handleInput);
         socket.on("update", (gameState) => {
             this.processUpdate(gameState);

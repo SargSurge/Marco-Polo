@@ -244,7 +244,6 @@ router.post("/leavegame", (req, res) => {
 router.post("/creategame", (req, res) => {
   const { gameId } = req.body;
   
-
   Room.findOne({gameId: gameId}).then((room) => {
     let playersObject = {};
     let playersArray = room.players;
@@ -259,11 +258,17 @@ router.post("/creategame", (req, res) => {
       players: playersObject,
     });
   
-    gameState.save().then(() => res.send({}));
+    gameState.save().then({});
   })
   
 });
 
+router.get("/initialRender", (req, res) => {
+  const { gameId } = req.query;
+  GameState.findOne({gameId: gameId}).then((gameState) => {
+    res.send({initialRender: gameState})
+  })
+})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
