@@ -1,6 +1,5 @@
 // gameState = {winner: null/user, players : {id : { position : {x :  1, y:  1},  user, color : orange, role : marco/polo, powerups : {type : cooldown}}}}
 const GameState = require("./models/gamestate");
-const socketManager = require("./server-socket");
 
 const SPEED = 20;
 const dirMap = {
@@ -10,6 +9,26 @@ const dirMap = {
   left: ["x", -1],
 };
 
+let gameStates = {};
+
+update = async (userId, gameId, dir, io) => {
+  const posToUpdate = `players.${userId}.position.${dirMap[dir][0]}`;
+  let stream = await GameState.findOneAndUpdate(
+    { gameId: gameId },
+    {
+      $inc: { [posToUpdate]: SPEED * dirMap[dir][1] },
+      new: true,
+    }
+  );
+  return stream;
+};
+
+updatePlayerPosition = (userId, gameId, dir, io) => {
+  let stream = update(userId, gameId, dir, io);
+  gameStates[gameId] = stream;
+};
+
+/*
 updatePlayerPosition = (userId, gameId, dir, io) => {
   const posToUpdate = `players.${userId}.position.${dirMap[dir][0]}`;
   GameState.findOneAndUpdate(
@@ -17,13 +36,20 @@ updatePlayerPosition = (userId, gameId, dir, io) => {
     {
       $inc: { [posToUpdate]: SPEED * dirMap[dir][1] },
     }
-  ).then((gameState) => {
-    io.in(gameId).emit("update", gameState);
-  });
+  )
+    .then((gameState1) => {
+      gameState = gameState1;
+      //io.in(gameId).emit("update", gameState);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 };
+ */
 
 module.exports = {
   updatePlayerPosition: updatePlayerPosition,
+  gameStates: gameStates,
 };
 
 // updatePlayerPosition = (dir, gameId, userId) => {

@@ -90,6 +90,18 @@ const userMove = (socket, userId, gameId, dir) => {
   }
 };
 
+setInterval(() => {
+  Object.keys(logic.gameStates).forEach((gameId) => {
+    logic.gameStates[gameId].then((out) => {
+      sendGameState(out, gameId, []);
+    });
+  });
+}, 1000 / 60);
+
+const sendGameState = (gameState, gameId, map) => {
+  io.in(gameId).emit("update", gameState);
+};
+
 module.exports = {
   init: (http) => {
     io = require("socket.io")(http, { pingTimeout: 30000 });
