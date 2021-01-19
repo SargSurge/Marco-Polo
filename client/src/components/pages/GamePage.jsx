@@ -10,12 +10,22 @@ export class GamePage extends Component {
         super(props);
         this.state = {
             user: undefined,
+            activeKeys: {
+                up: false,
+                down: false,
+                right: false,
+                left: false,
+            }
         }
     }
 
     componentDidMount() {
         get('/api/whoami', {}).then((user) => {
             this.setState({user: user});
+        })
+
+        get('/api/initialRender', {gameId: this.props.gameId}).then((res) => {
+            this.processUpdate(res.initialRender);
         })
 
         window.addEventListener('keydown', this.handleInput);
@@ -32,7 +42,7 @@ export class GamePage extends Component {
     handleInput = (event) => {
         switch (event.code) {
             case 'KeyA': // A
-                this.move("left");
+                this.move('left');
                 break;
             case 'KeyW': // W
                 this.move("up");
