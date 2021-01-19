@@ -30,6 +30,7 @@ export const drawCanvas = (drawState) => {
   // get the canvas element
   canvas = document.getElementById("game-canvas");
   if (!canvas) return;
+  console.log(drawState);
   const context = canvas.getContext("2d");
 
   // clear the canvas to black
@@ -37,10 +38,10 @@ export const drawCanvas = (drawState) => {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   // draw all the players
-  Object.values(drawState.players).forEach((p) => {
+  drawState.forEach((p) => {
+    console.log(p);
     drawPlayer(context, p.x, p.y, p.color);
   });
 };
-
 
 // {players: [{x: 0, y: 0, color: white}]}
