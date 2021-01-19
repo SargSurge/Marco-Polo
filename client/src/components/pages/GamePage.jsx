@@ -59,13 +59,6 @@ export class GamePage extends Component {
   move = (dir) => {
     //render movement for me
     move(this.state.user._id, this.props.gameId, dir);
-
-    /*post("/api/move", {
-      dir: dir,
-      userId: this.state.user._id,
-      gameId: this.props.gameId,
-    }).then(() => {});
-     */
   };
 
   processUpdate = (gameState) => {
