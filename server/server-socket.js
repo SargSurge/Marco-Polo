@@ -86,8 +86,6 @@ const userLeaveGame = (socket) => {
 
 const userMove = (socket, userId, gameId, dir) => {
   if (socket) {
-    const socketRoom = socket.rooms[socket.id];
-
     logic.updatePlayerPosition(dir, gameId, userId, io);
   }
 };

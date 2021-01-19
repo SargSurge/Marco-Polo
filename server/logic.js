@@ -18,7 +18,10 @@ updatePlayerPosition = (userId, gameId, dir, io) => {
       $inc: { [posToUpdate]: SPEED * dirMap[dir][1] },
     }
   ).then((gameState) => {
+<<<<<<< HEAD
     // console.log("updated pos", gameState.players[userId].position);
+=======
+>>>>>>> e075754a1e305e297cc2d01573c9930364c31a4a
     io.in(gameId).emit("update", gameState);
   });
 };
