@@ -15,7 +15,7 @@ class Lobby extends Component {
 
     // The array follows this schema: [min, default, max, step-size]
     this.settings = {
-      "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
+      "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 3, 1] },
       "Marco Settings": {
         "Vision Radius": [0, 50, 100, 5],
         "Light Bomb Timer": [0, 15, 30, 5],
@@ -154,7 +154,7 @@ class Lobby extends Component {
                     type="button"
                     className="lobby-content-left-header-reset lobby-big-button"
                     onClick={() => {
-                      post("/api/creategame", {gameId: this.state.lobby.gameId});
+                      post("/api/creategame", { gameId: this.state.lobby.gameId });
                       navigate(`../game/${this.state.lobby.gameId}`);
                     }}
                   >
