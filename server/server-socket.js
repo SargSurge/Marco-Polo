@@ -1,3 +1,5 @@
+//import { updatePlayerPosition } from "./logic.js";
+
 let io;
 
 const Room = require("./models/room");
@@ -10,6 +12,7 @@ const socketToUserMap = {}; // maps socket ID to user object
 const getSocketFromUserID = (userid) => userToSocketMap[userid];
 const getUserFromSocketID = (socketid) => socketToUserMap[socketid];
 const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
+const logic = require("./logic");
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user];
@@ -66,25 +69,39 @@ const userLeaveGame = (socket) => {
             .then(io.emit("updateLobbiesAll"));
         }
       });
-      User.findOneAndUpdate({ googleid : user.googleid}, {$set: {currentGame : null}}, {new : true}, (err,doc) => {
-        if (err) {
-          console.log(err);
+      User.findOneAndUpdate(
+        { googleid: user.googleid },
+        { $set: { currentGame: null } },
+        { new: true },
+        (err, doc) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log(doc);
         }
-        console.log(doc);
-      });
+      );
     }
+  }
+};
+
+const userMove = (socket, userId, gameId, dir) => {
+  if (socket) {
+    const socketRoom = socket.rooms[socket.id];
+
+    logic.updatePlayerPosition(dir, gameId, userId, io);
   }
 };
 
 module.exports = {
   init: (http) => {
-    io = require("socket.io")(http, {'pingTimeout': 30000});
+    io = require("socket.io")(http, { pingTimeout: 30000 });
 
     io.on("connection", (socket) => {
       console.log(`socket has connected ${socket.id}`);
       socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
       socket.on("logout", () => userLeaveGame(socket));
       socket.on("disconnecting", () => userLeaveGame(socket));
+      socket.on("move", (userId, gameId, dir) => userMove(socket, userId, gameId, dir));
       socket.on("transport close", () => {
         userLeaveGame(socket);
         const user = getUserFromSocketID(socket.id);
@@ -103,6 +120,7 @@ module.exports = {
   userJoinRoom: userJoinRoom,
   updateLobbiesAll: updateLobbiesAll,
   userLeaveGame: userLeaveGame,
+  userMove: userMove,
 
   getSocketFromUserID: getSocketFromUserID,
   getUserFromSocketID: getUserFromSocketID,
