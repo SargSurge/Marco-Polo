@@ -154,7 +154,6 @@ class Lobby extends Component {
                     type="button"
                     className="lobby-content-left-header-reset lobby-big-button"
                     onClick={() => {
-                      post("/api/creategame", { gameId: this.state.lobby.gameId });
                       navigate(`../game/${this.state.lobby.gameId}`);
                     }}
                   >
