@@ -84,9 +84,9 @@ const userLeaveGame = (socket) => {
   }
 };
 
-const userMove = (socket, userId, gameId, dir) => {
+const userMove = (socket, userId, gameId, position) => {
   if (socket) {
-    logic.updatePlayerPosition(dir, gameId, userId, io);
+    logic.updatePlayerPosition(position, gameId, userId, io);
   }
 };
 
@@ -111,7 +111,7 @@ module.exports = {
       socket.on("updateLobbies", () => io.emit("updateLobbiesAll"));
       socket.on("logout", () => userLeaveGame(socket));
       socket.on("disconnecting", () => userLeaveGame(socket));
-      socket.on("move", (userId, gameId, dir) => userMove(socket, userId, gameId, dir));
+      socket.on("move", (userId, gameId, position) => userMove(socket, userId, gameId, position));
       socket.on("transport close", () => {
         userLeaveGame(socket);
         const user = getUserFromSocketID(socket.id);

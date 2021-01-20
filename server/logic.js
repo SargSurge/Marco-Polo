@@ -11,20 +11,20 @@ const dirMap = {
 
 let gameStates = {};
 
-update = async (userId, gameId, dir, io) => {
-  const posToUpdate = `players.${userId}.position.${dirMap[dir][0]}`;
+update = async (userId, gameId, position, io) => {
+  const posToUpdate = `players.${userId}.position`;
   let stream = await GameState.findOneAndUpdate(
     { gameId: gameId },
     {
-      $inc: { [posToUpdate]: SPEED * dirMap[dir][1] },
+      $set: { [posToUpdate]: position },
       new: true,
     }
   );
   return stream;
 };
 
-updatePlayerPosition = (userId, gameId, dir, io) => {
-  let stream = update(userId, gameId, dir, io);
+updatePlayerPosition = (userId, gameId, position, io) => {
+  let stream = update(userId, gameId, position, io);
   gameStates[gameId] = stream;
 };
 

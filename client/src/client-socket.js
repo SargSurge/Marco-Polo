@@ -6,6 +6,6 @@ socket.on("connect", () => {
   post("/api/initsocket", { socketid: socket.id });
 });
 
-export const move = (userId, gameId, dir) => {
-  socket.emit("move", dir, gameId, userId);
+export const move = (userId, gameId, position) => {
+  socket.emit("move", position, gameId, userId);
 };
