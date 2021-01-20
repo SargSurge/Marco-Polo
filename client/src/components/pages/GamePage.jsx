@@ -54,7 +54,7 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
-      drawCanvas(this.state.gameState);
+      drawCanvas(this.state.gameState, this.state.user._id);
       this.gameLoop();
     });
   };
@@ -112,6 +112,7 @@ export class GamePage extends Component {
       if (this.state.movement[dir]) {
         positionUpdate[dirMap[dir][0]] += SPEED * dirMap[dir][1];
       }
+
     });
     this.setState({
       position: {
@@ -147,7 +148,7 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState) => {
-    drawCanvas(gameState);
+    drawCanvas(gameState, this.state.user._id);
   };
 
   render() {
@@ -162,6 +163,7 @@ export class GamePage extends Component {
               height={window.innerHeight}
               className="gamepage-canvas"
             />
+
           </div>
         </div>
       </>
