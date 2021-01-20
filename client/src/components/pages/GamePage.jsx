@@ -162,6 +162,9 @@ export class GamePage extends Component {
               height={window.innerHeight}
               className="gamepage-canvas"
             />
+            <canvas 
+            id="fog-canvas"
+            />
           </div>
         </div>
       </>

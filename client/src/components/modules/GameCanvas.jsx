@@ -36,6 +36,7 @@ export class GameCanvas extends Component {
         return (
             <div>
                 <canvas id="game-canvas" width="800px" height="800px" />
+                <canvas id="fog-canvas" width="60px" height="60px" />
             </div>
         )
     }

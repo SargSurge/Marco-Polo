@@ -1,4 +1,5 @@
 let canvas;
+let canvasFog;
 /** utils */
 
 // converts a coordinate in a normal X Y plane to canvas coordinates
@@ -22,6 +23,16 @@ const fillCircle = (context, x, y, radius, color) => {
 
 const drawPlayer = (context, x, y, color) => {
   const { drawX, drawY } = convertCoord(x, y);
+  
+  context.globalCompositeOperation = "destinaton-out";
+  
+  let gradient = context.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  gradient.addColorStop(0, 'white');
+  gradient.addColorStop(.5, 'grey');
+  gradient.addColorStop(.9, 'black');
+  gradient.addColorStop(1, 'black');
+  fillCircle(context,drawX,drawY,100,gradient);
+  context.globalCompositeOperation = "source-over";
   fillCircle(context, drawX, drawY, 20, color);
 };
 
@@ -29,8 +40,16 @@ const drawPlayer = (context, x, y, color) => {
 export const drawCanvas = (drawState) => {
   // get the canvas element
   canvas = document.getElementById("game-canvas");
+  //canvasFog = document.createElement("canvas");
+  //canvasFog.width = 60;
+  //canvasFog.height = 60;
+
   if (!canvas) return;
   const context = canvas.getContext("2d");
+
+  //const fogContext = canvasFog.getContext("2d");
+  
+  //fogContext.globalCompositeOperation = "xor";
 
   // clear the canvas to black
   context.fillStyle = "black";
@@ -40,9 +59,11 @@ export const drawCanvas = (drawState) => {
 
   Object.keys(drawState.players).map((id, index) => {
     const {x, y} = drawState.players[id].position;
-    const color = "white" // drawState.player.color
+    const color = "red" // drawState.player.color
     drawPlayer(context, x, y, color);
   })
+
+
 
   // Object.values(drawState.players).forEach((p) => {
   //   drawPlayer(context, p.x, p.y, p.color);
