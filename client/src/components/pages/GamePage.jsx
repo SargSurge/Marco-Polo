@@ -5,6 +5,8 @@ import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
 import { drawCanvas } from "../../canvasManager";
 
+import "./GamePage.css";
+
 export class GamePage extends Component {
   constructor(props) {
     super(props);
@@ -151,8 +153,13 @@ export class GamePage extends Component {
   render() {
     return (
       <>
-        <div>
-          <canvas id="game-canvas" width="800px" height="800px" />
+        <div className="gamepage-base">
+          <canvas
+            id="game-canvas"
+            width={window.innerWidth}
+            height={window.innerHeight}
+            className="gamepage-canvas"
+          />
         </div>
       </>
     );

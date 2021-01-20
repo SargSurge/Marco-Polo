@@ -1,0 +1,16 @@
+/*
+    The CSS for the GamePage Page
+ */
+
+html, body {
+    margin: 0 !important;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+.gamepage-base {
+    overflow: hidden;
+}
+
+.gamepage-canvas {
+}
