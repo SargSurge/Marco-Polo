@@ -35,9 +35,8 @@ export class GamePage extends Component {
       }
       this.gameLoop();
     }, 1000 / 60);
-
-
      */
+
     requestAnimationFrame(() => {
       this.updatePosition();
       console.log("yes");
