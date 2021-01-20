@@ -51,7 +51,7 @@ class Lobby extends Component {
           this.setState({
             lobby: res.lobby,
           });
-          if(!lobby.players.some((p) => p._id === this.state.user._id)) {
+          if(!res.lobby.players.some((p) => p._id === this.state.user._id)) {
             post('/api/joingame', {gameId: this.props.gameId}).catch((e) => console.log(e))
           }
         } else {
