@@ -28,6 +28,7 @@ class Lobby extends Component {
     };
 
     this.state = {
+      user: undefined,
       lobby: {},
       sliders: this.resetSettings(),
     };
@@ -50,6 +51,9 @@ class Lobby extends Component {
           this.setState({
             lobby: res.lobby,
           });
+          if(!lobby.players.some((p) => p._id === this.state.user._id)) {
+            post('/api/joingame', {gameId: this.props.gameId}).catch((e) => console.log(e))
+          }
         } else {
           navigate('/');
         }
@@ -68,7 +72,12 @@ class Lobby extends Component {
   };
 
   componentDidMount() {
-    this.updateLobby();
+    get('/api/whoami', {}).then((user) => {
+      this.setState({user: user});
+    }).then(() => this.updateLobby())
+    
+    // this.updateLobby();
+    
     socket.on("updateLobbiesAll", () => {
       this.updateLobby();
     });
