@@ -154,12 +154,15 @@ export class GamePage extends Component {
     return (
       <>
         <div className="gamepage-base">
-          <canvas
-            id="game-canvas"
-            width={window.innerWidth}
-            height={window.innerHeight}
-            className="gamepage-canvas"
-          />
+          <div className="gamepage-header">Welcome to Marco Polo!</div>
+          <div className="gamepage-canvas-container">
+            <canvas
+              id="game-canvas"
+              width={window.innerWidth}
+              height={window.innerHeight}
+              className="gamepage-canvas"
+            />
+          </div>
         </div>
       </>
     );

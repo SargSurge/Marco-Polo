@@ -2,6 +2,14 @@
     The CSS for the GamePage Page
  */
 
+@keyframes headerFade {
+    from {
+        opacity: 0;
+    } to {
+        opacity: 90%;
+          }
+}
+
 html, body {
     margin: 0 !important;
     overflow: hidden;
@@ -12,5 +20,23 @@ html, body {
     overflow: hidden;
 }
 
+.gamepage-canvas-container {
+    position: relative;
+}
+
+.gamepage-header {
+    font-size: 40px;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    font-family: 'Orbitron';
+    transform: translate(-50%, 0);
+    color: #e5f77d;
+    animation: headerFade 3s linear;
+    border-bottom: 1px solid #e5f77d;
+    z-index: 30;
+}
+
 .gamepage-canvas {
+    z-index: 20;
 }
