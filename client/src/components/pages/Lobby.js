@@ -46,11 +46,18 @@ class Lobby extends Component {
   updateLobby = () => {
     get("/api/lobby", { gameId: this.props.gameId })
       .then((res) => {
-        this.setState({
-          lobby: res.lobby,
-        });
+        if(res.lobby) {
+          this.setState({
+            lobby: res.lobby,
+          });
+        } else {
+          navigate('/');
+        }
       })
-      .catch((err) => console.log("${err}"));
+      .catch((err) => {
+        console.log(`${err}`);
+        navigate('/');
+      });
   };
 
   updateLobbySettings = (lobby) => {
