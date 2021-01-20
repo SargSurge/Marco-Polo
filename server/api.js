@@ -69,7 +69,7 @@ router.post("/joingame", (req, res) => {
                     room
                       .save()
                       .then(() => {
-                        
+                        socketManager.getIo().to(gameId).emit("updateLobbiesAll");
                         user.currentGame = gameId;
                         user.save().then(() => {
                           GameState.findOne({ gameId: gameId }).then((gameState) => {
@@ -87,7 +87,6 @@ router.post("/joingame", (req, res) => {
                             }
                             gameState.players = playersObject;
                             gameState.save().then(() => {
-                              socketManager.getIo().to(gameId).emit("updateLobbiesAll");
                               res.send({
                                 msg: "Joined " + room.name + ".",
                                 canJoin: true,
@@ -98,6 +97,7 @@ router.post("/joingame", (req, res) => {
                       })
                       .catch((err) => console.log(err));
                   } else {
+                    socketManager.userJoinRoom(req.user, gameId);
                     res.send({
                       msg: "Joined " + room.name + " again.",
                       canJoin: true,
@@ -138,6 +138,7 @@ router.post("/hostgame", (req, res) => {
   const gameId = hri.random();
 
   if (req.user) {
+    socketManager.getIo().emit("updateLobbiesAll");
     User.findOne({ googleid: req.user.googleid }).then((user) => {
       console.log(user);
       if (user && (user.currentGame === gameId || !user.currentGame)) {
@@ -313,6 +314,12 @@ router.post("/creategame", (req, res) => {
     gameState.save().then({});
   });
 });
+
+router.post("/deleteLobby", (req, res) => {
+  const {gameId} = req.body;
+  Room.findOneAndDelete({gameId : gameId}).then(() => res.send({}));
+  socketManager.getIo().emit("updateLobbiesAll");
+})
 
 router.get("/initialRender", (req, res) => {
   const { gameId } = req.query;

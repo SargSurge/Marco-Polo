@@ -3,7 +3,7 @@ import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
 import { get, post } from "../../utilities";
 import "./Lobby.css";
-import { socket } from "../../client-socket";
+import { socket, startGame } from "../../client-socket";
 import { navigate } from "@reach/router";
 import Slider from "@material-ui/core/Slider";
 import PlayerTree from "../modules/PlayerTree";
@@ -68,6 +68,10 @@ class Lobby extends Component {
     socket.on("updateLobbySettings", (lobby) => {
       this.updateLobbySettings(lobby);
     });
+    socket.on("startGame", () => {
+      console.log("gotcu starting");
+      navigate(`../game/${this.state.lobby.gameId}`);
+    })
   }
 
   componentWillUnmount() {
@@ -155,6 +159,8 @@ class Lobby extends Component {
                     className="lobby-content-left-header-reset lobby-big-button"
                     onClick={() => {
                       navigate(`../game/${this.state.lobby.gameId}`);
+                      startGame(this.state.lobby.gameId);
+                      post("/api/deleteLobby",{gameId:this.state.lobby.gameId});
                     }}
                   >
                     Start Game
