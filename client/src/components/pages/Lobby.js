@@ -74,7 +74,7 @@ class Lobby extends Component {
   componentDidMount() {
     get('/api/whoami', {}).then((user) => {
       this.setState({user: user});
-    }).then(() => this.updateLobby())
+    }).then(() => this.updateLobby());
     
     // this.updateLobby();
     
@@ -173,7 +173,8 @@ class Lobby extends Component {
                   <button
                     type="button"
                     className="lobby-content-left-header-reset lobby-big-button"
-                    onClick={() => {
+                    disabled={!this.state.user._id === this.state.lobby.players[0]._id}
+                    onClick={() => {            
                       navigate(`../game/${this.state.lobby.gameId}`);
                       startGame(this.state.lobby.gameId);
                       post("/api/deleteLobby",{gameId:this.state.lobby.gameId});
