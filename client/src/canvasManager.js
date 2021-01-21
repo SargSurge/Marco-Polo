@@ -32,7 +32,7 @@ export const collisionManager = (isY, x, y, intent) => {
     tryPositionright = Math.floor(tempright + intent);
   }
 
-  let displacement = 1;
+  let displacement = 0.1;
 
   if (isY) {
     /*
