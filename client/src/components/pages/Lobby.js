@@ -47,20 +47,20 @@ class Lobby extends Component {
   updateLobby = () => {
     get("/api/lobby", { gameId: this.props.gameId })
       .then((res) => {
-        if(res.lobby) {
+        if (res.lobby) {
           this.setState({
             lobby: res.lobby,
           });
-          if(!res.lobby.players.some((p) => p._id === this.state.user._id)) {
-            post('/api/joingame', {gameId: this.props.gameId}).catch((e) => console.log(e))
+          if (!res.lobby.players.some((p) => p._id === this.state.user._id)) {
+            post("/api/joingame", { gameId: this.props.gameId }).catch((e) => console.log(e));
           }
         } else {
-          navigate('/');
+          navigate("/");
         }
       })
       .catch((err) => {
         console.log(`${err}`);
-        navigate('/');
+        navigate("/");
       });
   };
 
@@ -72,12 +72,14 @@ class Lobby extends Component {
   };
 
   componentDidMount() {
-    get('/api/whoami', {}).then((user) => {
-      this.setState({user: user});
-    }).then(() => this.updateLobby());
-    
+    get("/api/whoami", {})
+      .then((user) => {
+        this.setState({ user: user });
+      })
+      .then(() => this.updateLobby());
+
     // this.updateLobby();
-    
+
     socket.on("updateLobbiesAll", () => {
       this.updateLobby();
     });
@@ -85,9 +87,8 @@ class Lobby extends Component {
       this.updateLobbySettings(lobby);
     });
     socket.on("startGame", () => {
-      console.log("gotcu starting");
       navigate(`../game/${this.state.lobby.gameId}`);
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -135,10 +136,24 @@ class Lobby extends Component {
                         key={"SliderCont " + index}
                       >
                         <Slider
-                          className="lobby-content-left-setting-slider"
+                          disabled={
+                            this.state.lobby.players
+                              ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                              : true
+                          }
+                          className={
+                            (
+                              this.state.lobby.players
+                                ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                                : true
+                            )
+                              ? "lobby-content-left-setting-slider-disabled"
+                              : "lobby-content-left-setting-slider"
+                          }
                           value={this.state.sliders[type + setting + index]}
                           aria-labelledby="discrete-slider"
                           valueLabelDisplay="on"
+                          type="range"
                           step={this.settings[type][setting][3]}
                           min={this.settings[type][setting][0]}
                           max={this.settings[type][setting][2]}
@@ -173,11 +188,15 @@ class Lobby extends Component {
                   <button
                     type="button"
                     className="lobby-content-left-header-reset lobby-big-button"
-                    disabled={!this.state.user._id === this.state.lobby.players[0]._id}
-                    onClick={() => {            
+                    disabled={
+                      this.state.lobby.players
+                        ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                        : true
+                    }
+                    onClick={() => {
                       navigate(`../game/${this.state.lobby.gameId}`);
                       startGame(this.state.lobby.gameId);
-                      post("/api/deleteLobby",{gameId:this.state.lobby.gameId});
+                      post("/api/deleteLobby", { gameId: this.state.lobby.gameId });
                     }}
                   >
                     Start Game
