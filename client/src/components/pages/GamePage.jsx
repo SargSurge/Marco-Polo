@@ -54,7 +54,7 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
-      drawCanvas(this.state.gameState);
+      drawCanvas(this.state.gameState, this.state.user._id);
       this.gameLoop();
     });
   };
@@ -137,7 +137,7 @@ export class GamePage extends Component {
       );
       newY = collisionManager(true, this.state.position.x, this.state.position.y, positionUpdate.y);
     }
-    console.log(newX, newY);
+
     this.setState({
       position: {
         ...this.state.position,
@@ -172,7 +172,7 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState) => {
-    drawCanvas(gameState);
+    drawCanvas(gameState, this.state.user._id);
   };
 
   render() {

@@ -25,7 +25,7 @@ const router = express.Router();
 const socketManager = require("./server-socket");
 
 //import game logic
-const logic = require('./logic');
+const logic = require("./logic");
 
 // id generator for game codes
 const hri = require("human-readable-ids").hri;
@@ -66,20 +66,38 @@ router.post("/joingame", (req, res) => {
                     socketManager.userJoinRoom(req.user, gameId);
                     room.numberJoined++;
                     room.players.push(req.user);
-                    room.save().then(() => {
-                      user.currentGame = gameId;
-                      user
-                        .save()
-                        .then(() => {
-                          socketManager.getIo().to(gameId).emit("updateLobbiesAll");
-                          res.send({
-                            msg: "Joined " + room.name + ".",
-                            canJoin: true,
+                    room
+                      .save()
+                      .then(() => {
+                        socketManager.getIo().to(gameId).emit("updateLobbiesAll");
+                        user.currentGame = gameId;
+                        user.save().then(() => {
+                          GameState.findOne({ gameId: gameId }).then((gameState) => {
+                            let playersObject = {};
+                            let playersArray = room.players;
+                            for (let i = 0; i < playersArray.length; i++) {
+                              let player = playersArray[i];
+                              playersObject[player._id] = {
+                                position: { x: 0, y: 0 },
+                                user: player,
+                                color: "white",
+                                role: "marco",
+                                powerups: { lightbomb: 45 },
+                              };
+                            }
+                            gameState.players = playersObject;
+                            gameState.save().then(() => {
+                              res.send({
+                                msg: "Joined " + room.name + ".",
+                                canJoin: true,
+                              });
+                            });
                           });
-                        })
-                        .catch((err) => console.log(err));
-                    });
+                        });
+                      })
+                      .catch((err) => console.log(err));
                   } else {
+                    socketManager.userJoinRoom(req.user, gameId);
                     res.send({
                       msg: "Joined " + room.name + " again.",
                       canJoin: true,
@@ -120,6 +138,7 @@ router.post("/hostgame", (req, res) => {
   const gameId = hri.random();
 
   if (req.user) {
+    socketManager.getIo().emit("updateLobbiesAll");
     User.findOne({ googleid: req.user.googleid }).then((user) => {
       console.log(user);
       if (user && (user.currentGame === gameId || !user.currentGame)) {
@@ -140,7 +159,26 @@ router.post("/hostgame", (req, res) => {
         newRoom
           .save()
           .then(() => {
-            res.send({ gameId: gameId });
+            let playersObject = {};
+            let playersArray = newRoom.players;
+            for (let i = 0; i < playersArray.length; i++) {
+              let player = playersArray[i];
+              playersObject[player._id] = {
+                position: { x: 0, y: 0 },
+                user: player,
+                color: "white",
+                role: "marco",
+                powerups: { lightbomb: 45 },
+              };
+            }
+
+            const gameState = new GameState({
+              gameId: gameId,
+              winner: null,
+              players: playersObject,
+            });
+
+            gameState.save().then(res.send({ gameId: gameId }));
           })
           .catch((err) => console.log(err));
       } else {
@@ -156,19 +194,19 @@ router.post("/hostgame", (req, res) => {
   }
 });
 
-router.get("/chat", (req,res) => {
-  Room.findOne({gameId : req.query.gameId})
-  .then((room) => {
-    if (room) {
-      res.send(room.chat);
-    }
-  })
-  .catch((err) => console.log(err));
+router.get("/chat", (req, res) => {
+  Room.findOne({ gameId: req.query.gameId })
+    .then((room) => {
+      if (room) {
+        res.send(room.chat);
+      }
+    })
+    .catch((err) => console.log(err));
 });
 
 router.post("/message", auth.ensureLoggedIn, (req, res) => {
   // insert this message into the database
-  const {gameId, content} = req.body;
+  const { gameId, content } = req.body;
   const message = new Message({
     gameId: gameId,
     sender: {
@@ -177,29 +215,38 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
     },
     content: content,
   });
-  message.save().then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
-  .catch((err) => console.log(err));
-  Room.findOneAndUpdate({gameId : gameId}, {$push : {chat : message}}, {new : true}, (err,doc) => {
-    if (err) {
-      console.log(err);
+  message
+    .save()
+    .then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
+    .catch((err) => console.log(err));
+  Room.findOneAndUpdate(
+    { gameId: gameId },
+    { $push: { chat: message } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.log(err);
+      }
     }
-  });
+  );
   res.send(message);
-  });
+});
 
 router.post("/updateLobbySettings", (req, res) => {
   const { gameId, settings } = req.body;
   Room.findOne({
     gameId: gameId,
-  }).then((lobby) => {
-    if (lobby) {
-      lobby.settings = settings;
-      lobby
-        .save()
-        .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
-        .catch((err) => console.log(err));
-    }
-  }).catch((err) => console.log(err));
+  })
+    .then((lobby) => {
+      if (lobby) {
+        lobby.settings = settings;
+        lobby
+          .save()
+          .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
+          .catch((err) => console.log(err));
+      }
+    })
+    .catch((err) => console.log(err));
   res.send({});
 });
 
@@ -239,36 +286,47 @@ router.post("/leavegame", (req, res) => {
     socketManager.userLeaveGame(socket);
   }
   res.send({});
-})
+});
 
 router.post("/creategame", (req, res) => {
   const { gameId } = req.body;
-  
-  Room.findOne({gameId: gameId}).then((room) => {
+
+  Room.findOne({ gameId: gameId }).then((room) => {
     let playersObject = {};
     let playersArray = room.players;
     for (let i = 0; i < playersArray.length; i++) {
       let player = playersArray[i];
-      playersObject[player._id] = {position: {x: 0, y: 0}, user: player, color: 'white', role: 'marco', powerups: {lightbomb: 45}};
-    };
-  
+      playersObject[player._id] = {
+        position: { x: 0, y: 0 },
+        user: player,
+        color: "white",
+        role: "marco",
+        powerups: { lightbomb: 45 },
+      };
+    }
+
     const gameState = new GameState({
       gameId: gameId,
       winner: null,
       players: playersObject,
     });
-  
+
     gameState.save().then({});
-  })
-  
+  });
 });
+
+router.post("/deleteLobby", (req, res) => {
+  const {gameId} = req.body;
+  Room.findOneAndDelete({gameId : gameId}).then(() => res.send({}));
+  socketManager.getIo().emit("updateLobbiesAll");
+})
 
 router.get("/initialRender", (req, res) => {
   const { gameId } = req.query;
-  GameState.findOne({gameId: gameId}).then((gameState) => {
-    res.send({initialRender: gameState})
-  })
-})
+  GameState.findOne({ gameId: gameId }).then((gameState) => {
+    res.send({ initialRender: gameState });
+  });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
@@ -277,7 +335,5 @@ router.all("*", (req, res) => {
 });
 
 module.exports = router;
-
-
 
 // gameState = {winner: null/user, players : {id : { position : {x :  1, y:  1},  user, color : orange, role : marco/polo, powerups : {type : cooldown}}}}

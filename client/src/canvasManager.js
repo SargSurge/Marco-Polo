@@ -2,6 +2,8 @@ let canvas;
 
 let tileSize = 50;
 let charSize = Math.floor(tileSize / 4);
+let camera;
+
 /** utils */
 
 export const collisionManager = (isY, x, y, intent) => {
@@ -156,12 +158,53 @@ const drawPlayer = (context, x, y, color) => {
   fillCircle(context, drawX, drawY, charSize, color);
 };
 
+/*
 export const drawAllPlayers = (drawState) => {
+  const { drawX, drawY } = convertCoordToCanvas(x, y);
+
+  context.globalCompositeOperation = "destinaton-out";
+
+  let gradient = context.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(0.5, "grey");
+  gradient.addColorStop(0.9, "black");
+  gradient.addColorStop(1, "black");
+  fillCircle(context, drawX, drawY, 100, gradient);
+  context.globalCompositeOperation = "source-over";
+  fillCircle(context, drawX, drawY, 20, color);
+};
+
+const clamp = (value, min, max) => {
+  if (value < min) return min;
+  else if (value > max) return max;
+  return value;
+};
+ */
+
+/*
+// main draw
+export const drawCanvas = (drawState, userId) => {
+  // get the canvas element
   canvas = document.getElementById("game-canvas");
+
   if (!canvas) return;
   const context = canvas.getContext("2d");
 
   // draw all the players
+  Object.keys(drawState.players).map((id, index) => {
+    const { x, y } = drawState.players[id].position;
+    const color = "green"; // drawState.player.color
+    drawPlayer(context, x, y, color);
+  });
+
+  const { x, y } = drawState.players[userId].position;
+  let camX = clamp(-x + canvas.width / 2, -1000, 1000 - canvas.width);
+  let camY = clamp(-y + canvas.height / 2, -1000, 1000 - canvas.height);
+  //context.translate(camX, camY);
+};
+ */
+
+export const drawAllPlayers = (drawState, context) => {
   Object.keys(drawState.players).map((id, index) => {
     const { x, y } = drawState.players[id].position;
     const color = "green"; // drawState.player.color
@@ -192,6 +235,7 @@ export const drawCanvas = (drawState) => {
   //let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
   //canvas.setAttribute("height", style_height * dpi);
   //canvas.setAttribute("width", style_width * dpi);
+  //{players: [{x: 0, y: 0, color: white}]}
 
   canvas.height = map.length * tileSize;
   canvas.width = map[0].length * tileSize;
@@ -206,7 +250,7 @@ export const drawCanvas = (drawState) => {
     });
   });
 
-  drawAllPlayers(drawState);
+  drawAllPlayers(drawState, context);
 };
 
 // 11 rows
