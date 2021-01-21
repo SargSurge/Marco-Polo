@@ -3,7 +3,7 @@ import { socket } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { drawCanvas } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
 
 import "./GamePage.css";
 
@@ -19,7 +19,7 @@ export class GamePage extends Component {
         left: false,
       },
       position: {
-        x: 0,
+        x: -300,
         y: 0,
       },
     };
@@ -101,7 +101,7 @@ export class GamePage extends Component {
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
-    const SPEED = 10;
+    const SPEED = 5;
     const dirMap = {
       up: ["y", 1],
       down: ["y", -1],
@@ -113,11 +113,36 @@ export class GamePage extends Component {
         positionUpdate[dirMap[dir][0]] += SPEED * dirMap[dir][1];
       }
     });
+
+    let newX = this.state.position.x;
+    let newY = this.state.position.y;
+
+    if (positionUpdate.x == 0 && positionUpdate.y == 0) {
+      return;
+    } else if (positionUpdate.x == 0 && positionUpdate.y !== 0) {
+      newY = collisionManager(true, this.state.position.x, this.state.position.y, positionUpdate.y);
+    } else if (positionUpdate.x !== 0 && positionUpdate.y == 0) {
+      newX = collisionManager(
+        false,
+        this.state.position.x,
+        this.state.position.y,
+        positionUpdate.x
+      );
+    } else {
+      newX = collisionManager(
+        false,
+        this.state.position.x,
+        this.state.position.y,
+        positionUpdate.x
+      );
+      newY = collisionManager(true, this.state.position.x, this.state.position.y, positionUpdate.y);
+    }
+    console.log(newX, newY);
     this.setState({
       position: {
         ...this.state.position,
-        x: (this.state.position.x += positionUpdate.x),
-        y: (this.state.position.y += positionUpdate.y),
+        x: (this.state.position.x = newX),
+        y: (this.state.position.y = newY),
       },
     });
   }
@@ -152,19 +177,14 @@ export class GamePage extends Component {
 
   render() {
     return (
-      <>
-        <div className="gamepage-base">
+      <div className="gamepage-base">
+        <div className="gamepage-game-container">
           <div className="gamepage-header">Welcome to Marco Polo!</div>
           <div className="gamepage-canvas-container">
-            <canvas
-              id="game-canvas"
-              width={window.innerWidth}
-              height={window.innerHeight}
-              className="gamepage-canvas"
-            />
+            <canvas id="game-canvas" width={1400} className="gamepage-canvas" />
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

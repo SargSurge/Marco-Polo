@@ -10,13 +10,30 @@
           }
 }
 
+@keyframes headerPulse {
+    from {
+        box-shadow: 0 0 5px 3px;
+    } to {
+        box-shadow: 0 0 25px 3px;
+      }
+}
+
+
 html, body {
     margin: 0 !important;
     overflow: hidden;
     padding: 0 !important;
+    height: 100vh;
 }
 
 .gamepage-base {
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    height: 100vh;
+}
+
+.gamepage-game-container {
     overflow: hidden;
 }
 
@@ -32,8 +49,11 @@ html, body {
     font-family: 'Orbitron';
     transform: translate(-50%, 0);
     color: #e5f77d;
-    animation: headerFade 3s linear;
+    animation: headerFade 3s linear, headerPulse 3s alternate-reverse infinite;
     border-bottom: 1px solid #e5f77d;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: black;
     z-index: 30;
 }
 
