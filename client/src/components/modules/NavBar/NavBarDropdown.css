@@ -60,6 +60,10 @@
     text-decoration: none;
 }
 
+.navbardropdown-logout:hover {
+    color: black !important;
+}
+
 a.navbardropdown-logout
 {
     display:block;
@@ -79,6 +83,7 @@ ol {
     list-style-type: none;
     margin: 0 auto;
     padding: 0;
+    margin-bottom: 0 !important;
 }
 .navbardropdown-button {
     color: inherit !important;
@@ -116,6 +121,7 @@ ol {
     position: relative;
     line-height: 2.5rem;
     text-align: center;
+    font-family: Orbitron;
 }
 .menu-item a {
     overflow: hidden;
@@ -123,9 +129,6 @@ ol {
     text-overflow: ellipsis;
     display: block;
     color: #FFF;
-}
-ol {
-    margin-bottom: 0;
 }
 .sub-menu .menu-item {
     padding: 0.75rem 0;
@@ -148,6 +151,7 @@ ol {
 }
 .sub-menu .menu-item:hover {
     background: #F8B195;
+    color: black;
 }
 .sub-menu .menu-item a {
     padding: 0 0.75rem;
