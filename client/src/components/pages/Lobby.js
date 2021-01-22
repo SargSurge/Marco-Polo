@@ -197,7 +197,7 @@ class Lobby extends Component {
                     onClick={() => {
                       navigate(`../game/${this.state.lobby.gameId}`);
                       startGame(this.state.lobby.gameId);
-                      post("/api/deleteLobby", { gameId: this.state.lobby.gameId });
+                      post("/api/startGame", { gameId: this.state.lobby.gameId });
                     }}
                   >
                     Start Game
