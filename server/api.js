@@ -81,7 +81,7 @@ router.post("/joingame", (req, res) => {
                                 position: { x: 0, y: 0 },
                                 user: player,
                                 color: "white",
-                                role: "marco",
+                                role: "polo",
                                 powerups: { lightbomb: 45 },
                               };
                             }
@@ -167,7 +167,7 @@ router.post("/hostgame", (req, res) => {
                 position: { x: 0, y: 0 },
                 user: player,
                 color: "white",
-                role: "marco",
+                role: "polo",
                 powerups: { lightbomb: 45 },
               };
             }
@@ -287,7 +287,7 @@ router.post("/leavegame", (req, res) => {
   }
   res.send({});
 });
-
+/*
 router.post("/creategame", (req, res) => {
   const { gameId } = req.body;
 
@@ -314,7 +314,7 @@ router.post("/creategame", (req, res) => {
     gameState.save().then({});
   });
 });
-
+*/
 router.post("/deleteLobby", (req, res) => {
   const {gameId} = req.body;
   Room.findOneAndDelete({gameId : gameId}).then(() => res.send({}));

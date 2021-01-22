@@ -160,7 +160,7 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            if (user && this.state.user._id === this.state.lobby.players[0]._id) {
+                            if (this.state.user && this.state.user._id === this.state.lobby.players[0]._id) {
                               post("/api/updateLobbySettings", {
                                 gameId: this.props.gameId,
                                 settings: tempSliders,
