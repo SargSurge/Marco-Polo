@@ -66,7 +66,7 @@ class Lobby extends Component {
   };
 
   updateLobbySettings = (lobby) => {
-    if (!(this.state.user._id === this.state.lobby.players[0]._id)) {
+    if (this.state.lobby.players && !(this.state.user._id === this.state.lobby.players[0]._id)) {
       this.setState({
         sliders: lobby.settings,
         lobby: lobby,
@@ -161,7 +161,7 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            if (this.state.user && this.state.user._id === this.state.lobby.players[0]._id) {
+                            if (this.state.user && this.state.lobby.players && this.state.user._id === this.state.lobby.players[0]._id) {
                               post("/api/updateLobbySettings", {
                                 gameId: this.props.gameId,
                                 settings: tempSliders,
