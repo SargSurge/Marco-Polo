@@ -321,6 +321,31 @@ router.post("/deleteLobby", (req, res) => {
   socketManager.getIo().emit("updateLobbiesAll");
 })
 
+
+router.post("/startGame", (req, res) => {
+  const { gameId } = req.body;
+  Room.findOne({ gameId: gameId }).then((room) => {
+    let gamesettings = new GameSettings({
+      timeLimit: room.settings["General Settings"]["Time Limit"],
+      mapSize: room.settings["General Settings"]["Map Size"],
+      marcoVision: room.settings["Marco Settings"]["Vision Radius"],
+      marcoBomb: room.settings["Marco Settings"]["Light Bomb Timer"],
+      marcoReach: room.settings["Marco Settings"]["Tag Reach"],
+      poloVision: room.settings["Polo Settings"]["Vision Radius"],
+      poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
+    });
+    let player = room.players[Math.floor(Math.random() * room.players.length)];
+    const roleToUpdate = `players.${player._id}.role`;
+    GameState.findOneAndUpdate(
+      { gameId: gameId },
+      { $set: { [roleToUpdate]: "marco" }, settings: gamesettings }
+    );
+    room.delete();
+    socketManager.getIo().emit("updateLobbiesAll");
+    res.send({});
+  });
+});
+
 router.get("/initialRender", (req, res) => {
   const { gameId } = req.query;
   GameState.findOne({ gameId: gameId }).then((gameState) => {

@@ -6,6 +6,7 @@ import { GoogleLogout } from "react-google-login";
 
 import "./NavBarDropdown.css";
 import { Redirect } from "react-router-dom";
+import { navigate } from "@reach/router";
 
 const GOOGLE_CLIENT_ID = "478686741541-7mat3uoom72iesonik033gsm2n72pbf3.apps.googleusercontent.com";
 
@@ -49,7 +50,7 @@ class NavBarDropdown extends Component {
               </a>
               <ol className="sub-menu">
                 <li className="menu-item">How to Play</li>
-                <li className="menu-item">Profile</li>
+                <li className="menu-item" onClick={() => navigate('/profile')}>Profile</li>
                 <li className="menu-item"> {this.props.logoutButton}</li>
               </ol>
             </li>
