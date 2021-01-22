@@ -74,7 +74,6 @@ class Lobby extends Component {
   };
 
   componentDidMount() {
-    this.updateLobby();
     get("/api/whoami", {})
       .then((user) => {
         this.setState({ user: user });
