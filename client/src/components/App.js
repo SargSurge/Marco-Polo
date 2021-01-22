@@ -94,7 +94,7 @@ class App extends Component {
               onClick={renderProps.onClick}
               disabled={renderProps.disabled}
             >
-              Press any key
+              Press any Key to Login
             </a>
           </>
         )}

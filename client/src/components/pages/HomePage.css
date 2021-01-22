@@ -52,6 +52,7 @@
 
 .homepage-button {
     user-select: none;
+    width: 300px !important;
 }
 
 @media only screen and (min-height: 975px) {
@@ -108,7 +109,6 @@
         z-index: 40;
         display:inline-block;
         padding:0.35em 1.2em;
-        border:0.1em solid  #000000;
         margin:0 0.3em 0.3em 0;
         border-radius:0.12em;
         box-sizing: border-box;
@@ -196,7 +196,6 @@
         z-index: 40;
         display:inline-block;
         padding:0.35em 1.2em;
-        border:0.1em solid  #000000;
         margin:0 0.3em 0.3em 0;
         border-radius:0.12em;
         box-sizing: border-box;
@@ -283,7 +282,6 @@
         z-index: 40;
         display:inline-block;
         padding:0.35em 1.2em;
-        border:0.1em solid  #000000;
         margin:0 0.3em 0.3em 0;
         border-radius:0.12em;
         box-sizing: border-box;
@@ -370,7 +368,6 @@
         z-index: 40;
         display:inline-block;
         padding:0.35em 1.2em;
-        border:0.1em solid  #000000;
         margin:0 0.3em 0.3em 0;
         border-radius:0.12em;
         box-sizing: border-box;
