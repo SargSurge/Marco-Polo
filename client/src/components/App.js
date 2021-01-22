@@ -28,7 +28,7 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
-      user: undefined
+      user: undefined,
     };
   }
 
@@ -88,14 +88,14 @@ class App extends Component {
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
           <>
-          <a
-            id='login-button'
-            className="homepage-button"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Login
-          </a>
+            <a
+              id="login-button"
+              className="homepage-button"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Press any key
+            </a>
           </>
         )}
       />
