@@ -40,7 +40,9 @@
   font-family: Orbitron;
   color: white;
   font-size: 25px;
-  margin-bottom: 50px;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .profile-table {
