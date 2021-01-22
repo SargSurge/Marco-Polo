@@ -173,13 +173,9 @@ export const drawAllPlayers = (drawState) => {
   context.globalCompositeOperation = "source-over";
   fillCircle(context, drawX, drawY, 20, color);
 };
+*/
 
-const clamp = (value, min, max) => {
-  if (value < min) return min;
-  else if (value > max) return max;
-  return value;
-};
- */
+ 
 
 /*
 // main draw
@@ -220,8 +216,14 @@ const drawTile = (context, x, y, color) => {
   context.fillText(y + "," + x, x * tileSize + 10, y * tileSize + 20);
 };
 
+const clamp = (value, min, max) => {
+  if (value < min) return min;
+  else if (value > max) return max;
+  return value;
+};
+
 /** main draw */
-export const drawCanvas = (drawState) => {
+export const drawCanvas = (drawState,userId) => {
   // get the canvas element
   canvas = document.getElementById("game-canvas");
   if (!canvas) return;
@@ -237,11 +239,23 @@ export const drawCanvas = (drawState) => {
   //canvas.setAttribute("width", style_width * dpi);
   //{players: [{x: 0, y: 0, color: white}]}
 
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  
+
   canvas.height = map.length * tileSize;
   canvas.width = map[0].length * tileSize;
 
+  const { x, y } = drawState.players[userId].position;
+  //let camX = clamp(-x + canvas.width / 2, 0, map[0].length - canvas.width/2);
+  //let camY = clamp(-y + canvas.height / 2, 0, map.length - canvas.height/2);
+  //context.translate(camX, camY);
+
   // clear the canvas to black
   context.clearRect(0, 0, canvas.width, canvas.height);
+  //context.scale(2, 2);
+  context.translate(-x + map[0].length / 2, y - map.length / 2);
+  //dcontext.scale(2, 2);
+  console.log(x,y);
   map.forEach((row, i) => {
     row.forEach((tile, j) => {
       if (tile !== 0) {
@@ -249,8 +263,8 @@ export const drawCanvas = (drawState) => {
       }
     });
   });
-
   drawAllPlayers(drawState, context);
+  
 };
 
 // 11 rows

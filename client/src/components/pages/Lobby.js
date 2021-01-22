@@ -55,6 +55,7 @@ class Lobby extends Component {
             post("/api/joingame", { gameId: this.props.gameId }).catch((e) => console.log(e));
           }
         } else {
+          post("/api/leavegame", {user : this.state.user});
           navigate("/");
         }
       })
