@@ -46,6 +46,7 @@ export class Profile extends Component {
         this.state = {
             user: undefined,
             avatar: undefined,
+            matches: [],
             winLoss: .84,
         }
     }
