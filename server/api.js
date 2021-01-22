@@ -14,7 +14,6 @@ const User = require("./models/user");
 const Room = require("./models/room");
 const Message = require("./models/message");
 const GameState = require("./models/gamestate");
-const GameSettings = require("./models/gamesettings");
 
 // import authentication library
 const auth = require("./auth");
@@ -82,7 +81,7 @@ router.post("/joingame", (req, res) => {
                                 position: { x: 0, y: 0 },
                                 user: player,
                                 color: "white",
-                                role: "polo",
+                                role: "marco",
                                 powerups: { lightbomb: 45 },
                               };
                             }
@@ -168,26 +167,15 @@ router.post("/hostgame", (req, res) => {
                 position: { x: 0, y: 0 },
                 user: player,
                 color: "white",
-                role: "polo",
+                role: "marco",
                 powerups: { lightbomb: 45 },
               };
             }
-
-            let gamesettings = new GameSettings({
-              timeLimit: 6,
-              mapSize: 2,
-              marcoVision: 50,
-              marcoBomb: 15,
-              marcoReach: 50,
-              poloVision: 50,
-              poloBomb: 50,
-            });
 
             const gameState = new GameState({
               gameId: gameId,
               winner: null,
               players: playersObject,
-              settings: gamesettings,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -227,7 +215,10 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
     },
     content: content,
   });
-  socketManager.getIo().to(gameId).emit("new_message", message);
+  message
+    .save()
+    .then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
+    .catch((err) => console.log(err));
   Room.findOneAndUpdate(
     { gameId: gameId },
     { $push: { chat: message } },
@@ -296,7 +287,7 @@ router.post("/leavegame", (req, res) => {
   }
   res.send({});
 });
-/*
+
 router.post("/creategame", (req, res) => {
   const { gameId } = req.body;
 
@@ -323,26 +314,12 @@ router.post("/creategame", (req, res) => {
     gameState.save().then({});
   });
 });
-*/
-router.post("/startGame", (req, res) => {
-  const { gameId } = req.body;
-  Room.findOne({gameId: gameId }).then((room) => {
-    let gamesettings = new GameSettings({
-      timeLimit: room.settings["General Settings"]["Time Limit"],
-      mapSize: room.settings["General Settings"]["Map Size"],
-      marcoVision: room.settings["Marco Settings"]["Vision Radius"],
-      marcoBomb: room.settings["Marco Settings"]["Light Bomb Timer"],
-      marcoReach: room.settings["Marco Settings"]["Tag Reach"],
-      poloVision: room.settings["Polo Settings"]["Vision Radius"],
-      poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
-    });
-    console.log(room.settings);
-   GameState.findOneAndUpdate({gameId : gameId},{settings : gamesettings});
-   room.delete();
-   socketManager.getIo().emit("updateLobbiesAll");
-   res.send({});
-  })
-});
+
+router.post("/deleteLobby", (req, res) => {
+  const {gameId} = req.body;
+  Room.findOneAndDelete({gameId : gameId}).then(() => res.send({}));
+  socketManager.getIo().emit("updateLobbiesAll");
+})
 
 router.get("/initialRender", (req, res) => {
   const { gameId } = req.query;
@@ -350,6 +327,7 @@ router.get("/initialRender", (req, res) => {
     res.send({ initialRender: gameState });
   });
 });
+
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
