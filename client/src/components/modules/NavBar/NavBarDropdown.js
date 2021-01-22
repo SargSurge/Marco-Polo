@@ -38,13 +38,22 @@ class NavBarDropdown extends Component {
     return (
       <div className="navbardropdown-base">
         <div className="navbardropdown-container" onClick={this.handleClick}>
-          <div className="navbardropdown-username"> {this.props.user.name} </div>
-          <ExpandMoreIcon />
-        </div>
-        <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
-          <div className="navbardropdown-list-items">How to Play</div>
-          <div className="navbardropdown-list-items">Profile</div>
-          {this.props.logoutButton}
+          <ol>
+            <li className="menu-item">
+              <a
+                className="navbardropdown-button"
+                style={{ display: "flex", textDecoration: "none" }}
+              >
+                <div className="navbardropdown-username"> {this.props.user.name} </div>
+                <ExpandMoreIcon />
+              </a>
+              <ol className="sub-menu">
+                <li className="menu-item">How to Play</li>
+                <li className="menu-item">Profile</li>
+                <li className="menu-item"> {this.props.logoutButton}</li>
+              </ol>
+            </li>
+          </ol>
         </div>
       </div>
     );

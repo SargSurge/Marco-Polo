@@ -45,6 +45,12 @@
     border: 1px solid #459bc5 !important;
 }
 
+.hostgame-capacity {
+    color: white;
+    font-family: Orbitron;
+    margin-bottom: 10px;
+}
+
 .hostgame-slider {
     width: 60% !important;
     color: #ff8d00 !important;

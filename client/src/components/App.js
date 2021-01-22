@@ -70,10 +70,7 @@ class App extends Component {
         onLogoutSuccess={this.handleLogout}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
-          <a
-            onClick={renderProps.onClick}
-            className="navbardropdown-list-items navbardropdown-logout"
-          >
+          <a onClick={renderProps.onClick} className="navbardropdown-logout">
             Logout
           </a>
         )}
