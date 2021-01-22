@@ -138,13 +138,13 @@ class Lobby extends Component {
                           disabled={
                             this.state.lobby.players
                               ? !(this.state.user._id === this.state.lobby.players[0]._id)
-                              : true
+                              : false
                           }
                           className={
                             (
                               this.state.lobby.players
                                 ? !(this.state.user._id === this.state.lobby.players[0]._id)
-                                : true
+                                : false
                             )
                               ? "lobby-content-left-setting-slider-disabled"
                               : "lobby-content-left-setting-slider"
