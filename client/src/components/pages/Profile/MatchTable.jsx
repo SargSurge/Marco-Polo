@@ -17,7 +17,7 @@ export class MatchTable extends Component {
         <div>
           <table>
             <thead>
-              <tr className="publictable-headers">
+              <tr className="matchtable-headers">
                 <th style={{ width: "50%" }}>Name</th>
                 <th style={{ width: "30%" }}>Creator</th>
                 <th style={{ width: "20%", textAlign: "center" }}>W / L</th>
@@ -26,8 +26,8 @@ export class MatchTable extends Component {
             <tbody>
               {this.props.matches.map((match, index) => (
                 <tr
-                  className={`publictable-table-row ${
-                    this.props.gameId === match.gameId ? "publictable-table-row-active" : ""
+                  className={`matchtable-table-row ${
+                    this.props.gameId === match.gameId ? "matchtable-table-row-active" : ""
                   }`}
                   key={index}
                 >

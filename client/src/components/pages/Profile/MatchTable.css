@@ -9,11 +9,11 @@
     width: 100%;
 }
 
-.publictable-headers {
+.matchtable-headers {
     border-bottom: 1px solid white;
 }
 
-.publictable-table-row:hover {
+.matchtable-table-row:hover {
     color: black;
     background-color:  #459bc5;
     transition: background-color .25s linear;
@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 
-.publictable-table-row-active {
+.matchtable-table-row-active {
     color: black;
     background-color:  #459bc5;
     text-decoration: none;
