@@ -326,7 +326,7 @@ router.post("/creategame", (req, res) => {
 */
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
-  Room.findOne({gameId: gameId }).then((room) => {
+  Room.findOne({ gameId: gameId }).then((room) => {
     let gamesettings = new GameSettings({
       timeLimit: room.settings["General Settings"]["Time Limit"],
       mapSize: room.settings["General Settings"]["Map Size"],
@@ -336,12 +336,16 @@ router.post("/startGame", (req, res) => {
       poloVision: room.settings["Polo Settings"]["Vision Radius"],
       poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
     });
-    console.log(room.settings);
-   GameState.findOneAndUpdate({gameId : gameId},{settings : gamesettings});
-   room.delete();
-   socketManager.getIo().emit("updateLobbiesAll");
-   res.send({});
-  })
+    let player = room.players[Math.floor(Math.random() * room.players.length)];
+    const roleToUpdate = `players.${player._id}.role`;
+    GameState.findOneAndUpdate(
+      { gameId: gameId },
+      { $set: { [roleToUpdate]: "marco" }, settings: gamesettings }
+    );
+    room.delete();
+    socketManager.getIo().emit("updateLobbiesAll");
+    res.send({});
+  });
 });
 
 router.get("/initialRender", (req, res) => {
