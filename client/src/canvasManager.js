@@ -282,7 +282,7 @@ export const drawCanvas = (drawState,userId) => {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, canvasMap.width, canvasMap.height);
 
-  context.fillStyle = "black";
+  context.fillStyle = "rgba(38, 38, 38, 1)";
   context.fillRect(0, 0, canvasDark.width, canvasDark.height);
   
 
@@ -304,7 +304,7 @@ export const drawCanvas = (drawState,userId) => {
   fillCircle(darkContext, drawX, drawY, 100, gradient);
   drawPlayer(darkContext, x, y, "red");
   //context.scale(2, 2);
-  context.translate(-x + map[0].length / 2, y - map.length / 2);
+  //darkContext.translate(-x + map[0].length / 2, y - map.length / 2);
   //dcontext.scale(2, 2);
   map.forEach((row, i) => {
     row.forEach((tile, j) => {
