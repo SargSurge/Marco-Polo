@@ -1,12 +1,3 @@
-/*
-|--------------------------------------------------------------------------
-| api.js -- server routes
-|--------------------------------------------------------------------------
-|
-| This file defines the routes for your server.
-|
-*/
-
 const express = require("express");
 
 // import models so we can interact with the database
@@ -14,6 +5,7 @@ const User = require("./models/user");
 const Room = require("./models/room");
 const Message = require("./models/message");
 const GameState = require("./models/gamestate");
+const GameSettings = require("./models/gamesettings");
 
 // import authentication library
 const auth = require("./auth");
@@ -81,7 +73,7 @@ router.post("/joingame", (req, res) => {
                                 position: { x: 0, y: 0 },
                                 user: player,
                                 color: "white",
-                                role: "marco",
+                                role: "polo",
                                 powerups: { lightbomb: 45 },
                               };
                             }
@@ -167,15 +159,26 @@ router.post("/hostgame", (req, res) => {
                 position: { x: 0, y: 0 },
                 user: player,
                 color: "white",
-                role: "marco",
+                role: "polo",
                 powerups: { lightbomb: 45 },
               };
             }
+
+            let gamesettings = new GameSettings({
+              timeLimit: 6,
+              mapSize: 2,
+              marcoVision: 50,
+              marcoBomb: 15,
+              marcoReach: 50,
+              poloVision: 50,
+              poloBomb: 50,
+            });
 
             const gameState = new GameState({
               gameId: gameId,
               winner: null,
               players: playersObject,
+              settings: gamesettings,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -215,10 +218,7 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
     },
     content: content,
   });
-  message
-    .save()
-    .then((message) => socketManager.getIo().to(gameId).emit("new_message", message))
-    .catch((err) => console.log(err));
+  socketManager.getIo().to(gameId).emit("new_message", message);
   Room.findOneAndUpdate(
     { gameId: gameId },
     { $push: { chat: message } },
@@ -287,7 +287,7 @@ router.post("/leavegame", (req, res) => {
   }
   res.send({});
 });
-
+/*
 router.post("/creategame", (req, res) => {
   const { gameId } = req.body;
 
@@ -314,14 +314,7 @@ router.post("/creategame", (req, res) => {
     gameState.save().then({});
   });
 });
-
-router.post("/deleteLobby", (req, res) => {
-  const {gameId} = req.body;
-  Room.findOneAndDelete({gameId : gameId}).then(() => res.send({}));
-  socketManager.getIo().emit("updateLobbiesAll");
-})
-
-
+*/
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
@@ -353,7 +346,6 @@ router.get("/initialRender", (req, res) => {
   });
 });
 
-
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
@@ -361,5 +353,3 @@ router.all("*", (req, res) => {
 });
 
 module.exports = router;
-
-// gameState = {winner: null/user, players : {id : { position : {x :  1, y:  1},  user, color : orange, role : marco/polo, powerups : {type : cooldown}}}}
