@@ -1,6 +1,7 @@
 let canvas;
 let canvasMap;
 let canvasDark;
+let vision;
 
 let tileSize = 50;
 let charSize = Math.floor(tileSize / 4);
@@ -177,30 +178,7 @@ export const drawAllPlayers = (drawState) => {
 };
 */
 
- 
 
-/*
-// main draw
-export const drawCanvas = (drawState, userId) => {
-  // get the canvas element
-  canvas = document.getElementById("game-canvas");
-
-  if (!canvas) return;
-  const context = canvas.getContext("2d");
-
-  // draw all the players
-  Object.keys(drawState.players).map((id, index) => {
-    const { x, y } = drawState.players[id].position;
-    const color = "green"; // drawState.player.color
-    drawPlayer(context, x, y, color);
-  });
-
-  const { x, y } = drawState.players[userId].position;
-  let camX = clamp(-x + canvas.width / 2, -1000, 1000 - canvas.width);
-  let camY = clamp(-y + canvas.height / 2, -1000, 1000 - canvas.height);
-  //context.translate(camX, camY);
-};
- */
 
 export const drawOtherPlayers = (drawState, userId,context) => {
   Object.keys(drawState.players).map((id, index) => {
@@ -231,6 +209,13 @@ export const drawCanvas = (drawState,userId) => {
   // get the canvas element
   canvasMap = document.getElementById("map-layer");
   canvasDark = document.getElementById("darkness-layer");
+
+
+  if (drawState.players[userId].role === "marco") {
+    vision = drawState.settings.marcoVision;
+  } else {
+    vision = drawState.settings.poloVision;
+  }
 
   //canvasMap = document.getElementById("game-canvas");
   
@@ -295,16 +280,22 @@ export const drawCanvas = (drawState,userId) => {
   
   
   
-  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 200);
-  let opacity = 0.20; //55% visible
-  gradient.addColorStop(1,'transparent');
+  let gradient = darkContext.createRadialGradient(drawX, drawY, charSize, drawX, drawY, 100);
+  console.log(vision);
+  let opacity = 0.5; //55% visible
+  
+  
+  
   gradient.addColorStop(0.005,'rgba(255,255,255,'+opacity+')');
+  //gradient.addColorStop(0.5,'rgba(255,255,255,'+0.2+')');
+  //gradient.addColorStop(0.9,'rgba(255,255,255,'+0.1+')');
+  gradient.addColorStop(1,'transparent');
   //gradient.addColorStop(0, "white");
   //gradient.addColorStop(0.5, "grey");
   //gradient.addColorStop(0.9, "black");
   //gradient.addColorStop(1, "black");
   //darkContext.globalCompositeOperation = "destination-out";
-  fillCircle(darkContext, drawX, drawY, 200, gradient);
+  fillCircle(darkContext, drawX, drawY, 100, gradient);
   drawPlayer(darkContext, x, y, "red");
   //context.scale(2, 2);
   //darkContext.translate(-x + map[0].length / 2, y - map.length / 2);
