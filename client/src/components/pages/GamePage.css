@@ -21,20 +21,23 @@
 
 html, body {
     margin: 0 !important;
-    overflow: hidden;
     padding: 0 !important;
     height: 100vh;
 }
 
 .gamepage-base {
+    /*
     display: flex;
     justify-content: center;
     align-items: center ;
+     */
+    overflow: hidden;
     background-color: #262626;
     height: 100vh;
 }
 
 .gamepage-game-container {
+    position: relative;;
     overflow: hidden;
 }
 
@@ -60,4 +63,29 @@ html, body {
 
 .gamepage-canvas {
     z-index: 20;
+}
+
+.gamepage-ui-button {
+    position: absolute;
+    font-family: 'Orbitron';
+    right: 23px;
+    width: 100px;
+    height: 100px;
+    color: #e5f77d;
+    border: 1px solid #e5f77d;
+    box-shadow: 0 0 8px 1px;
+    background: #262626;
+}
+
+.gamepage-powerup-button {
+    bottom: 140px;
+}
+
+.gamepage-tag-button {
+    bottom: 25px;
+}
+
+.gamepage-ui-button:focus {
+    text-decoration: none;
+    outline: none;
 }

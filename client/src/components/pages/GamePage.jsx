@@ -3,7 +3,7 @@ import { socket } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
 
 import "./GamePage.css";
 
@@ -19,8 +19,13 @@ export class GamePage extends Component {
         left: false,
       },
       position: {
-        x: -300,
+        x: 0,
         y: 0,
+      },
+      powerup: {
+        name: "Light Bomb",
+        cooldown: "40 sec",
+        ready: false,
       },
     };
   }
@@ -51,6 +56,7 @@ export class GamePage extends Component {
   gameLoop = () => {
     requestAnimationFrame(() => {
       let tempState = this.state.gameState;
+      this.state.updatePowerups();
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
@@ -98,6 +104,8 @@ export class GamePage extends Component {
         break;
     }
   };
+
+  updateCooldowns = () => {};
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
@@ -181,8 +189,17 @@ export class GamePage extends Component {
         <div className="gamepage-game-container">
           <div className="gamepage-header">Welcome to Marco Polo!</div>
           <div className="gamepage-canvas-container">
-            <canvas id="game-canvas" width={1400} className="gamepage-canvas" />
+            <canvas
+              id="game-canvas"
+              width={window.innerWidth}
+              height={window.innerHeight}
+              className="gamepage-canvas"
+            />
           </div>
+          <button className="gamepage-ui-button gamepage-powerup-button">
+            {this.state.powerup.ready ? this.state.powerup.name : this.state.powerup.cooldown}
+          </button>
+          <button className="gamepage-ui-button gamepage-tag-button">Tag</button>
         </div>
       </div>
     );

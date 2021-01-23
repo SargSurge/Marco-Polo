@@ -1,5 +1,7 @@
 let canvas;
-
+const mediumMapJson = require("./components/pages/assets/MediumMapFinished.json");
+const mapData = mediumMapJson.layers[0];
+const map = mapData.data;
 let tileSize = 50;
 let charSize = Math.floor(tileSize / 4);
 let camera;
@@ -14,10 +16,10 @@ export const collisionManager = (isY, x, y, intent) => {
 
   //console.log(left, right, up, down);
 
-  let templeft = left + canvas.width / 2;
-  let tempright = right + canvas.width / 2;
-  let tempup = up + canvas.height / 2;
-  let tempdown = down + canvas.height / 2;
+  let templeft = left + (mapData.width * tileSize) / 2;
+  let tempright = right + (mapData.width * tileSize) / 2;
+  let tempup = up + (mapData.height * tileSize) / 2;
+  let tempdown = down + (mapData.height * tileSize) / 2;
 
   let tryPositionleft = null;
   let tryPositionright = null;
@@ -33,6 +35,13 @@ export const collisionManager = (isY, x, y, intent) => {
   }
 
   let displacement = 0.01;
+
+  console.log(
+    map[
+      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+        Math.floor(templeft / tileSize)
+    ]
+  );
 
   if (isY) {
     /*
@@ -56,27 +65,31 @@ export const collisionManager = (isY, x, y, intent) => {
      */
 
     if (
-      map[Math.abs(map.length - Math.floor(tryPositionup / tileSize)) - 1][
-        Math.floor(templeft / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+          Math.floor(templeft / tileSize)
+      ] === 257
     ) {
       return y - displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tryPositionup / tileSize)) - 1][
-        Math.floor(tempright / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+          Math.floor(tempright / tileSize)
+      ] === 257
     ) {
       return y - displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tryPositiondown / tileSize)) - 1][
-        Math.floor(templeft / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+          Math.floor(templeft / tileSize)
+      ] === 257
     ) {
       return y + displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tryPositiondown / tileSize)) - 1][
-        Math.floor(tempright / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+          Math.floor(tempright / tileSize)
+      ] === 257
     ) {
       return y + displacement;
     }
@@ -105,27 +118,31 @@ export const collisionManager = (isY, x, y, intent) => {
      */
 
     if (
-      map[Math.abs(map.length - Math.floor(tempup / tileSize)) - 1][
-        Math.floor(tryPositionleft / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionleft / tileSize)
+      ] === 257
     ) {
       return x + displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tempup / tileSize)) - 1][
-        Math.floor(tryPositionright / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionright / tileSize)
+      ] === 257
     ) {
       return x - displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tempdown / tileSize)) - 1][
-        Math.floor(tryPositionleft / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionleft / tileSize)
+      ] === 257
     ) {
       return x + displacement;
     } else if (
-      map[Math.abs(map.length - Math.floor(tempdown / tileSize)) - 1][
-        Math.floor(tryPositionright / tileSize)
-      ] !== 0
+      map[
+        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionright / tileSize)
+      ] === 257
     ) {
       return x - displacement;
     }
@@ -137,9 +154,10 @@ export const collisionManager = (isY, x, y, intent) => {
 // converts a coordinate in a normal X Y plane to canvas coordinates
 const convertCoordToCanvas = (x, y) => {
   if (!canvas) return;
+  console.log(x, y);
   return {
-    drawX: canvas.width / 2 + x,
-    drawY: canvas.height / 2 - y,
+    drawX: (mapData.width * tileSize) / 2 + x,
+    drawY: (mapData.height * tileSize) / 2 - y,
   };
 };
 
@@ -175,8 +193,6 @@ export const drawAllPlayers = (drawState) => {
 };
 */
 
- 
-
 /*
 // main draw
 export const drawCanvas = (drawState, userId) => {
@@ -211,9 +227,6 @@ export const drawAllPlayers = (drawState, context) => {
 const drawTile = (context, x, y, color) => {
   context.fillStyle = color;
   context.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-  context.fillStyle = "red";
-  context.font = "10pt sans-serif";
-  context.fillText(y + "," + x, x * tileSize + 10, y * tileSize + 20);
 };
 
 const clamp = (value, min, max) => {
@@ -223,7 +236,7 @@ const clamp = (value, min, max) => {
 };
 
 /** main draw */
-export const drawCanvas = (drawState,userId) => {
+export const drawCanvas = (drawState, userId) => {
   // get the canvas element
   canvas = document.getElementById("game-canvas");
   if (!canvas) return;
@@ -240,10 +253,9 @@ export const drawCanvas = (drawState,userId) => {
   //{players: [{x: 0, y: 0, color: white}]}
 
   context.setTransform(1, 0, 0, 1, 0, 0);
-  
 
-  canvas.height = map.length * tileSize;
-  canvas.width = map[0].length * tileSize;
+  //canvas.height = 1000;
+  //canvas.width = 1400;
 
   const { x, y } = drawState.players[userId].position;
   //let camX = clamp(-x + canvas.width / 2, 0, map[0].length - canvas.width/2);
@@ -253,23 +265,26 @@ export const drawCanvas = (drawState,userId) => {
   // clear the canvas to black
   context.clearRect(0, 0, canvas.width, canvas.height);
   //context.scale(2, 2);
-  context.translate(-x + map[0].length / 2, y - map.length / 2);
+  context.translate(
+    -x - ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width,
+    y -
+      ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
+      canvas.height / 2
+  );
   //dcontext.scale(2, 2);
-  console.log(x,y);
-  map.forEach((row, i) => {
-    row.forEach((tile, j) => {
-      if (tile !== 0) {
-        drawTile(context, j, i, "black");
-      }
-    });
+
+  map.forEach((element, index) => {
+    let row = Math.floor(index / mapData.width);
+    let column = index % mapData.width;
+    if (map[index] == 257) drawTile(context, column, row, "red");
   });
+
   drawAllPlayers(drawState, context);
-  
 };
 
 // 11 rows
 // 27 columns
-export const map = [
+export const mapNot = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -282,4 +297,3 @@ export const map = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
-
