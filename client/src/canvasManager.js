@@ -282,6 +282,9 @@ export const drawCanvas = (drawState,userId) => {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, canvasMap.width, canvasMap.height);
 
+  context.translate(-x + map[0].length / 2, y - map.length / 2);
+  darkContext.translate(-x + map[0].length / 2, y - map.length / 2);
+
   context.fillStyle = "rgba(38, 38, 38, 1)";
   context.fillRect(0, 0, canvasDark.width, canvasDark.height);
   
@@ -292,7 +295,7 @@ export const drawCanvas = (drawState,userId) => {
   
   
   
-  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 200);
   let opacity = 0.20; //55% visible
   gradient.addColorStop(1,'transparent');
   gradient.addColorStop(0.005,'rgba(255,255,255,'+opacity+')');
@@ -301,7 +304,7 @@ export const drawCanvas = (drawState,userId) => {
   //gradient.addColorStop(0.9, "black");
   //gradient.addColorStop(1, "black");
   //darkContext.globalCompositeOperation = "destination-out";
-  fillCircle(darkContext, drawX, drawY, 100, gradient);
+  fillCircle(darkContext, drawX, drawY, 200, gradient);
   drawPlayer(darkContext, x, y, "red");
   //context.scale(2, 2);
   //darkContext.translate(-x + map[0].length / 2, y - map.length / 2);
@@ -313,6 +316,7 @@ export const drawCanvas = (drawState,userId) => {
       }
     });
   });
+  
 
   //darkContext.fillStyle = lingrad;
   //darkContext.fillRect(0, 0, canvas.width, canvas.height);
