@@ -235,8 +235,93 @@ export const drawCanvas = (drawState,userId) => {
   //canvasMap = document.getElementById("game-canvas");
   
   if (!canvasMap) return;
-  const context = canvasMap.getContext("2d");
+
+  canvasDark.height = map.length * tileSize;
+  canvasDark.width = map[0].length * tileSize;
+
+  const { x, y } = drawState.players[userId].position;
+
+  const { drawX, drawY } = convertCoordToCanvas(x, y);
+
   const darkContext = canvasDark.getContext("2d");
+
+  darkContext.setTransform(1, 0, 0, 1, 0, 0);
+  darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
+
+  //darkContext.globalCompositeOperation = "destinaton-out";
+
+
+  //fillCircle(darkContext, drawX, drawY, 60, "white");
+  //darkContext.beginPath();
+  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  //darkContext.clip();
+
+  //darkContext.globalCompositeOperation = "destinaton-out";
+ // darkContext.fillStyle = "black";
+  //darkContext.fillRect(0, 0, canvasDark.width, canvasDark.height);
+  //darkContext.beginPath();
+  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  //darkContext.clip();
+  
+
+  //darkContext.clearRect(0,0,x,y);
+  
+  //let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 60);
+  //gradient.addColorStop(0, "white");
+  //gradient.addColorStop(0.5, "grey");
+  //gradient.addColorStop(0.9, "black");
+  //gradient.addColorStop(1, "black");
+  //darkContext.globalCompositeOperation = "destination-out";
+  //fillCircle(darkContext, drawX, drawY, 60, "white");
+  
+  const context = canvasMap.getContext("2d");
+
+  canvasMap.height = map.length * tileSize;
+  canvasMap.width = map[0].length * tileSize;
+
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.clearRect(0, 0, canvasMap.width, canvasMap.height);
+
+  context.fillStyle = "black";
+  context.fillRect(0, 0, canvasDark.width, canvasDark.height);
+  
+
+  context.beginPath();
+  context.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  context.clip();
+  
+  
+  
+  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  let opacity = 0.20; //55% visible
+  gradient.addColorStop(1,'transparent');
+  gradient.addColorStop(0.005,'rgba(255,255,255,'+opacity+')');
+  //gradient.addColorStop(0, "white");
+  //gradient.addColorStop(0.5, "grey");
+  //gradient.addColorStop(0.9, "black");
+  //gradient.addColorStop(1, "black");
+  //darkContext.globalCompositeOperation = "destination-out";
+  fillCircle(darkContext, drawX, drawY, 100, gradient);
+  drawPlayer(darkContext, x, y, "red");
+  //context.scale(2, 2);
+  context.translate(-x + map[0].length / 2, y - map.length / 2);
+  //dcontext.scale(2, 2);
+  map.forEach((row, i) => {
+    row.forEach((tile, j) => {
+      if (tile !== 0) {
+        drawTile(context, j, i, "black");
+      }
+    });
+  });
+
+  //darkContext.fillStyle = lingrad;
+  //darkContext.fillRect(0, 0, canvas.width, canvas.height);
+  //darkContext.globalCompositeOperation = "source-over";
+
+  
+
+  
+  
 
   // Makes the canvas responsive to width changes
 
@@ -248,45 +333,33 @@ export const drawCanvas = (drawState,userId) => {
   //canvas.setAttribute("width", style_width * dpi);
   //{players: [{x: 0, y: 0, color: white}]}
 
-  context.setTransform(1, 0, 0, 1, 0, 0);
-  darkContext.setTransform(1, 0, 0, 1, 0, 0);
   
 
-  canvasMap.height = map.length * tileSize;
-  canvasMap.width = map[0].length * tileSize;
+ 
 
-  canvasDark.height = map.length * tileSize;
-  canvasDark.width = map[0].length * tileSize;
-
-  const { x, y } = drawState.players[userId].position;
+  
   //let camX = clamp(-x + canvas.width / 2, 0, map[0].length - canvas.width/2);
   //let camY = clamp(-y + canvas.height / 2, 0, map.length - canvas.height/2);
   //context.translate(camX, camY);
 
   // clear the canvas to black
-  context.clearRect(0, 0, canvasMap.width, canvasMap.height);
-  darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
-  //context.scale(2, 2);
-  context.translate(-x + map[0].length / 2, y - map.length / 2);
-  //dcontext.scale(2, 2);
-  map.forEach((row, i) => {
-    row.forEach((tile, j) => {
-      if (tile !== 0) {
-        drawTile(context, j, i, "black");
-      }
-    });
-  });
+  
   
   drawOtherPlayers(drawState, userId,context);
-
+/*
   const { drawX, drawY } = convertCoordToCanvas(x, y);
+
+  const darkContext = canvasDark.getContext("2d");
+
+  darkContext.setTransform(1, 0, 0, 1, 0, 0);
+  darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
 
   //darkContext.globalCompositeOperation = "destinaton-out";
 
 
   //fillCircle(darkContext, drawX, drawY, 60, "white");
-  darkContext.beginPath();
-  darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  //darkContext.beginPath();
+  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
   //darkContext.clip();
 
   //darkContext.globalCompositeOperation = "destinaton-out";
@@ -295,18 +368,20 @@ export const drawCanvas = (drawState,userId) => {
   //darkContext.beginPath();
   //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
   //darkContext.clip();
-  darkContext.globalCompositeOperation = "destination-out";
+  
 
   //darkContext.clearRect(0,0,x,y);
-  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  
+  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 60);
   gradient.addColorStop(0, "white");
   gradient.addColorStop(0.5, "grey");
   gradient.addColorStop(0.9, "black");
   gradient.addColorStop(1, "black");
-
-  console.log(gradient);
+  //darkContext.globalCompositeOperation = "destination-out";
+  fillCircle(darkContext, drawX, drawY, 60, "white");
   
-  fillCircle(darkContext, drawX, drawY, 60, gradient);
+  
+  
 
   //darkContext.fillStyle = lingrad;
   //darkContext.fillRect(0, 0, canvas.width, canvas.height);
@@ -314,7 +389,7 @@ export const drawCanvas = (drawState,userId) => {
   drawPlayer(darkContext, x, y, "red");
   
   //darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
-
+*/
 
 };
 

@@ -69,7 +69,7 @@ canvas {
 
 #ui-layer {z-index : 4}
 #darkness-layer {
-    z-index : 3;
+    z-index : 1;
     background-color: transparent;
 }
 #player-layer {z-index : 2}
