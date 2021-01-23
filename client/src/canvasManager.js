@@ -1,4 +1,6 @@
 let canvas;
+let canvasMap;
+let canvasDark;
 
 let tileSize = 50;
 let charSize = Math.floor(tileSize / 4);
@@ -14,10 +16,10 @@ export const collisionManager = (isY, x, y, intent) => {
 
   //console.log(left, right, up, down);
 
-  let templeft = left + canvas.width / 2;
-  let tempright = right + canvas.width / 2;
-  let tempup = up + canvas.height / 2;
-  let tempdown = down + canvas.height / 2;
+  let templeft = left + canvasMap.width / 2;
+  let tempright = right + canvasMap.width / 2;
+  let tempup = up + canvasMap.height / 2;
+  let tempdown = down + canvasMap.height / 2;
 
   let tryPositionleft = null;
   let tryPositionright = null;
@@ -136,10 +138,10 @@ export const collisionManager = (isY, x, y, intent) => {
 
 // converts a coordinate in a normal X Y plane to canvas coordinates
 const convertCoordToCanvas = (x, y) => {
-  if (!canvas) return;
+  if (!canvasMap) return;
   return {
-    drawX: canvas.width / 2 + x,
-    drawY: canvas.height / 2 - y,
+    drawX: canvasMap.width / 2 + x,
+    drawY: canvasMap.height / 2 - y,
   };
 };
 
@@ -200,11 +202,13 @@ export const drawCanvas = (drawState, userId) => {
 };
  */
 
-export const drawAllPlayers = (drawState, context) => {
+export const drawOtherPlayers = (drawState, userId,context) => {
   Object.keys(drawState.players).map((id, index) => {
-    const { x, y } = drawState.players[id].position;
-    const color = "green"; // drawState.player.color
-    drawPlayer(context, x, y, color);
+    if (id !== userId) {
+      const { x, y } = drawState.players[id].position;
+      const color = "green"; // drawState.player.color
+      drawPlayer(context, x, y, color);
+    }
   });
 };
 
@@ -225,9 +229,14 @@ const clamp = (value, min, max) => {
 /** main draw */
 export const drawCanvas = (drawState,userId) => {
   // get the canvas element
-  canvas = document.getElementById("game-canvas");
-  if (!canvas) return;
-  const context = canvas.getContext("2d");
+  canvasMap = document.getElementById("map-layer");
+  canvasDark = document.getElementById("darkness-layer");
+
+  //canvasMap = document.getElementById("game-canvas");
+  
+  if (!canvasMap) return;
+  const context = canvasMap.getContext("2d");
+  const darkContext = canvasDark.getContext("2d");
 
   // Makes the canvas responsive to width changes
 
@@ -240,10 +249,14 @@ export const drawCanvas = (drawState,userId) => {
   //{players: [{x: 0, y: 0, color: white}]}
 
   context.setTransform(1, 0, 0, 1, 0, 0);
+  darkContext.setTransform(1, 0, 0, 1, 0, 0);
   
 
-  canvas.height = map.length * tileSize;
-  canvas.width = map[0].length * tileSize;
+  canvasMap.height = map.length * tileSize;
+  canvasMap.width = map[0].length * tileSize;
+
+  canvasDark.height = map.length * tileSize;
+  canvasDark.width = map[0].length * tileSize;
 
   const { x, y } = drawState.players[userId].position;
   //let camX = clamp(-x + canvas.width / 2, 0, map[0].length - canvas.width/2);
@@ -251,11 +264,11 @@ export const drawCanvas = (drawState,userId) => {
   //context.translate(camX, camY);
 
   // clear the canvas to black
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvasMap.width, canvasMap.height);
+  darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
   //context.scale(2, 2);
   context.translate(-x + map[0].length / 2, y - map.length / 2);
   //dcontext.scale(2, 2);
-  console.log(x,y);
   map.forEach((row, i) => {
     row.forEach((tile, j) => {
       if (tile !== 0) {
@@ -263,8 +276,46 @@ export const drawCanvas = (drawState,userId) => {
       }
     });
   });
-  drawAllPlayers(drawState, context);
   
+  drawOtherPlayers(drawState, userId,context);
+
+  const { drawX, drawY } = convertCoordToCanvas(x, y);
+
+  //darkContext.globalCompositeOperation = "destinaton-out";
+
+
+  //fillCircle(darkContext, drawX, drawY, 60, "white");
+  darkContext.beginPath();
+  darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  //darkContext.clip();
+
+  //darkContext.globalCompositeOperation = "destinaton-out";
+  darkContext.fillStyle = "black";
+  darkContext.fillRect(0, 0, canvasDark.width, canvasDark.height);
+  //darkContext.beginPath();
+  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
+  //darkContext.clip();
+  darkContext.globalCompositeOperation = "destination-out";
+
+  //darkContext.clearRect(0,0,x,y);
+  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 100);
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(0.5, "grey");
+  gradient.addColorStop(0.9, "black");
+  gradient.addColorStop(1, "black");
+
+  console.log(gradient);
+  
+  fillCircle(darkContext, drawX, drawY, 60, gradient);
+
+  //darkContext.fillStyle = lingrad;
+  //darkContext.fillRect(0, 0, canvas.width, canvas.height);
+  darkContext.globalCompositeOperation = "source-over";
+  drawPlayer(darkContext, x, y, "red");
+  
+  //darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
+
+
 };
 
 // 11 rows

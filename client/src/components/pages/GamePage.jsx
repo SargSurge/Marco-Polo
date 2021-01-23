@@ -177,16 +177,25 @@ export class GamePage extends Component {
 
   render() {
     return (
-      <div className="gamepage-base">
-        <div className="gamepage-game-container">
-          <div className="gamepage-header">Welcome to Marco Polo!</div>
+ 
+         
           <div className="gamepage-canvas-container">
-            <canvas id="game-canvas" width={1400} className="gamepage-canvas" />
+            <canvas id="map-layer" width={1400} ></canvas>
+            <canvas id="player-layer" width={1400} ></canvas>
+            <canvas id="darkness-layer" width={1400} ></canvas>
+            
           </div>
-        </div>
-      </div>
+
     );
   }
 }
 
 export default GamePage;
+
+/*
+<canvas id="game-canvas" width={1400} className="gamepage-canvas" />
+<canvas id="ui-layer" width={1400} ></canvas>
+            <canvas id="darkness-layer" width={1400} ></canvas>
+            <canvas id="player-layer" width={1400} ></canvas>
+            <canvas id="map-layer" width={1400} ></canvas>
+            */

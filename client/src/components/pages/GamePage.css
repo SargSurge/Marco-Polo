@@ -40,6 +40,7 @@ html, body {
 
 .gamepage-canvas-container {
     position: relative;
+
 }
 
 .gamepage-header {
@@ -58,6 +59,19 @@ html, body {
     z-index: 30;
 }
 
-.gamepage-canvas {
-    z-index: 20;
+canvas {
+    position : absolute;
+    left:0px;
+    top:0px;
+    background-color: transparent;
 }
+
+
+#ui-layer {z-index : 4}
+#darkness-layer {
+    z-index : 3;
+    background-color: transparent;
+}
+#player-layer {z-index : 2}
+#map-layer {z-index : 1}
+
