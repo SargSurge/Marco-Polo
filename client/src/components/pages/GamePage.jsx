@@ -4,7 +4,7 @@ import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
 import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
-
+import Timer from "react-compound-timer";
 import "./GamePage.css";
 
 export class GamePage extends Component {
@@ -56,7 +56,6 @@ export class GamePage extends Component {
   gameLoop = () => {
     requestAnimationFrame(() => {
       let tempState = this.state.gameState;
-      this.state.updatePowerups();
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
@@ -196,9 +195,21 @@ export class GamePage extends Component {
               className="gamepage-canvas"
             />
           </div>
-          <button className="gamepage-ui-button gamepage-powerup-button">
-            {this.state.powerup.ready ? this.state.powerup.name : this.state.powerup.cooldown}
-          </button>
+          <Timer
+            initialTime={10000}
+            startImmediately={false}
+            onStart={() => console.log("onStart hook")}
+            onResume={() => console.log("onResume hook")}
+            onPause={() => console.log("onPause hook")}
+            onStop={() => console.log("onStop hook")}
+            onReset={() => console.log("onReset hook")}
+          >
+            {({ start, resume, pause, stop, reset, getTimerState, getTime }) => (
+              <button className="gamepage-ui-button gamepage-powerup-button">
+                {this.state.powerup.ready ? this.state.powerup.name : this.state.powerup.cooldown}
+              </button>
+            )}
+          </Timer>
           <button className="gamepage-ui-button gamepage-tag-button">Tag</button>
         </div>
       </div>

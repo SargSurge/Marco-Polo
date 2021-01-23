@@ -36,13 +36,6 @@ export const collisionManager = (isY, x, y, intent) => {
 
   let displacement = 0.01;
 
-  console.log(
-    map[
-      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
-        Math.floor(templeft / tileSize)
-    ]
-  );
-
   if (isY) {
     /*
     console.log("Y");
@@ -154,7 +147,6 @@ export const collisionManager = (isY, x, y, intent) => {
 // converts a coordinate in a normal X Y plane to canvas coordinates
 const convertCoordToCanvas = (x, y) => {
   if (!canvas) return;
-  console.log(x, y);
   return {
     drawX: (mapData.width * tileSize) / 2 + x,
     drawY: (mapData.height * tileSize) / 2 - y,
