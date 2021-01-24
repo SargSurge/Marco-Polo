@@ -1,0 +1,14 @@
+{ "columns":8,
+ "image":"..\/Downloads\/CP_Interior1\/Inside_A5.png",
+ "imageheight":768,
+ "imagewidth":384,
+ "margin":0,
+ "name":"Inside_A5",
+ "spacing":0,
+ "tilecount":128,
+ "tiledversion":"1.4.3",
+ "tileheight":48,
+ "tilewidth":48,
+ "type":"tileset",
+ "version":1.4
+}
