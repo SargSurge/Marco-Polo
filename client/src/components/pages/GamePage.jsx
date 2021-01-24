@@ -4,8 +4,23 @@ import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
 import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
+import A2 from "./assets/Inside_A2.png";
+import A4 from "./assets/Inside_A4.png";
+import A5 from "./assets/Inside_A5.png";
+import B from "./assets/Inside_B.png";
+import C from "./assets/Inside_C.png";
+//import Gate from "./assets/!$Gate1.png";
 
 import "./GamePage.css";
+
+let loadCount;
+let json = require("./assets/MediumMapFinished.json");
+let tilesets = [];
+let numx = json.width;
+let numy = json.height;
+let tilesizex = json.tilewidth;
+let tilesizey = json.tileheight;
+let tileset_imgs = [A2, A2, A4, A5, B, C];
 
 export class GamePage extends Component {
   constructor(props) {
@@ -29,6 +44,17 @@ export class GamePage extends Component {
     window.addEventListener("keydown", this.handleKeyDown);
     document.addEventListener("keyup", this.handleKeyUp);
 
+    loadCount = 0;
+    for (let i = 0; i < json.tilesets.length; i++) {
+      let img = new Image();
+      img.onload = function () {
+        loadCount++;
+      };
+      img.src = tileset_imgs[i];
+      let tileset = {firstgid: json.tilesets[i].firstgid,image: img,imagewidth: json.tilesets[i].imagewidth,imageheight: json.tilesets[i].imageheight,numx: Math.floor(json.tilesets[i].imagewidth / tilesizex),numy: Math.floor(json.tilesets[i].imageheight / tilesizey)};
+      tilesets.push(tileset);
+    }
+
     get("/api/whoami", {})
       .then((user) => {
         this.setState({ user: user });
@@ -36,11 +62,15 @@ export class GamePage extends Component {
       .then(() => {
         get("/api/initialRender", { gameId: this.props.gameId })
           .then((res) => {
-            this.processUpdate(res.initialRender);
+            if (loadCount == json.tilesets.length) {
+              this.processUpdate(res.initialRender);
+            }
             this.setState({ gameState: res.initialRender });
           })
           .then(() => {
-            this.gameLoop();
+            if (loadCount == json.tilesets.length) {
+              this.gameLoop();
+            }
             socket.on("update", (gameState) => {
               this.setState({ gameState: gameState });
             });
@@ -54,7 +84,10 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
-      drawCanvas(this.state.gameState, this.state.user._id);
+      drawCanvas(this.state.gameState, this.state.user._id, tilesets);
+      let canvas = document.getElementById("game-canvas");
+      const context = canvas.getContext("2d");
+
       this.gameLoop();
     });
   };
@@ -172,7 +205,7 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState) => {
-    drawCanvas(gameState, this.state.user._id);
+    drawCanvas(gameState, this.state.user._id, tilesets);
   };
 
   render() {
@@ -181,7 +214,12 @@ export class GamePage extends Component {
         <div className="gamepage-game-container">
           <div className="gamepage-header">Welcome to Marco Polo!</div>
           <div className="gamepage-canvas-container">
-            <canvas id="game-canvas" width={1400} className="gamepage-canvas" />
+            <canvas
+              id="game-canvas"
+              width={window.innerWidth}
+              height={window.innerHeight}
+              className="gamepage-canvas"
+            />
           </div>
         </div>
       </div>

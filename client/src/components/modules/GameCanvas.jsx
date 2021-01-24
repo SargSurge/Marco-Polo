@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { socket } from '../../client-socket';
 import { drawCanvas } from '../../canvasManager';
+import $ from 'jquery';
 
 export class GameCanvas extends Component {
     constructor(props) {
