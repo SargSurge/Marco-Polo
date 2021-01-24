@@ -39,7 +39,12 @@ export class GamePage extends Component {
       },
       powerup: {
         name: "Light Bomb",
-        cooldown: 10000,
+        cooldown: 11000,
+        ready: true,
+      },
+      tag: {
+        name: "Tag",
+        cooldown: 31000,
         ready: true,
       },
     };
@@ -224,6 +229,7 @@ export class GamePage extends Component {
       <div className="gamepage-base">
         <div className="gamepage-game-container">
           <div className="gamepage-header">Welcome to Marco Polo!</div>
+          <div className="gamepage-character-header">You're a Marco!</div>
           <div className="gamepage-canvas-container">
             <canvas
               id="game-canvas"
@@ -238,10 +244,9 @@ export class GamePage extends Component {
             direction="backward"
             onStart={() => console.log("onStart hook")}
             onResume={() => console.log("onResume hook")}
-            onPause={() => console.log("onPause hook")}
             onReset={() => console.log("onReset hook")}
           >
-            {({ start, resume, pause, stop, reset, getTimerState, getTime }) => (
+            {({ start, resume, reset, getTime }) => (
               <button
                 className="gamepage-ui-button gamepage-powerup-button"
                 onClick={() => {
@@ -263,7 +268,34 @@ export class GamePage extends Component {
               </button>
             )}
           </Timer>
-          <button className="gamepage-ui-button gamepage-tag-button">Tag</button>
+          <Timer
+            initialTime={this.state.tag.cooldown}
+            startImmediately={false}
+            direction="backward"
+            onStart={() => console.log("onStart hook")}
+            onResume={() => console.log("onResume hook")}
+            onReset={() => console.log("onReset hook")}
+          >
+            {({ start, resume, reset, getTime }) => (
+              <button
+                className="gamepage-ui-button gamepage-tag-button"
+                onClick={() => {
+                  if (this.state.tag.ready) {
+                    start();
+                    this.setState({ tag: { ...this.state.tag, ready: false } });
+                  }
+                }}
+              >
+                {this.state.tag.ready ? (
+                  this.state.tag.name
+                ) : getTime() <= 0 ? (
+                  (this.setState({ tag: { ...this.state.tag, ready: true } }), reset(), resume())
+                ) : (
+                  <Timer.Seconds />
+                )}
+              </button>
+            )}
+          </Timer>
         </div>
       </div>
     );

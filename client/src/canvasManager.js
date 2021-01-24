@@ -1,5 +1,3 @@
-import $ from "jquery";
-import pic from "./A2_0.png";
 let json = require("../src/components/pages/assets/MediumMapFinished.json");
 const mapData = json.layers[0];
 const map = mapData.data;
@@ -252,8 +250,6 @@ export const drawCanvas = (drawState, userId, tilesets) => {
   //context.drawImage(img, drawX, drawY);
   //};
   //img.src = pic;
-
-  //img.src = require("./Inside_A2.png");
 
   /*
   loadCount = 0;
