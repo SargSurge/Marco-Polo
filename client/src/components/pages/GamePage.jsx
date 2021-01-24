@@ -56,7 +56,14 @@ export class GamePage extends Component {
         loadCount++;
       };
       img.src = tileset_imgs[i];
-      let tileset = {firstgid: json.tilesets[i].firstgid,image: img,imagewidth: json.tilesets[i].imagewidth,imageheight: json.tilesets[i].imageheight,numx: Math.floor(json.tilesets[i].imagewidth / tilesizex),numy: Math.floor(json.tilesets[i].imageheight / tilesizey)};
+      let tileset = {
+        firstgid: json.tilesets[i].firstgid,
+        image: img,
+        imagewidth: json.tilesets[i].imagewidth,
+        imageheight: json.tilesets[i].imageheight,
+        numx: Math.floor(json.tilesets[i].imagewidth / tilesizex),
+        numy: Math.floor(json.tilesets[i].imageheight / tilesizey),
+      };
       tilesets.push(tileset);
     }
 
@@ -138,7 +145,7 @@ export class GamePage extends Component {
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
-    const SPEED = 5;
+    const SPEED = 7;
     const dirMap = {
       up: ["y", 1],
       down: ["y", -1],

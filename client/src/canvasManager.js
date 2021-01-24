@@ -173,25 +173,25 @@ const fillCircle = (context, x, y, radius, color) => {
 
 /** drawing functions */
 
-const drawPlayer = (context, x, y, color) => {
+const drawPlayer = (context, x, y, color, view) => {
   const { drawX, drawY } = convertCoordToCanvas(x, y);
-  fillCircle(context, drawX, drawY, charSize, color);
+  fillCircle(context, drawX - view.x, drawY - view.y, charSize, color);
 };
 
-export const drawAllPlayers = (drawState, context) => {
+export const drawAllPlayers = (drawState, context, view) => {
   Object.keys(drawState.players).map((id, index) => {
     const { x, y } = drawState.players[id].position;
     const color = "green"; // drawState.player.color
-    drawPlayer(context, x, y, color);
+    drawPlayer(context, x, y, color, view);
   });
 };
 
-const drawTile = (context, x, y, color) => {
+const drawTile = (context, x, y, color, view) => {
   context.fillStyle = color;
-  context.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+  context.fillRect(x * tileSize - view.x, y * tileSize - view.y, tileSize, tileSize);
 };
 
-const getTilePacket = (t_ind,tilesets) => {
+const getTilePacket = (t_ind, tilesets) => {
   let pkt = { img: null, px: 0, py: 0 };
   let i = 0;
   for (i = tilesets.length - 1; i >= 0; i--) {
@@ -233,7 +233,7 @@ export const drawCanvas = (drawState, userId, tilesets) => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   //context.scale(2, 2);
   //context.translate(-x + map[0].length / 2, y - map.length / 2);
-/*
+  /*
   map.forEach((row, i) => {
     row.forEach((tile, j) => {
       if (tile !== 0) {
@@ -241,8 +241,6 @@ export const drawCanvas = (drawState, userId, tilesets) => {
       }
     });
   });*/
-
-  
 
   const { drawX, drawY } = convertCoordToCanvas(x, y);
 
@@ -269,26 +267,34 @@ export const drawCanvas = (drawState, userId, tilesets) => {
   }
 */
 
-context.translate(
-  -x - ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width,
-  y -
-    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
-    canvas.height / 2
-);
+  view = {
+    x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width,
+    y:
+      -y +
+      ((window.screen.height - canvas.height) / (numy * tilesizey)) * canvas.height -
+      canvas.height / 2,
+    w: canvas.width,
+    h: canvas.height,
+  };
 
-  view = {x : x - ((window.screen.width - canvas.width) / (numx * tilesizex)) ,y : -y +
-    ((window.screen.height - canvas.height) / (numy * tilesizey)) * canvas.height -
-    canvas.height / 2, w : canvas.width, h : canvas.height};
+  context.translate(
+    -x -
+      ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
+      view.x,
+    y -
+      ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
+      canvas.height / 2 +
+      view.y
+  );
 
   for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
     if (json.layers[layer_ind].type != "tilelayer") continue;
     let d = json.layers[layer_ind].data;
 
     for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
-
       let t_id = d[tile_ind];
       if (t_id == 0) continue;
-      let tpkt = getTilePacket(t_id,tilesets);
+      let tpkt = getTilePacket(t_id, tilesets);
       let worldX = Math.floor(tile_ind % numx) * tilesizex;
       let worldY = Math.floor(tile_ind / numy) * tilesizey;
       //if ((worldX + tilesizex) < view.x || (worldY + tilesizey) < view.y || worldX > (view.x + view.w) || worldY > (view.y + view.h)) continue;
@@ -304,21 +310,15 @@ context.translate(
         worldY,
         tilesizex,
         tilesizey
-      ); 
+      );
     }
   }
 
-  map.forEach((element, index) => {
-    let row = Math.floor(index / mapData.width);
-    let column = index % mapData.width;
-    if (map[index] == 257) drawTile(context, column, row, "red");
-  });
-  drawAllPlayers(drawState, context);
+  drawAllPlayers(drawState, context, view);
 };
 
 // 11 rows
 // 27 columns
-
 
 /*
 $(function() {
@@ -381,16 +381,3 @@ $(function() {
   scene.loadTileset("MediumMapFinished");
 });
 */
-export const mapNot = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
