@@ -2,6 +2,11 @@
     The CSS for the Lobby page
  */
 
+html, body {
+  overflow: auto;
+}
+
+
 .lobby-base {
   /*background: #262626;
   background-color: #262626;

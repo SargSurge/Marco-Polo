@@ -4,7 +4,6 @@ let json = require("../src/components/pages/assets/MediumMapFinished.json");
 const mapData = json.layers[0];
 const map = mapData.data;
 let canvas = document.getElementById("game-canvas");
-
 let tileSize = 50;
 let charSize = Math.floor(tileSize / 4);
 let camera;
@@ -156,8 +155,10 @@ const convertCoordToCanvas = (x, y) => {
   return {
     //drawX: canvas.width / 2 + x,
     //drawY: canvas.height / 2 - y,
-    drawX: (numx * tileSize) / 2 + x,
-    drawY: (numy * tileSize) / 2 - y,
+    //drawX: (numx * tileSize) / 2 + x,
+    //drawY: (numy * tileSize) / 2 - y,
+    drawX: (mapData.width * tileSize) / 2 + x,
+    drawY: (mapData.height * tileSize) / 2 - y,
   };
 };
 
@@ -187,9 +188,6 @@ export const drawAllPlayers = (drawState, context) => {
 const drawTile = (context, x, y, color) => {
   context.fillStyle = color;
   context.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-  context.fillStyle = "red";
-  context.font = "10pt sans-serif";
-  context.fillText(y + "," + x, x * tileSize + 10, y * tileSize + 20);
 };
 
 const clamp = (value, min, max) => {
@@ -382,3 +380,16 @@ $(function() {
   scene.loadTileset("MediumMapFinished");
 });
 */
+export const mapNot = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
