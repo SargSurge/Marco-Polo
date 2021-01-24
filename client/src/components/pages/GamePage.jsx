@@ -4,6 +4,7 @@ import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
 import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
+import a2 from "./assets/Inside_A2.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
 
@@ -24,8 +25,8 @@ export class GamePage extends Component {
       },
       powerup: {
         name: "Light Bomb",
-        cooldown: "40 sec",
-        ready: false,
+        cooldown: 10000,
+        ready: true,
       },
     };
   }
@@ -46,6 +47,14 @@ export class GamePage extends Component {
           })
           .then(() => {
             this.gameLoop();
+            //let canvas = document.getElementById("game-canvas");
+            //const context = canvas.getContext("2d");
+            //
+            //let img = new Image();
+            //img.onload = function () {
+            //  context.drawImage(img, 300, 300);
+            //};
+            //img.src = a2;
             socket.on("update", (gameState) => {
               this.setState({ gameState: gameState });
             });
@@ -196,17 +205,33 @@ export class GamePage extends Component {
             />
           </div>
           <Timer
-            initialTime={10000}
+            initialTime={this.state.powerup.cooldown}
             startImmediately={false}
+            direction="backward"
             onStart={() => console.log("onStart hook")}
             onResume={() => console.log("onResume hook")}
             onPause={() => console.log("onPause hook")}
-            onStop={() => console.log("onStop hook")}
             onReset={() => console.log("onReset hook")}
           >
             {({ start, resume, pause, stop, reset, getTimerState, getTime }) => (
-              <button className="gamepage-ui-button gamepage-powerup-button">
-                {this.state.powerup.ready ? this.state.powerup.name : this.state.powerup.cooldown}
+              <button
+                className="gamepage-ui-button gamepage-powerup-button"
+                onClick={() => {
+                  if (this.state.powerup.ready) {
+                    start();
+                    this.setState({ powerup: { ...this.state.powerup, ready: false } });
+                  }
+                }}
+              >
+                {this.state.powerup.ready ? (
+                  this.state.powerup.name
+                ) : getTime() <= 0 ? (
+                  (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
+                  reset(),
+                  resume())
+                ) : (
+                  <Timer.Seconds />
+                )}
               </button>
             )}
           </Timer>
