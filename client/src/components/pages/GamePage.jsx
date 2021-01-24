@@ -90,9 +90,6 @@ export class GamePage extends Component {
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
       drawCanvas(this.state.gameState, this.state.user._id, tilesets);
-      let canvas = document.getElementById("game-canvas");
-      const context = canvas.getContext("2d");
-
       this.gameLoop();
     });
   };

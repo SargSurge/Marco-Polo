@@ -4,13 +4,14 @@ let json = require("../src/components/pages/assets/MediumMapFinished.json");
 const mapData = json.layers[0];
 const map = mapData.data;
 let canvas = document.getElementById("game-canvas");
-let tileSize = 50;
-let charSize = Math.floor(tileSize / 4);
+
 let camera;
 let numx = json.width;
 let numy = json.height;
 let tilesizex = json.tilewidth;
 let tilesizey = json.tileheight;
+let tileSize = tilesizex;
+let charSize = Math.floor(tileSize / 4);
 let loadCount;
 let view;
 
@@ -190,12 +191,6 @@ const drawTile = (context, x, y, color) => {
   context.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
 };
 
-const clamp = (value, min, max) => {
-  if (value < min) return min;
-  else if (value > max) return max;
-  return value;
-};
-
 const getTilePacket = (t_ind,tilesets) => {
   let pkt = { img: null, px: 0, py: 0 };
   let i = 0;
@@ -275,9 +270,9 @@ export const drawCanvas = (drawState, userId, tilesets) => {
 */
 
 context.translate(
-  -x - ((window.screen.width - canvas.width) / (numx * tileSize)) * canvas.width,
+  -x - ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width,
   y -
-    ((window.screen.height - canvas.height) / (numy * tileSize)) * canvas.height -
+    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
     canvas.height / 2
 );
 
@@ -309,9 +304,15 @@ context.translate(
         worldY,
         tilesizex,
         tilesizey
-      );
+      ); 
     }
   }
+
+  map.forEach((element, index) => {
+    let row = Math.floor(index / mapData.width);
+    let column = index % mapData.width;
+    if (map[index] == 257) drawTile(context, column, row, "red");
+  });
   drawAllPlayers(drawState, context);
 };
 
