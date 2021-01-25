@@ -79,7 +79,7 @@ export class GamePage extends Component {
           if (loadCount == json.tilesets.length) {
             this.processUpdate(currState, user);
           }
-          let isMarco = currState.players[this.state.user._id].role == "marco";
+          let isMarco = currState.players[user._id].role == "marco";
           console.log(isMarco);
           this.setState({
             user: user,
