@@ -323,6 +323,7 @@ export const drawCanvas = (drawState, userId, tilesets) => {
 
       drawAllPlayers(drawState, context, view);
     }
+<<<<<<< HEAD
 
 /*
       gid &= ~(FLIPPED_HORIZONTALLY_FLAG |

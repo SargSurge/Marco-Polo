@@ -18,12 +18,12 @@ class Lobby extends Component {
       "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
         "Vision Radius": [0, 50, 100, 5],
-        "Light Bomb Timer": [0, 15, 30, 5],
-        "Tag Reach": [0, 50, 100, 5],
+        "Thermal Radar Timer": [0, 15, 30, 5],
+        "Tag Timer": [10, 20, 40, 5],
       },
       "Polo Settings": {
         "Vision Radius": [0, 50, 100, 5],
-        "Teleport Bomb Timer": [0, 50, 100, 5],
+        "Instant Transmission Timer": [0, 50, 100, 5],
       },
     };
 
@@ -88,6 +88,7 @@ class Lobby extends Component {
       this.updateLobbySettings(lobby);
     });
     socket.on("startGame", () => {
+      alert("Starting the game!");
       navigate(`../game/${this.state.lobby.gameId}`);
     });
   }
@@ -201,9 +202,9 @@ class Lobby extends Component {
                         : true
                     }
                     onClick={() => {
-                      postStart(this.state.lobby.gameId);
-                      navigate(`../game/${this.state.lobby.gameId}`);
-                      startGame(this.state.lobby.gameId);
+                      post("/api/startGame", { gameId: this.state.lobby.gameId }).then(() => {
+                        startGame(this.state.lobby.gameId);
+                      });
                     }}
                   >
                     Start Game
