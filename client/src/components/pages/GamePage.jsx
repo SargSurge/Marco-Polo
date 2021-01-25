@@ -73,57 +73,54 @@ export class GamePage extends Component {
     }
 
     get("/api/whoami", {}).then((user) => {
-      get("/api/initialRender", { gameId: this.props.gameId })
-        .then((res) => {
-          let currState = res.initialRender;
-          console.log(currState);
-          if (loadCount == json.tilesets.length) {
-            this.processUpdate(currState, user);
-          }
-          let isMarco = currState.players[user._id].role == "marco";
-          console.log(isMarco);
-          this.setState({
-            user: user,
-            gameState: currState,
-            isMarco: isMarco,
-            powerup: {
-              name: isMarco ? "Thermal Radar" : "Instant Transmission",
-              cooldown: isMarco
-                ? currState.settings.marcoRadar * 1000
-                : currState.settings.poloTP * 1000,
-              ready: true,
-            },
-            tag: {
-              name: "Tag",
-              cooldown: currState.settings.marcoTimer * 1000,
-              ready: true,
-            },
-          });
-          console.log(isMarco);
-        })
-        .then(() => {
-          if (loadCount == json.tilesets.length) {
-            this.gameLoop();
-          }
-          socket.on("update", (gameState) => {
-            this.setState({ gameState: gameState });
-          });
+      get("/api/initialRender", { gameId: this.props.gameId }).then((res) => {
+        let currState = res.initialRender;
+        console.log(currState);
+        if (loadCount == json.tilesets.length) {
+          this.processUpdate(currState, user);
+        }
+        let isMarco = currState.players[user._id].role == "marco";
+        console.log(isMarco);
+        this.setState({
+          user: user,
+          gameState: currState,
+          isMarco: isMarco,
+          powerup: {
+            name: isMarco ? "Thermal Radar" : "Instant Transmission",
+            cooldown: isMarco
+              ? currState.settings.marcoRadar * 1000
+              : currState.settings.poloTP * 1000,
+            ready: true,
+          },
+          tag: {
+            name: "Tag",
+            cooldown: currState.settings.marcoTimer * 1000,
+            ready: true,
+          },
         });
+        console.log(isMarco);
+        if (loadCount == json.tilesets.length) {
+          this.gameLoop(currState);
+        }
+        socket.on("update", (gameState) => {
+          this.setState({ gameState: gameState });
+        });
+      });
     });
   }
 
-  gameLoop = () => {
+  gameLoop = (gamestate) => {
     requestAnimationFrame(() => {
       //if((new Date().getTime() - this.state.initialTime)*1000/60 >= 5) {
       //  this.
       //}
-
-      let tempState = this.state.gameState;
+      console.log(this.state);
+      let tempState = this.state.gameState || gamestate;
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;
       this.move();
       drawCanvas(this.state.gameState, this.state.user._id, tilesets);
-      this.gameLoop();
+      this.gameLoop(gamestate);
     });
   };
 
