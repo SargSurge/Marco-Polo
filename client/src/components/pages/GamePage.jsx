@@ -14,13 +14,10 @@ import Timer from "react-compound-timer";
 import "./GamePage.css";
 
 let loadCount;
-let json = require("./assets/MediumMapFinished.json");
+let maps = {smallMap: {src: require("./assets/smallMap.json"), arr: [A2, A4, A5, C, B]}, mediumMap : {src: require("./assets/MediumMapFinished.json"), arr: [A2, A2, A4, A5, B, C]}};
+let json;
 let tilesets = [];
-let numx = json.width;
-let numy = json.height;
-let tilesizex = json.tilewidth;
-let tilesizey = json.tileheight;
-let tileset_imgs = [A2, A2, A4, A5, B, C];
+let tileset_imgs;
 
 export class GamePage extends Component {
   constructor(props) {
@@ -49,24 +46,6 @@ export class GamePage extends Component {
     window.addEventListener("keydown", this.handleKeyDown);
     document.addEventListener("keyup", this.handleKeyUp);
 
-    loadCount = 0;
-    for (let i = 0; i < json.tilesets.length; i++) {
-      let img = new Image();
-      img.onload = function () {
-        loadCount++;
-      };
-      img.src = tileset_imgs[i];
-      let tileset = {
-        firstgid: json.tilesets[i].firstgid,
-        image: img,
-        imagewidth: json.tilesets[i].imagewidth,
-        imageheight: json.tilesets[i].imageheight,
-        numx: Math.floor(json.tilesets[i].imagewidth / tilesizex),
-        numy: Math.floor(json.tilesets[i].imageheight / tilesizey),
-      };
-      tilesets.push(tileset);
-    }
-
     get("/api/whoami", {})
       .then((user) => {
         this.setState({ user: user });
@@ -74,6 +53,38 @@ export class GamePage extends Component {
       .then(() => {
         get("/api/initialRender", { gameId: this.props.gameId })
           .then((res) => {
+
+            if (res.initialRender.settings.mapSize <= 2) {
+              json = maps.smallMap.src;
+              tileset_imgs = maps.smallMap.arr;
+            } else {
+              json = maps.mediumMap.src;
+              tileset_imgs = maps.mediumMap.arr;
+            }
+            console.log(json);
+            
+            let numx = json.width;
+            let numy = json.height;
+            let tilesizex = json.tilewidth;
+            let tilesizey = json.tileheight;
+            
+            loadCount = 0;
+            for (let i = 0; i < json.tilesets.length; i++) {
+              let img = new Image();
+              img.onload = function () {
+                loadCount++;
+              };
+              img.src = tileset_imgs[i];
+              let tileset = {
+                firstgid: json.tilesets[i].firstgid,
+                image: img,
+                imagewidth: json.tilesets[i].imagewidth,
+                imageheight: json.tilesets[i].imageheight,
+                numx: Math.floor(json.tilesets[i].imagewidth / tilesizex),
+                numy: Math.floor(json.tilesets[i].imageheight / tilesizey),
+              };
+              tilesets.push(tileset);
+            }
             if (loadCount == json.tilesets.length) {
               this.processUpdate(res.initialRender);
             }
