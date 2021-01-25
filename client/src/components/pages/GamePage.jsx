@@ -231,12 +231,8 @@ export class GamePage extends Component {
           <div className="gamepage-header">Welcome to Marco Polo!</div>
           <div className="gamepage-character-header">You're a Marco!</div>
           <div className="gamepage-canvas-container">
-            <canvas
-              id="game-canvas"
-              width={window.innerWidth}
-              height={window.innerHeight}
-              className="gamepage-canvas"
-            />
+            <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight} ></canvas>
+          
           </div>
           <Timer
             initialTime={this.state.powerup.cooldown}
@@ -303,3 +299,11 @@ export class GamePage extends Component {
 }
 
 export default GamePage;
+
+/*
+<canvas id="game-canvas" width={1400} className="gamepage-canvas" />
+<canvas id="ui-layer" width={1400} ></canvas>
+            <canvas id="darkness-layer" width={1400} ></canvas>
+            <canvas id="player-layer" width={1400} ></canvas>
+            <canvas id="map-layer" width={1400} ></canvas>
+            */
