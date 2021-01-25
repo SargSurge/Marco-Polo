@@ -81,27 +81,31 @@ export class GamePage extends Component {
         }
         let isMarco = currState.players[user._id].role == "marco";
         console.log(isMarco);
-        this.setState({
-          user: user,
-          gameState: currState,
-          isMarco: isMarco,
-          powerup: {
-            name: isMarco ? "Thermal Radar" : "Instant Transmission",
-            cooldown: isMarco
-              ? currState.settings.marcoRadar * 1000
-              : currState.settings.poloTP * 1000,
-            ready: true,
+        this.setState(
+          {
+            user: user,
+            gameState: currState,
+            isMarco: isMarco,
+            powerup: {
+              name: isMarco ? "Thermal Radar" : "Instant Transmission",
+              cooldown: isMarco
+                ? currState.settings.marcoRadar * 1000
+                : currState.settings.poloTP * 1000,
+              ready: true,
+            },
+            tag: {
+              name: "Tag",
+              cooldown: currState.settings.marcoTimer * 1000,
+              ready: true,
+            },
           },
-          tag: {
-            name: "Tag",
-            cooldown: currState.settings.marcoTimer * 1000,
-            ready: true,
-          },
-        });
-        console.log(isMarco);
-        if (loadCount == json.tilesets.length) {
-          this.gameLoop(currState, user);
-        }
+          () => {
+            console.log(isMarco);
+            if (loadCount == json.tilesets.length) {
+              this.gameLoop(currState, user);
+            }
+          }
+        );
         socket.on("update", (gameState) => {
           this.setState({ gameState: gameState });
         });
