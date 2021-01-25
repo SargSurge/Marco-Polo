@@ -115,6 +115,10 @@ export class GamePage extends Component {
 
   gameLoop = () => {
     requestAnimationFrame(() => {
+      //if((new Date().getTime() - this.state.initialTime)*1000/60 >= 5) {
+      //  this.
+      //}
+
       let tempState = this.state.gameState;
       this.updatePosition();
       tempState.players[this.state.user._id].position = this.state.position;

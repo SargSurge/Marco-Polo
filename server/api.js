@@ -178,6 +178,7 @@ router.post("/hostgame", (req, res) => {
               winner: null,
               players: playersObject,
               settings: gamesettings,
+              initialTime: null,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -317,7 +318,6 @@ router.post("/creategame", (req, res) => {
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
-    console.log(room.settings["Polo SettingsInstant Transmission Timer1"]);
     let gamesettings = new GameSettings({
       timeLimit: room.settings["General SettingsTime Limit0"],
       mapSize: room.settings["General SettingsMap Size1"],
@@ -327,19 +327,11 @@ router.post("/startGame", (req, res) => {
       poloVision: room.settings["Polo SettingsVision Radius0"],
       poloTP: room.settings["Polo SettingsInstant Transmission Timer1"],
     });
-    console.log(gamesettings);
     let player = room.players[Math.floor(Math.random() * room.players.length)];
     const roleToUpdate = `players.${player._id}.role`;
-    let newState = null;
-    if (Object.keys(gamesettings).length !== 1) {
-      newState = { [roleToUpdate]: "marco", settings: gamesettings };
-    } else {
-      newState = { [roleToUpdate]: "marco" };
-      console.log();
-    }
     GameState.findOneAndUpdate(
       { gameId: gameId },
-      { $set: newState },
+      { $set: { [roleToUpdate]: "marco", settings: gamesettings } },
       { new: true },
       (err, doc) => {
         if (err) {
