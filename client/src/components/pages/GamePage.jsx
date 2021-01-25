@@ -104,11 +104,11 @@ export class GamePage extends Component {
             if (loadCount == json.tilesets.length) {
               this.gameLoop(currState, user);
             }
+            socket.on("update", (gameState) => {
+              this.setState({ gameState: gameState });
+            });
           }
         );
-        socket.on("update", (gameState) => {
-          this.setState({ gameState: gameState });
-        });
       });
     });
   }
