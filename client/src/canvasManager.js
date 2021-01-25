@@ -14,6 +14,9 @@ let tileSize = tilesizex;
 let charSize = Math.floor(tileSize / 4);
 let loadCount;
 let view;
+const FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
+const FLIPPED_VERTICALLY_FLAG = 0x40000000;
+const FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
 /** utils */
 
@@ -68,29 +71,29 @@ export const collisionManager = (isY, x, y, intent) => {
 
     if (
       map[
-        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
-          Math.floor(templeft / tileSize)
+      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+      Math.floor(templeft / tileSize)
       ] === 257
     ) {
       return y - displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
-          Math.floor(tempright / tileSize)
+      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+      Math.floor(tempright / tileSize)
       ] === 257
     ) {
       return y - displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
-          Math.floor(templeft / tileSize)
+      (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+      Math.floor(templeft / tileSize)
       ] === 257
     ) {
       return y + displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
-          Math.floor(tempright / tileSize)
+      (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+      Math.floor(tempright / tileSize)
       ] === 257
     ) {
       return y + displacement;
@@ -118,29 +121,29 @@ export const collisionManager = (isY, x, y, intent) => {
 
     if (
       map[
-        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
-          Math.floor(tryPositionleft / tileSize)
+      (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+      Math.floor(tryPositionleft / tileSize)
       ] === 257
     ) {
       return x + displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
-          Math.floor(tryPositionright / tileSize)
+      (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+      Math.floor(tryPositionright / tileSize)
       ] === 257
     ) {
       return x - displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
-          Math.floor(tryPositionleft / tileSize)
+      (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+      Math.floor(tryPositionleft / tileSize)
       ] === 257
     ) {
       return x + displacement;
     } else if (
       map[
-        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
-          Math.floor(tryPositionright / tileSize)
+      (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+      Math.floor(tryPositionright / tileSize)
       ] === 257
     ) {
       return x - displacement;
@@ -191,8 +194,9 @@ const drawTile = (context, x, y, color, view) => {
   context.fillRect(x * tileSize - view.x, y * tileSize - view.y, tileSize, tileSize);
 };
 
-const getTilePacket = (t_ind, tilesets) => {
+const getTile = (t_ind, tilesets) => {
   let pkt = { img: null, px: 0, py: 0 };
+
   let i = 0;
   for (i = tilesets.length - 1; i >= 0; i--) {
     if (tilesets[i].firstgid <= t_ind) break;
@@ -231,41 +235,8 @@ export const drawCanvas = (drawState, userId, tilesets) => {
 
   // clear the canvas to black
   context.clearRect(0, 0, canvas.width, canvas.height);
-  //context.scale(2, 2);
-  //context.translate(-x + map[0].length / 2, y - map.length / 2);
-  /*
-  map.forEach((row, i) => {
-    row.forEach((tile, j) => {
-      if (tile !== 0) {
-        drawTile(context, j, i, "black");
-      }
-    });
-  });*/
 
   const { drawX, drawY } = convertCoordToCanvas(x, y);
-
-  //fillCircle(context, drawX, drawY, 20, "red");
-
-  //let img = new Image();
-
-  //img.onload = function () {
-  //context.drawImage(img, drawX, drawY);
-  //};
-  //img.src = pic;
-
-  //img.src = require("./Inside_A2.png");
-
-  /*
-  loadCount = 0;
-  for (let i = 0; i < json.tilesets.length; i++) {
-    let img = new Image();
-    img.onload = function()
-    {loadCount++}
-    img.src = "../src/components/pages/assets/" + json.tilesets[i].image;
-    let tileset = {firstgid:json.tilesets[i].firstgid,image:img,imagewidth:json.tilesets[i].imagewidth,imageheight:json.tilesets[i].imageheight,numx:Math.floor(json.tilesets[i].imagewidth/tilesizex),numy:Math.floor(json.tilesets[i].imageheight/tilesizey)}
-    tilesets.push(tileset);
-  }
-*/
 
   view = {
     x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width,
@@ -279,12 +250,12 @@ export const drawCanvas = (drawState, userId, tilesets) => {
 
   context.translate(
     -x -
-      ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
-      view.x,
+    ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
+    view.x,
     y -
-      ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
-      canvas.height / 2 +
-      view.y
+    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
+    canvas.height / 2 +
+    view.y
   );
 
   for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
@@ -294,29 +265,193 @@ export const drawCanvas = (drawState, userId, tilesets) => {
     for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
       let t_id = d[tile_ind];
       if (t_id == 0) continue;
-      let tpkt = getTilePacket(t_id, tilesets);
-      let worldX = Math.floor(tile_ind % numx) * tilesizex;
-      let worldY = Math.floor(tile_ind / numy) * tilesizey;
-      //if ((worldX + tilesizex) < view.x || (worldY + tilesizey) < view.y || worldX > (view.x + view.w) || worldY > (view.y + view.h)) continue;
-      worldX -= view.x;
-      worldY -= view.y;
-      context.drawImage(
-        tpkt.img,
-        tpkt.px,
-        tpkt.py,
-        tilesizex,
-        tilesizey,
-        worldX,
-        worldY,
-        tilesizex,
-        tilesizey
-      );
+    // Bit 32 is used for storing whether the tile is horizontally flipped, bit 31 is used for the vertically flipped tiles and 
+    //bit 30 indicates whether the tile is flipped (anti) diagonally, enabling tile rotation
+
+    let worldX = Math.floor(tile_ind % numx) * tilesizex;
+    let worldY = Math.floor(tile_ind / numy) * tilesizey;
+    worldX -= view.x;
+    worldY -= view.y;
+
+      //let gid = d[tile_ind];
+
+
+
+      //let flipped_horizontally = Boolean(gid & FLIPPED_HORIZONTALLY_FLAG);
+      //let flipped_vertically = Boolean(gid & FLIPPED_VERTICALLY_FLAG);
+      //let flipped_diagonally = Boolean(gid & FLIPPED_DIAGONALLY_FLAG);
+      let tpkt;
+      tpkt = getTile(t_id, tilesets);
+        context.drawImage(
+          tpkt.img,
+          tpkt.px,
+          tpkt.py,
+          tilesizex,
+          tilesizey,
+          worldX,
+          worldY,
+          tilesizex,
+          tilesizey);
+        }
+      }
+      drawAllPlayers(drawState, context, view);
     }
-  }
+/*
+      gid &= ~(FLIPPED_HORIZONTALLY_FLAG |
+        FLIPPED_VERTICALLY_FLAG |
+        FLIPPED_DIAGONALLY_FLAG);
+        //console.log(flipped_horizontally,flipped_vertically,flipped_diagonally);
+      if (flipped_horizontally || flipped_vertically || flipped_diagonally) {
+        //console.log(flipped_horizontally);
+        tpkt = getTile(gid, tilesets, flipped_diagonally,flipped_horizontally,flipped_vertically);
+        if (flipped_vertically && flipped_diagonally && flipped_horizontally) {
+          context.save();
+          context.translate(view.x, view.y);
+          context.scale(-1, 1);
+          context.rotate(90 * Math.PI / 180); 
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            worldX,
+            worldY,
+            tilesizex,
+            tilesizey); 
+          context.restore();
+        
+      } else if (flipped_vertically && flipped_diagonally) { //0x6 270 deg rot
+          context.save();
+          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
+          context.rotate(270 * Math.PI / 180); 
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            worldX,
+            worldY,
+            tilesizex,
+            tilesizey); 
+          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
+          //context.rotate(90 * Math.PI / 180);
+          context.restore();
+        } else if (flipped_horizontally && flipped_diagonally) { //0xA 90 deg rot
+          context.save();
+          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
+          context.rotate(90 * Math.PI / 180); 
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            worldX,
+            worldY,
+            tilesizex,
+            tilesizey); 
+          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
+          //context.rotate(90 * Math.PI / 180);
+          context.restore();
+        } else if (flipped_horizontally && flipped_vertically) { //0xC 180 deg rot
+          context.save();
+          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
+          context.rotate(180 * Math.PI / 180); 
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            worldX,
+            worldY,
+            tilesizex,
+            tilesizey); 
+          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
+          //context.rotate(90 * Math.PI / 180);
+          context.restore();
+        } else if (flipped_horizontally) {
+          context.save();
+          //context.translate(canvas.width, 0);
+          //context.scale(-1, 1);
+          
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            0,
+            0,
+            -tilesizex,
+            tilesizey); 
+            context.translate(worldX, worldY);
+          context.restore();
+        } /*else if (flipped_vertically) {
+          context.save();
+          //context.translate(tpkt.px + tilesizex/2, tpkt.py + tilesizey/2);
+          context.scale(1, -1);
+          //context.translate(view.x, view.y);
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            -tilesizey,
+            -worldX,
+            -worldY,
+            tilesizex,
+            -tilesizey); 
+          context.restore();
+        } else if (flipped_diagonally) {
+          context.save();
+          
+          
+          context.translate(tpkt.px + tilesizex/2, tpkt.py + tilesizey/2);
+          context.rotate(90 * Math.PI / 180); 
+          context.scale(1, -1);
+          context.translate(view.x, view.y);
+          
+          context.drawImage(tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            -tilesizey,
+            0,
+            0,
+            tilesizex,
+            tilesizey); 
+          context.restore();
+        }
+        else {
+          context.drawImage(
+            tpkt.img,
+            tpkt.px,
+            tpkt.py,
+            tilesizex,
+            tilesizey,
+            worldX,
+            worldY,
+            tilesizex,
+            tilesizey
+          );
+        }
+      } else {
+        tpkt = getTile(t_id, tilesets);
+        context.drawImage(
+          tpkt.img,
+          tpkt.px,
+          tpkt.py,
+          tilesizex,
+          tilesizey,
+          worldX,
+          worldY,
+          tilesizex,
+          tilesizey
+        );
+      }
+      
 
-  drawAllPlayers(drawState, context, view);
-};
-
+      //let tpkt = getTile(t_id, tilesets);
+      
+    }*/
+    
 // 11 rows
 // 27 columns
 
