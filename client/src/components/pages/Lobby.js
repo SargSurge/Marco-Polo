@@ -230,7 +230,3 @@ class Lobby extends Component {
 }
 
 export default Lobby;
-
-export const postStart = (gameId) => {
-  post("/api/startGame", { gameId: gameId });
-} 
