@@ -77,39 +77,36 @@ export class GamePage extends Component {
         this.setState({ user: user });
       })
       .then(() => {
-        get("/api/initialRender", { gameId: this.props.gameId })
-          .then((res) => {
-            let currState = res.initialRender;
-            console.log(currState);
-            if (loadCount == json.tilesets.length) {
-              this.processUpdate(currState);
-            }
-            let isMarco = currState.players[this.state.user._id].role == "marco";
-            this.setState({
-              gameState: currState,
-              isMarco: isMarco,
-              powerup: {
-                name: isMarco ? "Thermal Radar" : "Instant Transmission",
-                cooldown: isMarco
-                  ? currState.settings.marcoRadar * 1000
-                  : currState.settings.poloTP * 1000,
-                ready: true,
-              },
-              tag: {
-                name: "Tag",
-                cooldown: currState.settings.marcoTimer * 1000,
-                ready: true,
-              },
-            });
-          })
-          .then(() => {
-            if (loadCount == json.tilesets.length) {
-              this.gameLoop();
-            }
-            socket.on("update", (gameState) => {
-              this.setState({ gameState: gameState });
-            });
-          });
+        let currState = this.props.location.state.gamestate;
+        console.log(currState);
+        if (loadCount == json.tilesets.length) {
+          this.processUpdate(currState);
+        }
+        let isMarco = currState.players[this.state.user._id].role === "marco";
+        //console.log(currState.players[this.state.user._id].role);
+        this.setState({
+          gameState: currState,
+          isMarco: isMarco,
+          powerup: {
+            name: isMarco ? "Thermal Radar" : "Instant Transmission",
+            cooldown: isMarco
+              ? currState.settings.marcoRadar * 1000
+              : currState.settings.poloTP * 1000,
+            ready: true,
+          },
+          tag: {
+            name: "Tag",
+            cooldown: currState.settings.marcoTimer * 1000,
+            ready: true,
+          },
+        });
+
+        if (loadCount == json.tilesets.length) {
+          this.gameLoop();
+        }
+        socket.on("update", (gameState) => {
+          this.setState({ gameState: gameState });
+        });
       });
   }
 
@@ -218,25 +215,6 @@ export class GamePage extends Component {
     });
   }
 
-  /*
-  handleInput = (event) => {
-    switch (event.code) {
-      case "KeyA": // A
-        this.move("left");
-        break;
-      case "KeyW": // W
-        this.move("up");
-        break;
-      case "KeyD": // D
-        this.move("right");
-        break;
-      case "KeyS": // S
-        this.move("down");
-        break;
-    }
-  };
-   */
-
   move = () => {
     //render movement for me
     move(this.state.user._id, this.props.gameId, this.state.position);
@@ -247,82 +225,89 @@ export class GamePage extends Component {
   };
 
   render() {
-    return (
-      <div className="gamepage-base">
-        <div className="gamepage-game-container">
-          <div className="gamepage-header">Welcome to Marco Polo!</div>
-          <div className="gamepage-character-header">
-            You're a {this.state.isMarco ? "Marco!" : "Polo!"}
-          </div>
-          <div className="gamepage-canvas-container">
-            <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight} ></canvas>
-          
-          </div>
-          <Timer
-            initialTime={this.state.powerup.cooldown}
-            startImmediately={false}
-            direction="backward"
-            onStart={() => console.log("onStart hook")}
-            onResume={() => console.log("onResume hook")}
-            onReset={() => console.log("onReset hook")}
-          >
-            {({ start, resume, reset, getTime }) => (
-              <button
-                className="gamepage-ui-button gamepage-powerup-button"
-                onClick={() => {
-                  if (this.state.powerup.ready) {
-                    start();
-                    this.setState({ powerup: { ...this.state.powerup, ready: false } });
-                  }
-                }}
-              >
-                {this.state.powerup.ready ? (
-                  this.state.powerup.name
-                ) : getTime() <= 0 ? (
-                  (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
-                  reset(),
-                  resume())
-                ) : (
-                  <Timer.Seconds />
-                )}
-              </button>
-            )}
-          </Timer>
-          {this.state.isMarco ? (
+    //console.log(this.state.isMarco);
+    if (typeof this.state.isMarco == "undefined") {
+      //console.log("hello");
+      return <div></div>;
+    } else {
+      return (
+        <div className="gamepage-base">
+          <div className="gamepage-game-container">
+            <div className="gamepage-header">Welcome to Marco Polo!</div>
+            <div className="gamepage-character-header">
+              You're a {this.state.isMarco ? "Marco!" : "Polo!"}
+            </div>
+            <div className="gamepage-canvas-container">
+              <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
+            </div>
             <Timer
-              initialTime={this.state.tag.cooldown}
+              initialTime={this.state.powerup.cooldown}
               startImmediately={false}
               direction="backward"
-              onStart={() => console.log("onStart hook")}
-              onResume={() => console.log("onResume hook")}
-              onReset={() => console.log("onReset hook")}
+              onStart={() => {}}
+              onResume={() => {}}
+              onReset={() => {}}
             >
               {({ start, resume, reset, getTime }) => (
                 <button
-                  className="gamepage-ui-button gamepage-tag-button"
+                  className="gamepage-ui-button gamepage-powerup-button"
                   onClick={() => {
-                    if (this.state.tag.ready) {
+                    if (this.state.powerup.ready) {
                       start();
-                      this.setState({ tag: { ...this.state.tag, ready: false } });
+                      this.setState({ powerup: { ...this.state.powerup, ready: false } });
                     }
                   }}
                 >
-                  {this.state.tag.ready ? (
-                    this.state.tag.name
+                  {this.state.powerup.ready ? (
+                    this.state.powerup.name
                   ) : getTime() <= 0 ? (
-                    (this.setState({ tag: { ...this.state.tag, ready: true } }), reset(), resume())
+                    (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
+                    reset(),
+                    resume())
                   ) : (
                     <Timer.Seconds />
                   )}
                 </button>
               )}
             </Timer>
-          ) : (
-            ""
-          )}
+            {this.state.isMarco ? (
+              <Timer
+                initialTime={this.state.tag.cooldown}
+                startImmediately={false}
+                direction="backward"
+                onStart={() => {}}
+                onResume={() => {}}
+                onReset={() => {}}
+              >
+                {({ start, resume, reset, getTime }) => (
+                  <button
+                    className="gamepage-ui-button gamepage-tag-button"
+                    onClick={() => {
+                      if (this.state.tag.ready) {
+                        start();
+                        this.setState({ tag: { ...this.state.tag, ready: false } });
+                      }
+                    }}
+                  >
+                    {this.state.tag.ready ? (
+                      this.state.tag.name
+                    ) : getTime() <= 0 ? (
+                      (this.setState({ tag: { ...this.state.tag, ready: true } }),
+                      reset(),
+                      resume())
+                    ) : (
+                      <Timer.Seconds />
+                    )}
+                  </button>
+                )}
+              </Timer>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

@@ -88,7 +88,9 @@ class Lobby extends Component {
       this.updateLobbySettings(lobby);
     });
     socket.on("startGame", () => {
-      navigate(`../game/${this.state.lobby.gameId}`);
+      navigate(`../game/${this.state.lobby.gameId}`, {
+        state: { gamestate: this.state.gamestate },
+      });
     });
   }
 
@@ -202,9 +204,16 @@ class Lobby extends Component {
                         : true
                     }
                     onClick={() => {
-                      navigate(`../game/${this.state.lobby.gameId}`);
-                      startGame(this.state.lobby.gameId);
-                      post("/api/startGame", { gameId: this.state.lobby.gameId });
+                      post("/api/startGame", { gameId: this.state.lobby.gameId }).then(
+                        (gamestate) => {
+                          this.setState({ gamestate: gamestate }, () => {
+                            navigate(`../game/${this.state.lobby.gameId}`, {
+                              state: { gamestate: gamestate },
+                            });
+                            startGame(this.state.lobby.gameId);
+                          });
+                        }
+                      );
                     }}
                   >
                     Start Game

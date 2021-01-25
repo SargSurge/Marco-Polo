@@ -315,6 +315,7 @@ router.post("/creategame", (req, res) => {
   });
 });
 */
+
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
@@ -329,6 +330,7 @@ router.post("/startGame", (req, res) => {
     });
     let player = room.players[Math.floor(Math.random() * room.players.length)];
     const roleToUpdate = `players.${player._id}.role`;
+    console.log(player);
     GameState.findOneAndUpdate(
       { gameId: gameId },
       { $set: { [roleToUpdate]: "marco", settings: gamesettings } },
@@ -338,13 +340,13 @@ router.post("/startGame", (req, res) => {
           console.log(err);
         } else {
           console.log(doc);
+          res.send(doc);
         }
       }
     );
     room.delete();
     socketManager.getIo().emit("updateLobbiesAll");
   });
-  res.send({});
 });
 
 router.get("/initialRender", (req, res) => {
