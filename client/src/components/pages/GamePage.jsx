@@ -100,7 +100,7 @@ export class GamePage extends Component {
         });
         console.log(isMarco);
         if (loadCount == json.tilesets.length) {
-          this.gameLoop(currState);
+          this.gameLoop(currState, user);
         }
         socket.on("update", (gameState) => {
           this.setState({ gameState: gameState });
@@ -109,18 +109,19 @@ export class GamePage extends Component {
     });
   }
 
-  gameLoop = (gamestate) => {
+  gameLoop = (gamestate, user) => {
     requestAnimationFrame(() => {
       //if((new Date().getTime() - this.state.initialTime)*1000/60 >= 5) {
       //  this.
       //}
       console.log(this.state);
       let tempState = this.state.gameState || gamestate;
+      let tempUser = this.state.user._id || user;
       this.updatePosition();
-      tempState.players[this.state.user._id].position = this.state.position;
+      tempState.players[tempUser].position = this.state.position;
       this.move();
-      drawCanvas(this.state.gameState, this.state.user._id, tilesets);
-      this.gameLoop(gamestate);
+      drawCanvas(this.state.gameState, tempUser, tilesets);
+      this.gameLoop(gamestate, user);
     });
   };
 
