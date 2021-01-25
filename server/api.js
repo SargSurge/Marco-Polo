@@ -319,13 +319,13 @@ router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
     let gamesettings = new GameSettings({
-      timeLimit: room.settings["General Settings"]["Time Limit"],
-      mapSize: room.settings["General Settings"]["Map Size"],
-      marcoVision: room.settings["Marco Settings"]["Vision Radius"],
-      marcoBomb: room.settings["Marco Settings"]["Light Bomb Timer"],
-      marcoReach: room.settings["Marco Settings"]["Tag Reach"],
-      poloVision: room.settings["Polo Settings"]["Vision Radius"],
-      poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
+      timeLimit: room.settings["General SettingsTime Limit0"],
+      mapSize: room.settings["General SettingsMap Size1"],
+      marcoVision: room.settings["Marco SettingsVision Radius0"],
+      marcoBomb: room.settings["Marco SettingsLight Bomb Timer1"],
+      marcoReach: room.settings["Marco SettingsTag Reach2"],
+      poloVision: room.settings["Polo SettingsVision Radius0"],
+      poloBomb: room.settings["Polo SettingsTeleport Bomb Timer1"],
     });
     let player = room.players[Math.floor(Math.random() * room.players.length)];
     const roleToUpdate = `players.${player._id}.role`;

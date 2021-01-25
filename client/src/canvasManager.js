@@ -219,9 +219,9 @@ const getTile = (t_ind, tilesets) => {
 export const drawCanvas = (drawState, userId, tilesets) => {
   // get the canvas element
   if (drawState.settings.mapSize <= 2) {
-    json = maps[smallMap];
+    json = maps.smallMap;
   } else {
-    json = maps[mediumMap];
+    json = maps.mediumMap;
   }
   mapData = json.layers[0];
   map = mapData.data;
