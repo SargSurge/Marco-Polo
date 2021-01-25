@@ -3,11 +3,18 @@
  */
 
 @keyframes headerFade {
-    from {
+    0% {
         opacity: 0;
-    } to {
+    } 25% {
         opacity: 90%;
           }
+    75% {
+        opacity: 90%;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 @keyframes headerPulse {
@@ -32,7 +39,7 @@ html, body {
     align-items: center ;
      */
     overflow: hidden;
-    background-color: #262626;
+    background-color: black;
     height: 100vh;
 }
 
@@ -40,6 +47,7 @@ html, body {
     position: relative;;
     overflow: hidden;
 }
+
 
 .gamepage-canvas-container {
     position: relative;
@@ -53,11 +61,22 @@ html, body {
     font-family: 'Orbitron';
     transform: translate(-50%, 0);
     color: #e5f77d;
-    animation: headerFade 3s linear, headerPulse 3s alternate-reverse infinite;
+    animation: headerFade 10s linear, headerPulse 10s alternate-reverse;
+    animation-fill-mode: forwards;
     border-bottom: 1px solid #e5f77d;
     border-radius: 10px;
     padding: 15px;
     background-color: black;
+    z-index: 30;
+}
+
+.gamepage-character-header {
+    font-family: Orbitron;
+    font-size: 25px;
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 20px;
     z-index: 30;
 }
 
@@ -69,7 +88,7 @@ html, body {
     position: absolute;
     font-family: 'Orbitron';
     right: 23px;
-    width: 100px;
+    width: 200px;
     height: 100px;
     color: #e5f77d;
     border: 1px solid #e5f77d;

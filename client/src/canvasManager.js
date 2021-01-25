@@ -1,5 +1,3 @@
-import $ from "jquery";
-import pic from "./A2_0.png";
 //let mediumMap = require("../src/components/pages/assets/MediumMapFinished.json");
 //let smallMap = require("../src/components/pages/assets/smallMap.json");
 let maps = {smallMap: require("../src/components/pages/assets/smallMap.json"), mediumMap : require("../src/components/pages/assets/MediumMapFinished.json")};

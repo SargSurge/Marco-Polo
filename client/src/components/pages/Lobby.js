@@ -15,7 +15,7 @@ class Lobby extends Component {
 
     // The array follows this schema: [min, default, max, step-size]
     this.settings = {
-      "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 3, 1] },
+      "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
         "Vision Radius": [0, 50, 100, 5],
         "Light Bomb Timer": [0, 15, 30, 5],
@@ -55,7 +55,7 @@ class Lobby extends Component {
             post("/api/joingame", { gameId: this.props.gameId }).catch((e) => console.log(e));
           }
         } else {
-          post("/api/leavegame", {user : this.state.user});
+          post("/api/leavegame", { user: this.state.user });
           navigate("/");
         }
       })
@@ -78,7 +78,8 @@ class Lobby extends Component {
     get("/api/whoami", {})
       .then((user) => {
         this.setState({ user: user });
-      }).then(() => this.updateLobby());
+      })
+      .then(() => this.updateLobby());
 
     socket.on("updateLobbiesAll", () => {
       this.updateLobby();
@@ -161,7 +162,11 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
-                            if (this.state.user && this.state.lobby.players && this.state.user._id === this.state.lobby.players[0]._id) {
+                            if (
+                              this.state.user &&
+                              this.state.lobby.players &&
+                              this.state.user._id === this.state.lobby.players[0]._id
+                            ) {
                               post("/api/updateLobbySettings", {
                                 gameId: this.props.gameId,
                                 settings: tempSliders,
