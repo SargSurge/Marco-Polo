@@ -1,4 +1,4 @@
-let maps = {smallMap: require("../src/components/pages/assets/smallMap.json"), mediumMap : require("../src/components/pages/assets/MediumMapFinished.json")};
+let maps = {smallMap: require("../src/components/pages/assets/smallMapRemake.json"), mediumMap : require("../src/components/pages/assets/MediumMapFinished.json")};
 let json;
 let mapData;
 let map;

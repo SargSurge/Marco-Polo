@@ -80,11 +80,11 @@ export class GamePage extends Component {
         get("/api/initialRender", { gameId: this.props.gameId })
           .then((res) => {
             let currState = res.initialRender;
-            console.log(currState);
             if (loadCount == json.tilesets.length) {
               this.processUpdate(currState);
             }
             let isMarco = currState.players[this.state.user._id].role == "marco";
+            console.log(isMarco);
             this.setState({
               gameState: currState,
               isMarco: isMarco,
