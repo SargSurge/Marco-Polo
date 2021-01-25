@@ -279,10 +279,10 @@ router.post("/move", (req, res) => {
   res.send({});
 });
 
+// Might be an issue, remember about this later  //////////////////
 router.post("/leavegame", (req, res) => {
-  const { user } = req.body;
-  if (user) {
-    let socket = socketManager.getSocketFromUserID(user._id);
+  if (req.user) {
+    let socket = socketManager.getSocketFromUserID(req.user._id);
     socketManager.userLeaveGame(socket);
   }
   res.send({});
