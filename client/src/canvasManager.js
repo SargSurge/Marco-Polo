@@ -326,6 +326,5 @@ export const drawCanvas = (drawState, userId, tilesets) => {
       );
     }
   }
-
   drawAllPlayers(drawState, context, view);
 };
