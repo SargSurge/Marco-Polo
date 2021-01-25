@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import NavBar from "../modules/NavBar/NavBar";
 import Chat from "../modules/Chat";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import "./Lobby.css";
+import { socket, startGame } from "../../client-socket";
+import { navigate } from "@reach/router";
 import Slider from "@material-ui/core/Slider";
 import PlayerTree from "../modules/PlayerTree";
 
@@ -13,7 +15,7 @@ class Lobby extends Component {
 
     // The array follows this schema: [min, default, max, step-size]
     this.settings = {
-      "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
+      "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 3, 1] },
       "Marco Settings": {
         "Vision Radius": [0, 50, 100, 5],
         "Light Bomb Timer": [0, 15, 30, 5],
@@ -26,6 +28,7 @@ class Lobby extends Component {
     };
 
     this.state = {
+      user: undefined,
       lobby: {},
       sliders: this.resetSettings(),
     };
@@ -41,14 +44,56 @@ class Lobby extends Component {
     return tempSliderState;
   };
 
-  componentDidMount() {
+  updateLobby = () => {
     get("/api/lobby", { gameId: this.props.gameId })
       .then((res) => {
-        this.setState({
-          lobby: res.lobby,
-        });
+        if (res.lobby) {
+          this.setState({
+            lobby: res.lobby,
+          });
+          if (!res.lobby.players.some((p) => p._id === this.state.user._id)) {
+            post("/api/joingame", { gameId: this.props.gameId }).catch((e) => console.log(e));
+          }
+        } else {
+          post("/api/leavegame", {user : this.state.user});
+          navigate("/");
+        }
       })
-      .then(() => console.log(this.state.lobby));
+      .catch((err) => {
+        console.log(`${err}`);
+        navigate("/");
+      });
+  };
+
+  updateLobbySettings = (lobby) => {
+    if (this.state.lobby.players && !(this.state.user._id === this.state.lobby.players[0]._id)) {
+      this.setState({
+        sliders: lobby.settings,
+        lobby: lobby,
+      });
+    }
+  };
+
+  componentDidMount() {
+    get("/api/whoami", {})
+      .then((user) => {
+        this.setState({ user: user });
+      }).then(() => this.updateLobby());
+
+    socket.on("updateLobbiesAll", () => {
+      this.updateLobby();
+    });
+    socket.on("updateLobbySettings", (lobby) => {
+      this.updateLobbySettings(lobby);
+    });
+    socket.on("startGame", () => {
+      navigate(`../game/${this.state.lobby.gameId}`);
+    });
+  }
+
+  componentWillUnmount() {
+    socket.off("updateLobbiesAll");
+    socket.off("updateLobbySettings");
   }
 
   render() {
@@ -69,6 +114,10 @@ class Lobby extends Component {
                     type="button"
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
+                      post("/api/updateLobbySettings", {
+                        gameId: this.props.gameId,
+                        settings: this.resetSettings(),
+                      });
                     }}
                   >
                     Reset Settings
@@ -87,10 +136,24 @@ class Lobby extends Component {
                         key={"SliderCont " + index}
                       >
                         <Slider
-                          className="lobby-content-left-setting-slider"
+                          disabled={
+                            this.state.lobby.players
+                              ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                              : false
+                          }
+                          className={
+                            (
+                              this.state.lobby.players
+                                ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                                : false
+                            )
+                              ? "lobby-content-left-setting-slider-disabled"
+                              : "lobby-content-left-setting-slider"
+                          }
                           value={this.state.sliders[type + setting + index]}
                           aria-labelledby="discrete-slider"
                           valueLabelDisplay="on"
+                          type="range"
                           step={this.settings[type][setting][3]}
                           min={this.settings[type][setting][0]}
                           max={this.settings[type][setting][2]}
@@ -98,6 +161,12 @@ class Lobby extends Component {
                             let tempSliders = { ...this.state.sliders };
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
+                            if (this.state.user && this.state.lobby.players && this.state.user._id === this.state.lobby.players[0]._id) {
+                              post("/api/updateLobbySettings", {
+                                gameId: this.props.gameId,
+                                settings: tempSliders,
+                              });
+                            }
                           }}
                           key={type + setting + index}
                         />
@@ -118,13 +187,34 @@ class Lobby extends Component {
                   >
                     Copy Game ID
                   </button>
+                  <button
+                    type="button"
+                    className="lobby-content-left-header-reset lobby-big-button"
+                    disabled={
+                      this.state.lobby.players
+                        ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                        : true
+                    }
+                    onClick={() => {
+                      navigate(`../game/${this.state.lobby.gameId}`);
+                      startGame(this.state.lobby.gameId);
+                      post("/api/startGame", { gameId: this.state.lobby.gameId });
+                    }}
+                  >
+                    Start Game
+                  </button>
                   <div>{this.state.lobby.gameId}</div>
                 </div>
               </div>
             </div>
             <div className="lobby-content-right">
-              <PlayerTree users={["Naseem", "Sabi", "Sergio", "Nicholas"]} />
-              <Chat />
+              <div className="lobby-content-right-header">Usable Test Subjects</div>
+              {this.state.lobby.capacity ? (
+                <PlayerTree user={this.state.lobby.players} capacity={this.state.lobby.capacity} />
+              ) : (
+                ""
+              )}
+              <Chat gameId={this.props.gameId} />
             </div>
           </div>
         </div>

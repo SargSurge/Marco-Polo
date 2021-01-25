@@ -12,6 +12,16 @@ class HomePage extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    window.addEventListener('keypress', this.clickLogin)
+  }
+
+  clickLogin = () => {
+    try {
+      document.getElementById("login-button").click();
+    } catch(e) {}
+  }
+
   render() {
     const homePage = (
       <div className="homepage-background">
@@ -30,7 +40,7 @@ class HomePage extends Component {
       <>
         {this.props.userId ? (
           <>
-            <GameType logoutButton={this.props.logoutButton} />
+            <GameType logoutButton={this.props.logoutButton}/>
           </>
         ) : (
           homePage

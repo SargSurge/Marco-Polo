@@ -1,0 +1,12 @@
+/*
+    The CSS for the Message component
+ */
+
+.message-base {
+
+}
+
+.message-sender {
+    color: #00ff38;
+    margin-right: 5px;
+}

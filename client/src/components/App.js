@@ -3,6 +3,8 @@ import { Router, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import HomePage from "./pages/HomePage";
+import GamePage from "./pages/GamePage";
+import Profile from "./pages/Profile/Profile";
 
 import "../utilities.css";
 
@@ -27,6 +29,7 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
+      user: undefined,
     };
   }
 
@@ -54,7 +57,7 @@ class App extends Component {
       .then((user) => {
         if (user._id) {
           // they are registed in the database, and currently logged in.
-          this.setState({ userId: user._id });
+          this.setState({ userId: user._id, user: user });
         }
       })
       .catch((err) => console.log(err));
@@ -68,10 +71,7 @@ class App extends Component {
         onLogoutSuccess={this.handleLogout}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
-          <a
-            onClick={renderProps.onClick}
-            className="navbardropdown-list-items navbardropdown-logout"
-          >
+          <a onClick={renderProps.onClick} className="navbardropdown-logout">
             Logout
           </a>
         )}
@@ -85,13 +85,16 @@ class App extends Component {
         onSuccess={this.handleLogin}
         onFailure={(err) => console.log(err)}
         render={(renderProps) => (
-          <a
-            className="homepage-button"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Login
-          </a>
+          <>
+            <a
+              id="login-button"
+              className="homepage-button"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Press any Key to Login
+            </a>
+          </>
         )}
       />
     );
@@ -108,6 +111,8 @@ class App extends Component {
             logoutButton={logoutButton}
           />
           <Lobby path="/lobby/:gameId" userId={this.state.userId} logoutButton={logoutButton} />
+          <GamePage path="/game/:gameId" user={this.state.user} />
+          <Profile path="/profile" logoutButton={logoutButton} />
           <NotFound default />
         </Router>
       </>

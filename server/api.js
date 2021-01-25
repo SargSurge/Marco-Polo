@@ -1,17 +1,11 @@
-/*
-|--------------------------------------------------------------------------
-| api.js -- server routes
-|--------------------------------------------------------------------------
-|
-| This file defines the routes for your server.
-|
-*/
-
 const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
 const Room = require("./models/room");
+const Message = require("./models/message");
+const GameState = require("./models/gamestate");
+const GameSettings = require("./models/gamesettings");
 
 // import authentication library
 const auth = require("./auth");
@@ -21,6 +15,9 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+
+//import game logic
+const logic = require("./logic");
 
 // id generator for game codes
 const hri = require("human-readable-ids").hri;
@@ -48,66 +45,209 @@ router.post("/initsocket", (req, res) => {
 
 router.post("/joingame", (req, res) => {
   const { gameId } = req.body;
-  Room.findOne({ gameId: gameId })
-    .then((room) => {
-      if (room) {
-        if (room.numberJoined < room.capacity) {
-          console.log(room, req.user);
-          if (req.user && !room.players.includes(req.user)) {
-            socketManager.userJoinRoom(req.user, gameId);
-            room.numberJoined++;
-            room.players.push(req.user);
-            room
-              .save()
-              .then(() => {
+
+  if (req.user) {
+    User.findOne({ googleid: req.user.googleid })
+      .then((user) => {
+        if (user && (user.currentGame === gameId || !user.currentGame)) {
+          Room.findOne({ gameId: gameId }).then((room) => {
+            if (room) {
+              if (room.numberJoined < room.capacity) {
+                if (req.user) {
+                  if (!room.players.some((p) => p._id === req.user._id)) {
+                    socketManager.userJoinRoom(req.user, gameId);
+                    room.numberJoined++;
+                    room.players.push(req.user);
+                    room
+                      .save()
+                      .then(() => {
+                        socketManager.getIo().to(gameId).emit("updateLobbiesAll");
+                        user.currentGame = gameId;
+                        user.save().then(() => {
+                          GameState.findOne({ gameId: gameId }).then((gameState) => {
+                            let playersObject = {};
+                            let playersArray = room.players;
+                            for (let i = 0; i < playersArray.length; i++) {
+                              let player = playersArray[i];
+                              playersObject[player._id] = {
+                                position: { x: 0, y: 0 },
+                                user: player,
+                                color: "white",
+                                role: "polo",
+                                powerups: { lightbomb: 45 },
+                              };
+                            }
+                            gameState.players = playersObject;
+                            gameState.save().then(() => {
+                              res.send({
+                                msg: "Joined " + room.name + ".",
+                                canJoin: true,
+                              });
+                            });
+                          });
+                        });
+                      })
+                      .catch((err) => console.log(err));
+                  } else {
+                    socketManager.userJoinRoom(req.user, gameId);
+                    res.send({
+                      msg: "Joined " + room.name + " again.",
+                      canJoin: true,
+                    });
+                  }
+                } else {
+                  res.send({
+                    msg: "Invalid",
+                    canJoin: false,
+                  });
+                }
+              } else {
                 res.send({
-                  msg: "Joined " + room.name + ".",
-                  canJoin: true,
+                  msg: room.name + " is full.",
+                  canJoin: false,
                 });
-              })
-              .catch((err) => console.log(err));
-          } else {
-            res.send({
-              msg: "Already joined " + room.name + " .",
-              canJoin: false,
-            });
-          }
+              }
+            } else {
+              res.send({
+                msg: "The lobby you are looking for does not exist.",
+                canJoin: false,
+              });
+            }
+          });
         } else {
           res.send({
-            msg: room.name + " is full.",
+            msg: "You can only join one game.",
             canJoin: false,
           });
         }
-      } else {
-        res.send({
-          msg: "The lobby you are looking for does not exist.",
-          canJoin: false,
-        });
-      }
-    })
-    .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  }
 });
 
 router.post("/hostgame", (req, res) => {
   const { name, capacity, public, settings } = req.body;
   const gameId = hri.random();
+
   if (req.user) {
-    socketManager.userJoinRoom(req.user, gameId);
-    const newRoom = new Room({
-      name: name,
-      creator: req.user.name,
-      capacity: capacity,
-      public: public,
-      numberJoined: 1,
-      gameId: gameId,
-      settings: settings,
-      players: [req.user],
+    socketManager.getIo().emit("updateLobbiesAll");
+    User.findOne({ googleid: req.user.googleid }).then((user) => {
+      console.log(user);
+      if (user && (user.currentGame === gameId || !user.currentGame)) {
+        user.currentGame = gameId;
+        user.save();
+        socketManager.userJoinRoom(req.user, gameId);
+        const newRoom = new Room({
+          name: name,
+          creator: req.user.name,
+          capacity: capacity,
+          public: public,
+          numberJoined: 1,
+          gameId: gameId,
+          settings: settings,
+          players: [req.user],
+          chat: [],
+        });
+        newRoom
+          .save()
+          .then(() => {
+            let playersObject = {};
+            let playersArray = newRoom.players;
+            for (let i = 0; i < playersArray.length; i++) {
+              let player = playersArray[i];
+              playersObject[player._id] = {
+                position: { x: 0, y: 0 },
+                user: player,
+                color: "white",
+                role: "polo",
+                powerups: { lightbomb: 45 },
+              };
+            }
+
+            let gamesettings = new GameSettings({
+              timeLimit: 6,
+              mapSize: 2,
+              marcoVision: 50,
+              marcoBomb: 15,
+              marcoReach: 50,
+              poloVision: 50,
+              poloBomb: 50,
+            });
+
+            const gameState = new GameState({
+              gameId: gameId,
+              winner: null,
+              players: playersObject,
+              settings: gamesettings,
+            });
+
+            gameState.save().then(res.send({ gameId: gameId }));
+          })
+          .catch((err) => console.log(err));
+      } else {
+        res.send({
+          msg: "You can only join one game.",
+        });
+      }
     });
-    newRoom
-      .save()
-      .then(() => res.send({ gameId: gameId }))
-      .catch((err) => console.log(err));
+  } else {
+    res.send({
+      msg: "Invalid",
+    });
   }
+});
+
+router.get("/chat", (req, res) => {
+  Room.findOne({ gameId: req.query.gameId })
+    .then((room) => {
+      if (room) {
+        res.send(room.chat);
+      }
+    })
+    .catch((err) => console.log(err));
+});
+
+router.post("/message", auth.ensureLoggedIn, (req, res) => {
+  // insert this message into the database
+  const { gameId, content } = req.body;
+  const message = new Message({
+    gameId: gameId,
+    sender: {
+      _id: req.user._id,
+      name: req.user.name,
+    },
+    content: content,
+  });
+  socketManager.getIo().to(gameId).emit("new_message", message);
+  Room.findOneAndUpdate(
+    { gameId: gameId },
+    { $push: { chat: message } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+  res.send(message);
+});
+
+router.post("/updateLobbySettings", (req, res) => {
+  const { gameId, settings } = req.body;
+  Room.findOne({
+    gameId: gameId,
+  })
+    .then((lobby) => {
+      if (lobby) {
+        lobby.settings = settings;
+        lobby
+          .save()
+          .then((lobby) => socketManager.getIo().to(gameId).emit("updateLobbySettings", lobby))
+          .catch((err) => console.log(err));
+      }
+    })
+    .catch((err) => console.log(err));
+  res.send({});
 });
 
 // returns lobby data for the public table
@@ -131,6 +271,79 @@ router.get("/lobby", (req, res) => {
       res.send({ lobby: lobby });
     })
     .catch((err) => console.log(err));
+});
+
+router.post("/move", (req, res) => {
+  const { dir, userId, gameId } = req.body;
+  logic.updatePlayerPosition(dir, gameId, userId);
+  res.send({});
+});
+
+router.post("/leavegame", (req, res) => {
+  const { user } = req.body;
+  if (user) {
+    let socket = socketManager.getSocketFromUserID(user._id);
+    socketManager.userLeaveGame(socket);
+  }
+  res.send({});
+});
+/*
+router.post("/creategame", (req, res) => {
+  const { gameId } = req.body;
+
+  Room.findOne({ gameId: gameId }).then((room) => {
+    let playersObject = {};
+    let playersArray = room.players;
+    for (let i = 0; i < playersArray.length; i++) {
+      let player = playersArray[i];
+      playersObject[player._id] = {
+        position: { x: 0, y: 0 },
+        user: player,
+        color: "white",
+        role: "marco",
+        powerups: { lightbomb: 45 },
+      };
+    }
+
+    const gameState = new GameState({
+      gameId: gameId,
+      winner: null,
+      players: playersObject,
+    });
+
+    gameState.save().then({});
+  });
+});
+*/
+router.post("/startGame", (req, res) => {
+  const { gameId } = req.body;
+  Room.findOne({ gameId: gameId }).then((room) => {
+    let gamesettings = new GameSettings({
+      timeLimit: room.settings["General Settings"]["Time Limit"],
+      mapSize: room.settings["General Settings"]["Map Size"],
+      marcoVision: room.settings["Marco Settings"]["Vision Radius"],
+      marcoBomb: room.settings["Marco Settings"]["Light Bomb Timer"],
+      marcoReach: room.settings["Marco Settings"]["Tag Reach"],
+      poloVision: room.settings["Polo Settings"]["Vision Radius"],
+      poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
+    });
+    let player = room.players[Math.floor(Math.random() * room.players.length)];
+    const roleToUpdate = `players.${player._id}.role`;
+    GameState.findOneAndUpdate(
+      { gameId: gameId },
+      { $set: { [roleToUpdate]: "marco" }, settings: gamesettings }
+    );
+    room.delete();
+    socketManager.getIo().emit("updateLobbiesAll");
+    res.send({});
+  });
+});
+
+router.get("/initialRender", (req, res) => {
+  const { gameId } = req.query;
+  GameState.findOne({ gameId: gameId }).then((gameState) => {
+    res.send({ initialRender: gameState });
+  });
 });
 
 // anything else falls to this "not found" case

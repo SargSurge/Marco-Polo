@@ -6,6 +6,7 @@ import { GoogleLogout } from "react-google-login";
 
 import "./NavBarDropdown.css";
 import { Redirect } from "react-router-dom";
+import { navigate } from "@reach/router";
 
 const GOOGLE_CLIENT_ID = "478686741541-7mat3uoom72iesonik033gsm2n72pbf3.apps.googleusercontent.com";
 
@@ -32,24 +33,28 @@ class NavBarDropdown extends Component {
     }
   };
 
-  componentDidMount() {
-    get("/api/whoami", {}).then((user) => {
-      console.log(user);
-      this.setState({ name: user.name });
-    });
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div className="navbardropdown-base">
         <div className="navbardropdown-container" onClick={this.handleClick}>
-          <div className="navbardropdown-username"> {this.state.name} </div>
-          <ExpandMoreIcon />
-        </div>
-        <div className="navbardropdown-list" style={{ display: this.state.dropdown }}>
-          <div className="navbardropdown-list-items">How to Play</div>
-          <div className="navbardropdown-list-items">Profile</div>
-          {this.props.logoutButton}
+          <ol>
+            <li className="menu-item">
+              <a
+                className="navbardropdown-button"
+                style={{ display: "flex", textDecoration: "none" }}
+              >
+                <div className="navbardropdown-username"> {this.props.user.name} </div>
+                <ExpandMoreIcon />
+              </a>
+              <ol className="sub-menu">
+                <li className="menu-item">How to Play</li>
+                <li className="menu-item" onClick={() => navigate('/profile')}>Profile</li>
+                <li className="menu-item"> {this.props.logoutButton}</li>
+              </ol>
+            </li>
+          </ol>
         </div>
       </div>
     );

@@ -1,0 +1,28 @@
+/*
+    The CSS for the MatchTable component
+ */
+
+ table {
+    color: white;
+    font-family: Orbitron;
+    letter-spacing: 3px;
+    width: 100%;
+}
+
+.matchtable-headers {
+    border-bottom: 1px solid white;
+}
+
+.matchtable-table-row:hover {
+    color: black;
+    background-color:  #459bc5;
+    transition: background-color .25s linear;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.matchtable-table-row-active {
+    color: black;
+    background-color:  #459bc5;
+    text-decoration: none;
+}

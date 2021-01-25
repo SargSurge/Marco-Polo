@@ -8,6 +8,8 @@ const RoomSchema = new mongoose.Schema({
     numberJoined: Number,
     gameId: String,
     players: Array,
+    settings: Object,
+    chat: Array,
 })
 
 module.exports = mongoose.model("room", RoomSchema);

@@ -10,19 +10,30 @@ class NavBar extends Component {
   // makes props available in this component
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      user: undefined,
+    };
   }
 
-  componentDidMount() {}
+  leaveGame = (user) => {
+    console.log(user);
+    post("/api/leavegame", {user: user}).then(() => navigate("/"));
+  }
+
+  componentDidMount() {
+    get('/api/whoami', {}).then((user) => {
+      this.setState({user: user});
+    })
+  }
 
   render() {
     return (
       <div className="navbar-base">
-        <div className="navbar-header" onClick={() => navigate("/")}>
+        <div className="navbar-header" onClick={() => this.leaveGame(this.state.user)}>
           {" "}
           Marco Polo{" "}
         </div>
-        <NavBarDropdown logoutButton={this.props.logoutButton} />
+        {this.state.user ? <NavBarDropdown user={this.state.user} logoutButton={this.props.logoutButton} /> : ""}
       </div>
     );
   }
