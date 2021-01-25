@@ -11,16 +11,13 @@ import { navigate } from "@reach/router";
 // marks = {marks}
 
 const settings = {
-  "General Settings": { "Time Limit": [2, 5, 10, 1], "Map Size": [1, 1, 3, 1] },
-  "Marco Settings": {
-    "Vision Radius": [0, 50, 100, 5],
-    "Light Bomb Timer": [0, 15, 30, 5],
-    "Tag Reach": [0, 50, 100, 5],
-  },
-  "Polo Settings": {
-    "Vision Radius": [0, 50, 100, 5],
-    "Teleport Bomb Timer": [0, 50, 100, 5],
-  },
+  "General SettingsMap Size1": 2,
+  "General SettingsTime Limit0": 6,
+  "Marco SettingsTag Timer2": 20,
+  "Marco SettingsThermal Radar Timer1": 15,
+  "Marco SettingsVision Radius0": 25,
+  "Polo SettingsInstant Transmission Timer1": 50,
+  "Polo SettingsVision Radius0": 50,
 };
 
 const marks = [

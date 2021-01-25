@@ -74,7 +74,7 @@ router.post("/joingame", (req, res) => {
                                 user: player,
                                 color: "white",
                                 role: "polo",
-                                powerups: { lightbomb: 45 },
+                                //powerups: { lightbomb: 45 },
                               };
                             }
                             gameState.players = playersObject;
@@ -132,7 +132,6 @@ router.post("/hostgame", (req, res) => {
   if (req.user) {
     socketManager.getIo().emit("updateLobbiesAll");
     User.findOne({ googleid: req.user.googleid }).then((user) => {
-      console.log(user);
       if (user && (user.currentGame === gameId || !user.currentGame)) {
         user.currentGame = gameId;
         user.save();
@@ -160,7 +159,7 @@ router.post("/hostgame", (req, res) => {
                 user: player,
                 color: "white",
                 role: "polo",
-                powerups: { lightbomb: 45 },
+                //powerups: { lightbomb: 45 },
               };
             }
 
@@ -168,10 +167,10 @@ router.post("/hostgame", (req, res) => {
               timeLimit: 6,
               mapSize: 2,
               marcoVision: 50,
-              marcoBomb: 15,
-              marcoReach: 50,
+              marcoRadar: 15,
+              marcoTimer: 20,
               poloVision: 50,
-              poloBomb: 50,
+              poloTP: 50,
             });
 
             const gameState = new GameState({
@@ -318,25 +317,42 @@ router.post("/creategame", (req, res) => {
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {
+    console.log(room.settings["Polo SettingsInstant Transmission Timer1"]);
     let gamesettings = new GameSettings({
-      timeLimit: room.settings["General Settings"]["Time Limit"],
-      mapSize: room.settings["General Settings"]["Map Size"],
-      marcoVision: room.settings["Marco Settings"]["Vision Radius"],
-      marcoBomb: room.settings["Marco Settings"]["Light Bomb Timer"],
-      marcoReach: room.settings["Marco Settings"]["Tag Reach"],
-      poloVision: room.settings["Polo Settings"]["Vision Radius"],
-      poloBomb: room.settings["Polo Settings"]["Teleport Bomb Timer"],
+      timeLimit: room.settings["General SettingsTime Limit0"],
+      mapSize: room.settings["General SettingsMap Size1"],
+      marcoVision: room.settings["Marco SettingsVision Radius0"],
+      marcoRadar: room.settings["Marco SettingsThermal Radar Timer1"],
+      marcoTimer: room.settings["Marco SettingsTag Timer2"],
+      poloVision: room.settings["Polo SettingsVision Radius0"],
+      poloTP: room.settings["Polo SettingsInstant Transmission Timer1"],
     });
+    console.log(gamesettings);
     let player = room.players[Math.floor(Math.random() * room.players.length)];
     const roleToUpdate = `players.${player._id}.role`;
+    let newState = null;
+    if (Object.keys(gamesettings).length !== 1) {
+      newState = { [roleToUpdate]: "marco", settings: gamesettings };
+    } else {
+      newState = { [roleToUpdate]: "marco" };
+      console.log();
+    }
     GameState.findOneAndUpdate(
       { gameId: gameId },
-      { $set: { [roleToUpdate]: "marco" }, settings: gamesettings }
+      { $set: newState },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(doc);
+        }
+      }
     );
     room.delete();
     socketManager.getIo().emit("updateLobbiesAll");
-    res.send({});
   });
+  res.send({});
 });
 
 router.get("/initialRender", (req, res) => {
