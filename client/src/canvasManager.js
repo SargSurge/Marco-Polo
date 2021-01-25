@@ -1,16 +1,19 @@
 import $ from "jquery";
 import pic from "./A2_0.png";
-let json = require("../src/components/pages/assets/MediumMapFinished.json");
-const mapData = json.layers[0];
-const map = mapData.data;
+//let mediumMap = require("../src/components/pages/assets/MediumMapFinished.json");
+//let smallMap = require("../src/components/pages/assets/smallMap.json");
+let maps = {smallMap: require("../src/components/pages/assets/smallMap.json"), mediumMap : require("../src/components/pages/assets/MediumMapFinished.json")};
+let json;
+let mapData;
+let map;
 let canvas = document.getElementById("game-canvas");
 
 let camera;
-let numx = json.width;
-let numy = json.height;
-let tilesizex = json.tilewidth;
-let tilesizey = json.tileheight;
-let tileSize = tilesizex;
+let numx;
+let numy;
+let tilesizex = 48;
+let tilesizey = 48;
+let tileSize = 48;
 let charSize = Math.floor(tileSize / 4);
 let loadCount;
 let view;
@@ -215,6 +218,16 @@ const getTile = (t_ind, tilesets) => {
 /** main draw */
 export const drawCanvas = (drawState, userId, tilesets) => {
   // get the canvas element
+  if (drawState.settings.mapSize <= 2) {
+    json = maps[smallMap];
+  } else {
+    json = maps[mediumMap];
+  }
+  mapData = json.layers[0];
+  map = mapData.data;
+  numx = json.width;
+  numy = json.height;
+
   canvas = document.getElementById("game-canvas");
   if (!canvas) return;
   const context = canvas.getContext("2d");
