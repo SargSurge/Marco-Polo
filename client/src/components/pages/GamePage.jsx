@@ -120,7 +120,7 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
-      drawCanvas(this.state.gameState, tempUser._id, tilesets);
+      drawCanvas(tempState, tempUser._id, tilesets);
       this.gameLoop(gamestate, user);
     });
   };
