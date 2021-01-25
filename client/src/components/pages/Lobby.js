@@ -88,6 +88,7 @@ class Lobby extends Component {
       this.updateLobbySettings(lobby);
     });
     socket.on("startGame", () => {
+      alert("Starting the game!");
       navigate(`../game/${this.state.lobby.gameId}`);
     });
   }
@@ -160,7 +161,6 @@ class Lobby extends Component {
                           max={this.settings[type][setting][2]}
                           onChange={(event, value) => {
                             let tempSliders = { ...this.state.sliders };
-                            console.log(tempSliders);
                             tempSliders[type + setting + index] = value;
                             this.setState({ sliders: tempSliders });
                             if (
@@ -202,9 +202,9 @@ class Lobby extends Component {
                         : true
                     }
                     onClick={() => {
-                      navigate(`../game/${this.state.lobby.gameId}`);
-                      startGame(this.state.lobby.gameId);
-                      post("/api/startGame", { gameId: this.state.lobby.gameId });
+                      post("/api/startGame", { gameId: this.state.lobby.gameId }).then(() => {
+                        startGame(this.state.lobby.gameId);
+                      });
                     }}
                   >
                     Start Game

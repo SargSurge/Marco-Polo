@@ -101,6 +101,7 @@ export class GamePage extends Component {
                 ready: true,
               },
             });
+            console.log(isMarco);
           })
           .then(() => {
             if (loadCount == json.tilesets.length) {
@@ -255,8 +256,7 @@ export class GamePage extends Component {
             You're a {this.state.isMarco ? "Marco!" : "Polo!"}
           </div>
           <div className="gamepage-canvas-container">
-            <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight} ></canvas>
-          
+            <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
           <Timer
             initialTime={this.state.powerup.cooldown}
