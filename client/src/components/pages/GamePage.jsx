@@ -116,11 +116,11 @@ export class GamePage extends Component {
       //}
       console.log(this.state);
       let tempState = this.state.gameState || gamestate;
-      let tempUser = this.state.user._id || user;
+      let tempUser = this.state.user || user;
       this.updatePosition();
-      tempState.players[tempUser].position = this.state.position;
+      tempState.players[tempUser._id].position = this.state.position;
       this.move();
-      drawCanvas(this.state.gameState, tempUser, tilesets);
+      drawCanvas(this.state.gameState, tempUser._id, tilesets);
       this.gameLoop(gamestate, user);
     });
   };
