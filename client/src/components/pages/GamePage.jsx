@@ -119,7 +119,7 @@ export class GamePage extends Component {
       let tempUser = this.state.user || user;
       this.updatePosition();
       tempState.players[tempUser._id].position = this.state.position;
-      this.move();
+      this.move(tempUser);
       drawCanvas(this.state.gameState, tempUser._id, tilesets);
       this.gameLoop(gamestate, user);
     });
@@ -164,8 +164,6 @@ export class GamePage extends Component {
         break;
     }
   };
-
-  updateCooldowns = () => {};
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
@@ -215,28 +213,9 @@ export class GamePage extends Component {
     });
   }
 
-  /*
-  handleInput = (event) => {
-    switch (event.code) {
-      case "KeyA": // A
-        this.move("left");
-        break;
-      case "KeyW": // W
-        this.move("up");
-        break;
-      case "KeyD": // D
-        this.move("right");
-        break;
-      case "KeyS": // S
-        this.move("down");
-        break;
-    }
-  };
-   */
-
-  move = () => {
+  move = (user) => {
     //render movement for me
-    move(this.state.user._id, this.props.gameId, this.state.position);
+    move(user._id, this.props.gameId, this.state.position);
   };
 
   processUpdate = (gameState, user) => {
