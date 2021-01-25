@@ -56,12 +56,12 @@ class Lobby extends Component {
           }
         } else {
           post("/api/leavegame", { user: this.state.user });
-          navigate("/");
+          //navigate("/");
         }
       })
       .catch((err) => {
         console.log(`${err}`);
-        navigate("/");
+        //navigate("/");
       });
   };
 
