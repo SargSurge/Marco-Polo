@@ -287,7 +287,34 @@ router.post("/leavegame", (req, res) => {
   }
   res.send({});
 });
+/*
+router.post("/creategame", (req, res) => {
+  const { gameId } = req.body;
 
+  Room.findOne({ gameId: gameId }).then((room) => {
+    let playersObject = {};
+    let playersArray = room.players;
+    for (let i = 0; i < playersArray.length; i++) {
+      let player = playersArray[i];
+      playersObject[player._id] = {
+        position: { x: 0, y: 0 },
+        user: player,
+        color: "white",
+        role: "marco",
+        powerups: { lightbomb: 45 },
+      };
+    }
+
+    const gameState = new GameState({
+      gameId: gameId,
+      winner: null,
+      players: playersObject,
+    });
+
+    gameState.save().then({});
+  });
+});
+*/
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId }).then((room) => {

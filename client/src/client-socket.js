@@ -11,6 +11,7 @@ export const move = (userId, gameId, position) => {
 };
 
 export const startGame = (gameId) => {
+  console.log("lets start");
   socket.emit("startGame",gameId);
 };
 

@@ -47,11 +47,10 @@ export class GamePage extends Component {
         cooldown: 31000,
         ready: true,
       },
-      loaded: false,
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     window.addEventListener("keydown", this.handleKeyDown);
     document.addEventListener("keyup", this.handleKeyUp);
 
@@ -72,23 +71,7 @@ export class GamePage extends Component {
       };
       tilesets.push(tileset);
     }
-    await props.location.state.post();
-    await this.initialRender();
-    this.setState({loaded : true});
 
-    if (loadCount == json.tilesets.length) {
-      this.processUpdate(this.state.gameState);
-    }
-
-    if (loadCount == json.tilesets.length) {
-      this.gameLoop();
-    }
-    socket.on("update", (gameState) => {
-      this.setState({ gameState: gameState });
-    });
-}
-
-  initialRender = () => {
     get("/api/whoami", {})
       .then((user) => {
         this.setState({ user: user });
@@ -96,8 +79,19 @@ export class GamePage extends Component {
       .then(() => {
         get("/api/initialRender", { gameId: this.props.gameId })
           .then((res) => {
+            if (loadCount == json.tilesets.length) {
+              this.processUpdate(res.initialRender);
+            }
             this.setState({ gameState: res.initialRender });
           })
+          .then(() => {
+            if (loadCount == json.tilesets.length) {
+              this.gameLoop();
+            }
+            socket.on("update", (gameState) => {
+              this.setState({ gameState: gameState });
+            });
+          });
       });
   }
 
@@ -152,7 +146,7 @@ export class GamePage extends Component {
     }
   };
 
-  updateCooldowns = () => { };
+  updateCooldowns = () => {};
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
@@ -230,14 +224,15 @@ export class GamePage extends Component {
     drawCanvas(gameState, this.state.user._id, tilesets);
   };
 
-  content = () => {
-    <div className="gamepage-base">
+  render() {
+    return (
+      <div className="gamepage-base">
         <div className="gamepage-game-container">
           <div className="gamepage-header">Welcome to Marco Polo!</div>
           <div className="gamepage-character-header">You're a Marco!</div>
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight} ></canvas>
-
+          
           </div>
           <Timer
             initialTime={this.state.powerup.cooldown}
@@ -261,11 +256,11 @@ export class GamePage extends Component {
                   this.state.powerup.name
                 ) : getTime() <= 0 ? (
                   (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
-                    reset(),
-                    resume())
+                  reset(),
+                  resume())
                 ) : (
-                      <Timer.Seconds />
-                    )}
+                  <Timer.Seconds />
+                )}
               </button>
             )}
           </Timer>
@@ -292,18 +287,13 @@ export class GamePage extends Component {
                 ) : getTime() <= 0 ? (
                   (this.setState({ tag: { ...this.state.tag, ready: true } }), reset(), resume())
                 ) : (
-                      <Timer.Seconds />
-                    )}
+                  <Timer.Seconds />
+                )}
               </button>
             )}
           </Timer>
         </div>
       </div>
-  }
-
-  render() {
-    return (
-      this.state.loaded ? this.content() : <div></div>
     );
   }
 }

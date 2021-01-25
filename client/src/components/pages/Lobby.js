@@ -202,8 +202,8 @@ class Lobby extends Component {
                     }
                     onClick={() => {
                       postStart(this.state.lobby.gameId);
+                      navigate(`../game/${this.state.lobby.gameId}`);
                       startGame(this.state.lobby.gameId);
-                      navigate(`../game/${this.state.lobby.gameId}`, {state : {post : this.postStart}});
                     }}
                   >
                     Start Game
@@ -232,4 +232,4 @@ export default Lobby;
 
 export const postStart = (gameId) => {
   post("/api/startGame", { gameId: gameId });
-}
+} 
