@@ -88,15 +88,14 @@ class Lobby extends Component {
       this.updateLobbySettings(lobby);
     });
     socket.once("startGame", (gameId) => {
-      alert("Starting the game!");
+      //alert("Starting the game!");
       navigate(`../game/${this.state.lobby.gameId}`);
     });
   }
 
   componentDidUpdate() {
     if (!this.state.user) {
-      get("/api/whoami", {})
-      .then((user) => {
+      get("/api/whoami", {}).then((user) => {
         this.setState({ user: user });
       });
     }

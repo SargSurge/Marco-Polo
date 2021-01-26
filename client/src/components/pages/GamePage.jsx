@@ -162,7 +162,8 @@ export class GamePage extends Component {
         drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
         this.gameLoop(gamestate, user);
       } catch (e) {
-        this.gameLoop(gamestate, user);
+        navigate("/");
+        window.location.reload();
       }
     });
   };
@@ -334,7 +335,8 @@ export class GamePage extends Component {
       { x: 126.05999999999995, y: 281.079999999999 },
       { x: -258.7600000000002, y: 596.4199999999989 },
       { x: 273.2399999999998, y: -495.5700000000011 },
-      { x: -160.76000000000022, y: -439.5700000000011 },];
+      { x: -160.76000000000022, y: -439.5700000000011 },
+    ];
     if (this.state.gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
       this.setState({
