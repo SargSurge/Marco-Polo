@@ -138,21 +138,25 @@ export class GamePage extends Component {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
 
-      if (tempState.finalTime - new Date().getTime() <= 0) {
-        post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
-          .then(() => {
-            navigate("/");
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      try {
+        if (tempState.finalTime - new Date().getTime() <= 0) {
+          post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
+            .then(() => {
+              navigate("/");
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+        console.log(tempState);
+        this.updatePosition();
+        tempState.players[tempUser._id].position = this.state.position;
+        this.move(tempUser);
+        drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+        this.gameLoop(gamestate, user);
+      } catch (e) {
+        this.gameLoop(gamestate, user);
       }
-
-      this.updatePosition();
-      tempState.players[tempUser._id].position = this.state.position;
-      this.move(tempUser);
-      drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-      this.gameLoop(gamestate, user);
     });
   };
 
@@ -334,7 +338,7 @@ export class GamePage extends Component {
     let canTag = false;
     let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
     let taggedPlayer = null;
-    if (this.state.isMarco) {
+    if (this.state.isMarco && this.state.gameState.players) {
       Object.keys(this.state.gameState.players).every((player, index) => {
         console.log(this.state.user.name);
         console.log(this.state.gameState.players[player].user.name);
