@@ -13,6 +13,7 @@ import C from "./assets/Inside_C.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
 import { navigate } from "@reach/router";
+import { tagPlayer } from "../../../../server/logic";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
