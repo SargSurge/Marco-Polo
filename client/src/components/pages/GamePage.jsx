@@ -116,6 +116,7 @@ export class GamePage extends Component {
         });
       });
     } catch (e) {
+      console.log(e);
       navigate("/");
       window.location.reload();
     }
@@ -424,6 +425,7 @@ export class GamePage extends Component {
             </div>
             <div className="gamepage-canvas-container">
               <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
+              <canvas id="player-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
             </div>
             <Timer
               initialTime={this.state.powerup.cooldown}

@@ -148,13 +148,13 @@ html, body {
     text-decoration: none;
     outline: none;
 }
-/*
+
 canvas {
     position : absolute;
     left:0px;
     top:0px;
     background-color: transparent;
-}*/
+}
 
 
 #ui-layer {z-index : 4}
@@ -162,6 +162,6 @@ canvas {
     z-index : 1;
     background-color: transparent;
 }
-#player-layer {z-index : 2}
-#map-layer {z-index : 1}
+#player-layer {z-index : 24}
+#map-layer {z-index : 20}
 

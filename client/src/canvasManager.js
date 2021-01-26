@@ -261,6 +261,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   numx = json.width;
   numy = json.height;
   canvas = document.getElementById("map-layer");
+  canvasPlayer = document.getElementById("map-layer");
 
   if (!canvas) return;
   const context = canvas.getContext("2d");
@@ -298,18 +299,12 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
   }
-
   //context.viewport(0, 0, canvas.width, canvas.height);
-  /*
+  
   context.translate(
-    -x -
-      ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
-      view.x,
-    y -
-      ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
-      canvas.height / 2 +
-      view.y
-  );*/
+    -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
+    y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
+  );
 
  // context.translate(
   //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
@@ -318,23 +313,23 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
-  //if (drawState.players[userId].active) {
-  //  if (thermal.active) {
-  ///    if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-  //      context.beginPath();
-  //      context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-   //     context.clip();
-   //   } else {
-   //     context.beginPath();
-    //    context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-   //     context.clip();
-  //    }
-   // } else {
+  if (drawState.players[userId].active) {
+    if (thermal.active) {
+      if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
+        context.beginPath();
+        context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
+        context.clip();
+      } else {
+        context.beginPath();
+        context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+        context.clip();
+      }
+    } else {
       context.beginPath();
       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
       context.clip();
-   // }
-  //}
+    }
+  }
 
   if (drawState.players[userId].role === "marco") {
     context.clearRect(0, 0, canvas.width, canvas.height);
