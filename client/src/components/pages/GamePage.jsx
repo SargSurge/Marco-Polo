@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { socket } from "../../client-socket";
+import { socket, tagPlayer } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas, init , drawThermal} from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
 import A2 from "./assets/Inside_A2.png";
 import A4 from "./assets/Inside_A4.png";
 import A5 from "./assets/Inside_A5.png";
@@ -13,6 +13,7 @@ import C from "./assets/Inside_C.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
 import { navigate } from "@reach/router";
+//import { tagPlayerWrapper } from "../../../../server/logic";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
@@ -125,9 +126,15 @@ export class GamePage extends Component {
       let tempUser = this.state.user || user;
 
       if (tempState.finalTime - new Date().getTime() <= 0) {
-        //navigate("/");
+        // post("/api/gameWin", { gameId: this.props.gameId, winner: "polo" }).catch((e) => console.log(e));
+        post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" }).then(() => {
+          navigate("/");
+          alert("Congrats to the Polos!");
+        });
       }
+
       this.updatePosition();
+      console.log(tempState, tempUser);
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
       drawCanvas(tempState, tempUser._id, tilesets, false,thermal);
@@ -295,17 +302,37 @@ export class GamePage extends Component {
   };
 
   render() {
+    let canTag = false;
+    let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
+    let taggedPlayer = null;
+    if (this.state.gameState) {
+      Object.keys(this.state.gameState.players).every((player, index) => {
+        if (
+          this.state.user._id !== player &&
+          Math.sqrt(
+            Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
+              Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
+          ) <= 100
+        ) {
+          canTag = true;
+          tagClass = "gamepage-ui-button gamepage-tag-button";
+          taggedPlayer = player;
+        }
+      });
+    }
+
+    console.log(this.state.gameState);
+
     return (
       <div className="gamepage-base">
         <div className="gamepage-game-container">
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              post("/api/leaveGameState", {gameId: this.props.gameId}).then(() => {
+              post("/api/leaveGameState", { gameId: this.props.gameId, winner: null }).then(() => {
                 navigate("/");
               });
             }}
-
           >
             Leave Game
           </button>
@@ -371,11 +398,16 @@ export class GamePage extends Component {
             >
               {({ start, resume, reset, getTime }) => (
                 <button
-                  className="gamepage-ui-button gamepage-tag-button"
+                  className={tagClass}
+                  disabled={canTag}
                   onClick={() => {
                     if (this.state.tag.ready) {
-                      start();
-                      this.setState({ tag: { ...this.state.tag, ready: false } });
+                      if (canTag) {
+                        tagPlayer(this.props.gameId, this.state.gameState.players[taggedPlayer]);
+                        start();
+                        this.setState({ tag: { ...this.state.tag, ready: false } });
+                        return false;
+                      }
                     }
                   }}
                 >

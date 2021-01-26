@@ -183,11 +183,15 @@ router.post("/hostgame", (req, res) => {
             });
 
             const gameState = new GameState({
+              name: name,
+              creator: req.user.name,
               gameId: gameId,
               winner: null,
               players: playersObject,
               settings: gamesettings,
               finalTime: null,
+              tagged: [],
+              poloCaught: 0,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -370,10 +374,21 @@ router.get("/initialRender", (req, res) => {
 });
 
 router.post("/leaveGameState", (req, res) => {
-  const {gameId} = req.body;
+  const { gameId, winner } = req.body;
   if (req.user) {
     GameState.findOne({ gameId: gameId }).then((gamestate) => {
       if (gamestate) {
+        if (winner) {
+          let match = {
+            name: gamestate.name,
+            creator: gamestate.creator,
+            win: (winner === gamestate.players[req.user._id].role),
+          }  
+          User.findOne({googleid: req.user.googleid}).then((user) => {
+            user.matchHistory.push(match);
+          })
+        }
+
         delete gamestate.players[req.user._id];
         gamestate
           .save()
@@ -397,9 +412,16 @@ router.post("/leaveGameState", (req, res) => {
         }
         //console.log(doc);
       }
-    );  
+    );
   }
   res.send({});
+});
+
+router.get("/matchHistory", (req, res) => {
+  let { userId } = req.query;
+  User.findOne({ googleid: userId }).then((user) => {
+    res.send({ user: user, matches: user.matchHistory });
+  });
 });
 
 // anything else falls to this "not found" case

@@ -134,7 +134,14 @@ html, body {
 .gamepage-tag-button {
     bottom: 25px;
     right: 23px;
+}
 
+.gamepage-tag-disabled {
+    border: 1px solid #000000;
+    box-shadow: 0 0 8px 1px #b2bb58;
+    background: #262626;
+    color: #8f9459;
+    cursor: default;
 }
 
 .gamepage-ui-button:focus {
