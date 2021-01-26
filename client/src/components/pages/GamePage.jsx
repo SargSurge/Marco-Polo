@@ -345,7 +345,7 @@ export class GamePage extends Component {
       this.setState({
         position: newPos,
       });
-    } else if (this.state.gameState.mapSize === 1) {
+    } else if (this.state.gameState.settings.mapSize === 1) {
       let newPos = smallMapCoords[Math.floor(Math.random() * smallMapCoords.length)];
       this.setState({
         position: newPos,
