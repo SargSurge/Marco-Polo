@@ -7,7 +7,7 @@ import "./PublicTable.css";
 export class PublicTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { lobbies: [] };
+    this.state = { lobbies: [], user: undefined };
   }
 
   updateLobbies = () => {
@@ -20,9 +20,23 @@ export class PublicTable extends Component {
 
   componentDidMount() {
     this.updateLobbies();
+    get("/api/whoami", {}).then((user) => {
+      this.setState({ user: user });
+    });
     socket.on("updateLobbiesAll", () => {
       this.updateLobbies();
     });
+  }
+
+  componentDidUpdate() {
+    if (!this.state.user) {
+      get("/api/whoami", {}).then((user) => {
+        this.setState({ user: user });
+      });
+    }
+   // post("/api/confirmActive", {}).then((lobbies) => {
+   //   this.setState({ lobbies: lobbies });
+   // });
   }
 
   componentWillUnmount() {
