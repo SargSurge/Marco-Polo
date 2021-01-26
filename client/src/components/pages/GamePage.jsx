@@ -334,8 +334,15 @@ export class GamePage extends Component {
     let canTag = false;
     let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
     let taggedPlayer = null;
-    if (this.state.gameState) {
+    if (this.state.isMarco) {
       Object.keys(this.state.gameState.players).every((player, index) => {
+        console.log(this.state.user.name);
+        console.log(this.state.gameState.players[player].user.name);
+        console.log(this.state.position.x, this.state.position.y);
+        console.log(
+          this.state.gameState.players[player].position.x,
+          this.state.gameState.players[player].position.y
+        );
         if (
           this.state.user._id !== player &&
           Math.sqrt(
