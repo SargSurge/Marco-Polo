@@ -195,10 +195,10 @@ router.post("/hostgame", (req, res) => {
                 timeLimit: 6,
                 mapSize: 2,
                 marcoVision: 100,
-                marcoRadar: 15,
+                marcoRadar: 40,
                 marcoTimer: 20,
                 poloVision: 250,
-                poloTP: 50,
+                poloTP: 40,
               });
               const gameState = new GameState({
                 name: name,

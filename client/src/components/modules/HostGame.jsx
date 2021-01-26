@@ -14,9 +14,9 @@ const settings = {
   "General SettingsMap Size1": 2,
   "General SettingsTime Limit0": 6,
   "Marco SettingsTag Timer2": 20,
-  "Marco SettingsThermal Radar Timer1": 15,
+  "Marco SettingsThermal Radar Timer1": 40,
   "Marco SettingsVision Radius0": 100,
-  "Polo SettingsInstant Transmission Timer1": 50,
+  "Polo SettingsInstant Transmission Timer1": 40,
   "Polo SettingsVision Radius0": 250,
 };
 
