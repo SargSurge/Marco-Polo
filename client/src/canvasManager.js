@@ -2,7 +2,7 @@ let maps = {smallMap: require("../src/components/pages/assets/smallMapRemake.jso
 let json;
 let mapData;
 let map;
-let canvas = document.getElementById("game-canvas");
+let canvas;
 
 let camera;
 let numx;
@@ -13,6 +13,7 @@ let tileSize = 48;
 let charSize = Math.floor(tileSize / 4);
 let loadCount;
 let view;
+let vision;
 const FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 const FLIPPED_VERTICALLY_FLAG = 0x40000000;
 const FLIPPED_DIAGONALLY_FLAG = 0x20000000;
@@ -212,18 +213,27 @@ const getTile = (t_ind, tilesets) => {
 };
 
 /** main draw */
-export const drawCanvas = (drawState, userId, tilesets) => {
+export const drawCanvas = (drawState, userId, tilesets,initial) => {
   // get the canvas element
-  if (drawState.settings.mapSize == 1) {
+  console.log(drawState.settings);
+  if (drawState.settings.mapSize === 1 && initial) {
+    console.log("small");
     json = maps.smallMap;
-  } else {
+  } else if (drawState.settings.mapSize === 2 && initial) {
     json = maps.mediumMap;
+  }
+  if (initial) {
+    if (drawState.players[userId].role == "marco") {
+      vision = drawState.settings.marcoVision;
+    } else {
+      vision = drawState.settings.poloVision;
+    }
+    
   }
   mapData = json.layers[0];
   map = mapData.data;
   numx = json.width;
   numy = json.height;
-
   canvas = document.getElementById("map-layer");
 
   if (!canvas) return;
@@ -245,10 +255,9 @@ export const drawCanvas = (drawState, userId, tilesets) => {
   const { drawX, drawY } = convertCoordToCanvas(x, y);
 
   // clear the canvas to black
+  
+  //big map
   context.clearRect(0, 0, canvas.width, canvas.height);
-
-
-
   view = {
     x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width,
     y:
@@ -261,28 +270,94 @@ export const drawCanvas = (drawState, userId, tilesets) => {
 
   context.translate(
     -x -
-    ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
-    view.x,
+      ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
+      view.x,
     y -
-    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
-    canvas.height / 2 +
-    view.y
+      ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
+      canvas.height / 2 +
+      view.y
   );
+  /*
+  view = {
+    x: x - ((canvas.width) / (numx * tilesizex)) * canvas.width,
+    y:
+      -y +
+      ((canvas.height) / (numy * tilesizey)) * canvas.height -
+      canvas.height / 2,
+    w: canvas.width,
+    h: canvas.height,
+  };
 
-  context.fillStyle = "rgba(38, 38, 38, 1)";
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.translate(
+    -x -
+      (1/ (mapData.width * tileSize)) * canvas.width +
+      view.x,
+    y -
+      (1 / (mapData.height * tileSize)) * canvas.height -
+      canvas.height / 2 +
+      view.y
+  );
+  */
+  /*
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  view = {
+    x: x - ((window.screen.width - canvas.width) / (60 * tilesizex)) * canvas.width/2 ,
+    y:
+      -y +
+      ((window.screen.height - canvas.height) / (60 * tilesizey)) * canvas.height/2 +
+      canvas.height ,
+    w: canvas.width,
+    h: canvas.height,
+  };
+
+  context.translate(
+    -x -
+      ((window.screen.width - canvas.width) / (60 * tileSize)) * canvas.width/2 +
+      view.x,
+    y -
+      ((window.screen.height - canvas.height) / (60 * tileSize)) * canvas.height/2  +
+      view.y
+  );*/
+
+/*small map new doesnt work for small screens
+  view = {
+    x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width + 2*canvas.width + mapData.width*tileSize,
+    y:
+      -y +
+      ((window.screen.height - canvas.height) / (numy * tilesizey)) * canvas.height +
+      2*canvas.height + mapData.height*tileSize,
+    w: canvas.width,
+    h: canvas.height,
+  };
+
+  context.translate(
+    -x -
+    ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
+    view.x + (canvas.width - mapData.width*tileSize)/2,
+    y -
+    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height +
+    view.y + (canvas.height - mapData.height*tileSize)/2
+  );*/
+
+  //view = { x : -x + map[0].length / 2, y: y - map.length / 2}
+  //context.translate(view.x,view.y;)
   
 
   context.beginPath();
-  context.arc(drawX - view.x, drawY - view.y, 100, 0, 2 * Math.PI, false);
+  context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
   context.clip();
 
-  let gradient = context.createRadialGradient(drawX - view.x, drawY - view.y, 20, drawX - view.x, drawY - view.y, 400);
-  let opacity = 0.20; //55% visible
-  gradient.addColorStop(1,'transparent');
-  gradient.addColorStop(0.005,'rgba(255,255,255,'+opacity+')');
-  fillCircle(context, drawX - view.x, drawY - view.y, 400, gradient);
-  drawPlayer(context, x, y, "red",view);
+  if (drawState.players[userId].role === "marco") {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  //console.log(vision);
+
+  //let gradient = context.createRadialGradient(drawX - view.x, drawY - view.y, 20, drawX - view.x, drawY - view.y, vision);
+  //let opacity = 0.20; //55% visible
+  //gradient.addColorStop(1,'transparent');
+  //gradient.addColorStop(0.005,'rgba(255,255,255,'+opacity+')');
+  //fillCircle(context, drawX - view.x, drawY - view.y, vision, gradient);
 
   for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
     if (json.layers[layer_ind].type != "tilelayer") continue;
