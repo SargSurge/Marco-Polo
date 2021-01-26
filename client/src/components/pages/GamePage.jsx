@@ -388,7 +388,7 @@ export class GamePage extends Component {
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
-          {this.state.isMarco ? (
+
             <Timer
               initialTime={this.state.powerup.cooldown}
               startImmediately={false}
@@ -420,8 +420,7 @@ export class GamePage extends Component {
                 </button>
               )}
             </Timer>
-          ) : (
-            ""
+
           )}
           {this.state.isMarco ? (
             <Timer
