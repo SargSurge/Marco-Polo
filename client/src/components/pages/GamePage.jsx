@@ -368,7 +368,8 @@ export class GamePage extends Component {
       let taggedPlayer = null;
       if (this.state.isMarco) {
         console.log("Outside LOOP", this.state.gameState.players);
-        Object.keys(this.state.gameState.players).every((player, index) => {
+        for (let player in this.state.gameState.players) {
+          if (!this.state.gameState.players.hasOwnProperty(player)) continue;
           if (
             this.state.user._id !== player &&
             this.state.gameState.players[player].active &&
@@ -380,9 +381,9 @@ export class GamePage extends Component {
             canTag = true;
             tagClass = "gamepage-ui-button gamepage-tag-button";
             taggedPlayer = player;
-            return false;
+            break;
           }
-        });
+        }
       }
 
       return (
