@@ -186,6 +186,7 @@ button[type="button"]:disabled {
 
 button[type="button"]:disabled:hover {
   color: #484948;
+  cursor: default;
 }
 
 .lobby-content-left-setting-slider-disabled {

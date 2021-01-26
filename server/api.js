@@ -465,6 +465,17 @@ router.post("/leaveGameState", (req, res) => {
   res.send({});
 });
 
+router.post("/confirmActive", (req, res) => {
+  if (req.user) {
+    Room.find({}, function(err,rooms) {
+      rooms.forEach(function(room) {
+
+      })
+    });
+    
+  }
+})
+
 router.get("/matchHistory", (req, res) => {
   let { userId } = req.query;
   User.findOne({ googleid: userId })

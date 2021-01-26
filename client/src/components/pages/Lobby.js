@@ -93,6 +93,15 @@ class Lobby extends Component {
     });
   }
 
+  componentDidUpdate() {
+    if (!this.state.user) {
+      get("/api/whoami", {})
+      .then((user) => {
+        this.setState({ user: user });
+      });
+    }
+  }
+
   componentWillUnmount() {
     socket.off("updateLobbiesAll");
     socket.off("updateLobbySettings");
@@ -114,6 +123,11 @@ class Lobby extends Component {
                   <button
                     className="lobby-content-left-header-reset"
                     type="button"
+                    disabled={
+                      this.state.lobby.players
+                        ? !(this.state.user._id === this.state.lobby.players[0]._id)
+                        : true
+                    }
                     onClick={() => {
                       this.setState({ sliders: this.resetSettings() });
                       post("/api/updateLobbySettings", {
