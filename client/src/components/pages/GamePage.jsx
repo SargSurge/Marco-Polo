@@ -12,6 +12,7 @@ import C from "./assets/Inside_C.png";
 //import Gate from "./assets/!$Gate1.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
+import { navigate } from "@reach/router";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
@@ -75,16 +76,15 @@ export class GamePage extends Component {
     get("/api/whoami", {}).then((user) => {
       get("/api/initialRender", { gameId: this.props.gameId }).then((res) => {
         let currState = res.initialRender;
-        console.log(currState);
         if (loadCount == json.tilesets.length) {
           this.processUpdate(currState, user);
         }
         let isMarco = currState.players[user._id].role == "marco";
-        console.log(isMarco);
         this.setState(
           {
             user: user,
             gameState: currState,
+            finalTime: currState.finalTime,
             isMarco: isMarco,
             powerup: {
               name: isMarco ? "Thermal Radar" : "Instant Transmission",
@@ -100,7 +100,6 @@ export class GamePage extends Component {
             },
           },
           () => {
-            console.log(isMarco);
             if (loadCount == json.tilesets.length) {
               this.gameLoop(currState, user);
             }
@@ -115,12 +114,12 @@ export class GamePage extends Component {
 
   gameLoop = (gamestate, user) => {
     requestAnimationFrame(() => {
-      //if((new Date().getTime() - this.state.initialTime)*1000/60 >= 5) {
-      //  this.
-      //}
-      console.log(this.state);
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
+
+      if (tempState.finalTime - new Date().getTime() <= 0) {
+        //navigate("/");
+      }
       this.updatePosition();
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
@@ -230,7 +229,26 @@ export class GamePage extends Component {
     return (
       <div className="gamepage-base">
         <div className="gamepage-game-container">
+          <button
+            className="gamepage-ui-button gamepage-leavegame-button"
+            // Make an on click for this
+          >
+            Leave Game
+          </button>
           <div className="gamepage-header">Welcome to Marco Polo!</div>
+          {this.state.gameState ? (
+            <div className="gamepage-timer">
+              {Math.floor((this.state.gameState.finalTime - new Date().getTime()) / 1000 / 60)} :
+              {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60) >=
+              10
+                ? " "
+                : " 0"}
+              {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="gamepage-character-header">
             You're a {this.state.isMarco ? "Marco!" : "Polo!"}
           </div>
@@ -306,11 +324,3 @@ export class GamePage extends Component {
 }
 
 export default GamePage;
-
-/*
-<canvas id="game-canvas" width={1400} className="gamepage-canvas" />
-<canvas id="ui-layer" width={1400} ></canvas>
-            <canvas id="darkness-layer" width={1400} ></canvas>
-            <canvas id="player-layer" width={1400} ></canvas>
-            <canvas id="map-layer" width={1400} ></canvas>
-            */

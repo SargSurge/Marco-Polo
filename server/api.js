@@ -187,7 +187,7 @@ router.post("/hostgame", (req, res) => {
               winner: null,
               players: playersObject,
               settings: gamesettings,
-              initialTime: null,
+              finalTime: null,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -313,7 +313,13 @@ router.post("/startGame", (req, res) => {
     const roleToUpdate = `players.${player._id}.role`;
     GameState.findOneAndUpdate(
       { gameId: gameId },
-      { $set: { [roleToUpdate]: "marco", settings: gamesettings } },
+      {
+        $set: {
+          [roleToUpdate]: "marco",
+          settings: gamesettings,
+          finalTime: new Date().getTime() + gamesettings.timeLimit * 60000,
+        },
+      },
       { new: true },
       (err, doc) => {
         if (err) {

@@ -7,7 +7,7 @@ const GameStateSchema = new mongoose.Schema({
   winner: Object,
   players: Object,
   settings: gamesettings,
-  initialTime: Number,
+  finalTime: Number,
 });
 
 module.exports = mongoose.model("gamestate", GameStateSchema);

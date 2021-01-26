@@ -25,6 +25,14 @@
       }
 }
 
+@keyframes revealTimer {
+    from {
+        opacity: 0;
+    } to {
+              opacity: 90%;
+          }
+}
+
 
 html, body {
     margin: 0 !important;
@@ -71,6 +79,23 @@ html, body {
     z-index: 30;
 }
 
+.gamepage-timer {
+    font-size: 40px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    font-family: 'Orbitron';
+    transform: translate(-50%, 0);
+    color: #e5f77d;
+    animation: revealTimer 5s linear;
+    animation-fill-mode: forwards;
+    border-bottom: 1px solid #e5f77d;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: black;
+    z-index: 30;
+}
+
 .gamepage-character-header {
     font-family: Orbitron;
     font-size: 25px;
@@ -84,7 +109,6 @@ html, body {
 .gamepage-ui-button {
     position: absolute;
     font-family: 'Orbitron';
-    right: 23px;
     width: 200px;
     height: 100px;
     color: #e5f77d;
@@ -93,12 +117,24 @@ html, body {
     background: #262626;
 }
 
+.gamepage-leavegame-button {
+    height: 75px;
+    width: 100px;
+    top: 25px;
+    left: 23px;
+
+}
+
 .gamepage-powerup-button {
     bottom: 140px;
+    right: 23px;
+
 }
 
 .gamepage-tag-button {
     bottom: 25px;
+    right: 23px;
+
 }
 
 .gamepage-ui-button:focus {
