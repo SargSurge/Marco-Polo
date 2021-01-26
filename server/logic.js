@@ -24,13 +24,26 @@ update = async (userId, gameId, position, io) => {
 };
 
 updatePlayerPosition = (userId, gameId, position, io) => {
-  //if (((new Date().getTime() - initialTime) * 1000) / 60 >= 5) {
-  //}
   let stream = update(userId, gameId, position, io);
   gameStates[gameId] = stream;
+};
+
+tagPlayer = (gameId, tagged) => {
+  let stream = GameState.findOneAndUpdate(
+    { gameId: gameId },
+    {
+      $inc: { poloCaught: 1 },
+      $push: { tagged: tagged },
+      new: true,
+    }
+  );
+  gameStates[gameId] = stream;
+
+  // polo counter, tagged
 };
 
 module.exports = {
   updatePlayerPosition: updatePlayerPosition,
   gameStates: gameStates,
+  tagPlayer: tagPlayer,
 };

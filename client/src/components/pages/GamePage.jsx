@@ -226,25 +226,39 @@ export class GamePage extends Component {
   };
 
   handleTeleport = () => {
-    let largeMapCoords = [{x: 266, y: 434}, {x: 21, y: 791}, {x: -175, y: -364}, {x: 308, y: -147}, {x: 287, y: -623}, {x: 610, y: 455}, {x: 883, y: 805}, {x: 771, y: -300}, {x: -222, y: 378}, {x: -643, y: 714}, {x: -880, y: 455}, {x: -782, y: -888}, {x: 43, y: -853}, {x: 694, y: 266}, {x: 43, y: -202}]
-    let smallMapCoords = []
+    let largeMapCoords = [
+      { x: 266, y: 434 },
+      { x: 21, y: 791 },
+      { x: -175, y: -364 },
+      { x: 308, y: -147 },
+      { x: 287, y: -623 },
+      { x: 610, y: 455 },
+      { x: 883, y: 805 },
+      { x: 771, y: -300 },
+      { x: -222, y: 378 },
+      { x: -643, y: 714 },
+      { x: -880, y: 455 },
+      { x: -782, y: -888 },
+      { x: 43, y: -853 },
+      { x: 694, y: 266 },
+      { x: 43, y: -202 },
+    ];
+    let smallMapCoords = [];
     if (this.state.gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
       this.setState({
         position: newPos,
-      })
+      });
     } else if (this.state.gameState.mapSize === 1) {
-
     }
-  }
+  };
 
   handlePowerUp = (powerup) => {
     if (powerup === "Instant Transmission") {
       this.handleTeleport();
     } else if (powerup === "Thermal Radar") {
-
     }
-  }
+  };
 
   render() {
     return (
@@ -324,8 +338,27 @@ export class GamePage extends Component {
                   className="gamepage-ui-button gamepage-tag-button"
                   onClick={() => {
                     if (this.state.tag.ready) {
-                      start();
-                      this.setState({ tag: { ...this.state.tag, ready: false } });
+                      Object.keys(this.state.gameState.players).every((player) => {
+                        if (
+                          Math.sqrt(
+                            Math.pow(
+                              this.state.gameState.players[player].position.x -
+                                this.state.position.x,
+                              2
+                            ) +
+                              Math.pow(
+                                this.state.gameState.players[player].position.y -
+                                  this.state.position.y,
+                                2
+                              )
+                          ) <= 30
+                        ) {
+                          tagPlayer(this.props.gameId, this.state.gameState.players[player]);
+                          start();
+                          this.setState({ tag: { ...this.state.tag, ready: false } });
+                          return false;
+                        }
+                      });
                     }
                   }}
                 >
