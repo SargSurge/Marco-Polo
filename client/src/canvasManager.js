@@ -288,8 +288,8 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   //big map
 
   view = {
-    x: 0,
-    y: 0,
+    x: x + (mapData.width * tileSize) / 2 - canvas.width / 2,
+    y: -y + (mapData.height * tileSize) / 2 - canvas.height / 2,
     w: canvas.width,
     h: canvas.height,
   };
@@ -311,10 +311,10 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       view.y
   );*/
 
-  context.translate(
-    -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
-    y - (mapData.height * tileSize) / 2 + canvas.height / 2
-  );
+ // context.translate(
+  //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
+ //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
+  //);
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
