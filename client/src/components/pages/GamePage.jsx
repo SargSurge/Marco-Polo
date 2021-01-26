@@ -143,6 +143,7 @@ export class GamePage extends Component {
           post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
             .then(() => {
               navigate("/");
+              window.location.reload();
             })
             .catch((e) => {
               console.log(e);
@@ -370,9 +371,8 @@ export class GamePage extends Component {
             onClick={() => {
               post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                 .then(() => {
-                  navigate("/").then(() => {
-                    window.location.reload();
-                  });
+                  navigate("/");
+                  window.location.reload();
                 })
                 .catch((e) => {
                   console.log(e);

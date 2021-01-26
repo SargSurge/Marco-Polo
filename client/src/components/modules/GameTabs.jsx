@@ -25,10 +25,6 @@ export class GameTabs extends Component {
     }
   };
 
-  componentDidMount() {
-    window.location.reload();
-  }
-
   render() {
     return (
       <div className="gametabs-base">
