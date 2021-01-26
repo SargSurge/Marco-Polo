@@ -39,7 +39,7 @@ export class GamePage extends Component {
         y: 0,
       },
       powerup: {
-        name: "Illuminate",
+        name: "Null",
         cooldown: 10000,
         ready: true,
       },
@@ -399,7 +399,7 @@ export class GamePage extends Component {
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
-          {this.state.isMarco !== undefined ? (
+          {this.state.powerup.name !== "Null" ? (
             <Timer
               initialTime={this.state.powerup.cooldown}
               startImmediately={false}
