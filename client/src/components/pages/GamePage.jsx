@@ -11,6 +11,7 @@ import B from "./assets/Inside_B.png";
 import C from "./assets/Inside_C.png";
 import "./GamePage.css";
 import { navigate } from "@reach/router";
+import Timer from "react-compound-timer";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
@@ -325,6 +326,7 @@ export class GamePage extends Component {
           canTag = true;
           tagClass = "gamepage-ui-button gamepage-tag-button";
           taggedPlayer = player;
+          return false;
         }
       });
     }
@@ -409,7 +411,6 @@ export class GamePage extends Component {
               {({ start, resume, reset, getTime }) => (
                 <button
                   className={tagClass}
-                  disabled={canTag}
                   onClick={() => {
                     if (this.state.tag.ready) {
                       if (canTag) {
