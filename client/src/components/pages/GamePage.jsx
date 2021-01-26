@@ -142,9 +142,7 @@ export class GamePage extends Component {
         if (tempState.finalTime - new Date().getTime() <= 0) {
           post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
             .then(() => {
-              navigate("/").then(() => {
-                window.location.reload();
-              });
+              navigate("/");
             })
             .catch((e) => {
               console.log(e);
