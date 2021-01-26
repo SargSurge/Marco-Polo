@@ -23,6 +23,7 @@ let numy = json.height;
 let tilesizex = json.tilewidth;
 let tilesizey = json.tileheight;
 let tileset_imgs = [A2, A2, A4, A5, B, C];
+let thermal = {active: false,time: null};
 
 export class GamePage extends Component {
   constructor(props) {
@@ -113,6 +114,12 @@ export class GamePage extends Component {
     });
   }
 
+  componentDidUpdate() {
+    if ((new Date().getTime() - thermal.time)/1000 >= 5) {
+      thermal = {active : false, time : new Date().getTime()};
+    }
+  }
+
   gameLoop = (gamestate, user) => {
     requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
@@ -130,7 +137,7 @@ export class GamePage extends Component {
       console.log(tempState, tempUser);
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
-      drawCanvas(tempState, tempUser._id, tilesets, false);
+      drawCanvas(tempState, tempUser._id, tilesets, false,thermal);
       this.gameLoop(gamestate, user);
     });
   };
@@ -229,7 +236,32 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState, user) => {
-    drawCanvas(gameState, user._id, tilesets, true);
+    let largeMapCoords = [
+      { x: 266, y: 434 },
+      { x: 21, y: 791 },
+      { x: -175, y: -364 },
+      { x: 308, y: -147 },
+      { x: 287, y: -623 },
+      { x: 610, y: 455 },
+      { x: 883, y: 805 },
+      { x: 771, y: -300 },
+      { x: -222, y: 378 },
+      { x: -643, y: 714 },
+      { x: -880, y: 455 },
+      { x: -782, y: -888 },
+      { x: 43, y: -853 },
+      { x: 694, y: 266 },
+      { x: 43, y: -202 },
+    ];
+    let smallMapCoords = [];
+    if (gameState.settings.mapSize === 2) {
+      let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
+      this.setState({
+        position: newPos,
+      });
+    } else if (this.state.gameState.mapSize === 1) {
+    }
+    drawCanvas(gameState, user._id, tilesets, true,thermal);
   };
 
   handleTeleport = () => {
@@ -260,10 +292,12 @@ export class GamePage extends Component {
     }
   };
 
+
   handlePowerUp = (powerup) => {
     if (powerup === "Instant Transmission") {
       this.handleTeleport();
     } else if (powerup === "Thermal Radar") {
+      thermal = {active : true, time: new Date().getTime()};
     }
   };
 
