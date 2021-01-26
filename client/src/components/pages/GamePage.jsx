@@ -263,13 +263,29 @@ export class GamePage extends Component {
       { x: 694, y: 266 },
       { x: 43, y: -202 },
     ];
-    let smallMapCoords = [];
+    let smallMapCoords = [
+      {x: -49, y: -189},
+      {x: -483, y: -517.97},
+      {x: -455, y: 280.03},
+      {x: 364, y: 581.03},
+      {x: 637, y: -376.94000000000096},
+      {x: 504.03999999999996, y: 120.05999999999904},
+      {x: -538.94, y: 43.07999999999902},
+      {x: 126.05999999999995, y: 281.079999999999},
+      {x: -258.7600000000002, y: 596.4199999999989},
+      {x: 273.2399999999998, y: -495.5700000000011},
+      {x: -160.76000000000022, y: -439.5700000000011},
+    ];
     if (gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
       this.setState({
         position: newPos,
       });
     } else if (gameState.mapSize === 1) {
+      let newPos = smallMapCoords[Math.floor(Math.random() * smallMapCoords.length)];
+      this.setState({
+        position: newPos,
+      });
     }
     drawCanvas(gameState, user._id, tilesets, true, thermal);
   };
