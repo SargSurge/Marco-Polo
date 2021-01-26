@@ -123,7 +123,7 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
-      drawCanvas(tempState, tempUser._id, tilesets,false);
+      drawCanvas(tempState, tempUser._id, tilesets, false);
       this.gameLoop(gamestate, user);
     });
   };
@@ -222,29 +222,43 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState, user) => {
-    drawCanvas(gameState, user._id, tilesets,true);
+    drawCanvas(gameState, user._id, tilesets, true);
   };
 
   handleTeleport = () => {
-    let largeMapCoords = [{x: 266, y: 434}, {x: 21, y: 791}, {x: -175, y: -364}, {x: 308, y: -147}, {x: 287, y: -623}, {x: 610, y: 455}, {x: 883, y: 805}, {x: 771, y: -300}, {x: -222, y: 378}, {x: -643, y: 714}, {x: -880, y: 455}, {x: -782, y: -888}, {x: 43, y: -853}, {x: 694, y: 266}, {x: 43, y: -202}]
-    let smallMapCoords = []
+    let largeMapCoords = [
+      { x: 266, y: 434 },
+      { x: 21, y: 791 },
+      { x: -175, y: -364 },
+      { x: 308, y: -147 },
+      { x: 287, y: -623 },
+      { x: 610, y: 455 },
+      { x: 883, y: 805 },
+      { x: 771, y: -300 },
+      { x: -222, y: 378 },
+      { x: -643, y: 714 },
+      { x: -880, y: 455 },
+      { x: -782, y: -888 },
+      { x: 43, y: -853 },
+      { x: 694, y: 266 },
+      { x: 43, y: -202 },
+    ];
+    let smallMapCoords = [];
     if (this.state.gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
       this.setState({
         position: newPos,
-      })
+      });
     } else if (this.state.gameState.mapSize === 1) {
-
     }
-  }
+  };
 
   handlePowerUp = (powerup) => {
     if (powerup === "Instant Transmission") {
       this.handleTeleport();
     } else if (powerup === "Thermal Radar") {
-
     }
-  }
+  };
 
   render() {
     return (
@@ -252,7 +266,11 @@ export class GamePage extends Component {
         <div className="gamepage-game-container">
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
-            // Make an on click for this
+            onClick={() => {
+              post("/api/leaveGameState", {gameId: this.props.gameId}).then(() => {
+                navigate("/");
+              });
+            }}
           >
             Leave Game
           </button>
