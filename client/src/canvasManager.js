@@ -2,10 +2,13 @@ let maps = {
   smallMap: require("../src/components/pages/assets/smallMapRemake.json"),
   mediumMap: require("../src/components/pages/assets/MediumMapFinished.json"),
 };
+
 let json;
 let mapData;
 let map;
 let canvas;
+let isMarco = false;
+let loadCountchar = 0;
 
 let camera;
 let numx;
@@ -182,22 +185,21 @@ const fillCircle = (context, x, y, radius, color) => {
 const drawPlayer = (context, x, y, color, view) => {
   const { drawX, drawY } = convertCoordToCanvas(x, y);
   fillCircle(context, drawX - view.x, drawY - view.y, charSize, color);
+  //context.drawImage(img, 0, 0, img.width, img.height, drawX - view.x, drawY - view.y, img.width*0.07,img.height*0.07);
 };
 
-export const drawAllPlayers = (drawState, context, view, color) => {
+export const drawAllPlayers = (drawState, context, view) => {
   Object.keys(drawState.players).map((id, index) => {
     const { x, y } = drawState.players[id].position;
     // drawState.player.color
-    drawPlayer(context, x, y, color, view);
-  });
-};
-
-export const drawOtherPlayers = (drawState, context, view, color, userId) => {
-  Object.keys(drawState.players).map((id, index) => {
-    if (id !== userId) {
-      const { x, y } = drawState.players[id].position;
-       // drawState.player.color
-      drawPlayer(context, x, y, color, view);
+    //console.log(loadCountchar);
+    if (drawState.players[id].role === "marco") {
+      context.shadowBlur = 10;
+      context.shadowColor = "rgba(255, 141, 0, 1)";
+      drawPlayer(context, x, y, "rgba(255, 141, 0, 1)", view);
+    } else {
+      context.shadowColor = "rgba(10, 126, 255, 1)";
+      drawPlayer(context, x, y, "rgba(10, 126, 255, 1)", view);
     }
   });
 };
@@ -240,6 +242,17 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     } else {
       vision = drawState.settings.poloVision;
     }
+    /*
+    marco_img = new Image();
+    marco_img.onload = function () {
+      loadCountchar++;
+    };
+    marco_img.src = marco;
+    polo_img = new Image();
+    polo_img.onload = function () {
+      loadCountchar++;
+    };
+    polo_img.src = polo;*/
   }
   mapData = json.layers[0];
   map = mapData.data;
@@ -295,24 +308,20 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
   if (thermal.active) {
-    console.log(thermal);
-    if (Math.floor((new Date().getTime() - thermal.time)/1000) % 2 == 0) {
+    if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
       context.beginPath();
-      context.arc(drawX - view.x, drawY - view.y, 3*vision, 0, 2 * Math.PI, false);
+      context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
       context.clip();
     } else {
       context.beginPath();
       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
       context.clip();
     }
-    
   } else {
     context.beginPath();
     context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
     context.clip();
   }
-
-  
 
   if (drawState.players[userId].role === "marco") {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -346,7 +355,12 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       );
     }
   }
-
-  drawAllPlayers(drawState, context, view, "red");
+  // if (isMarco) {
+  //   drawPlayer(context, x, y, marco, view);
+  //} else {
+  //  drawPlayer(context, x, y, polo, view);
+  //}
+  //console.log(marco_img);
+  drawAllPlayers(drawState, context, view);
   context.restore();
 };
