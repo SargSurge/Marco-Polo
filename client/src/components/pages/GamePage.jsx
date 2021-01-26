@@ -119,9 +119,14 @@ export class GamePage extends Component {
       let tempUser = this.state.user || user;
 
       if (tempState.finalTime - new Date().getTime() <= 0) {
-        //navigate("/");
+        post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
+          navigate("/");
+          alert("Congrats to the Polos!");
+        });
       }
+
       this.updatePosition();
+      console.log(tempState, tempUser);
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
       drawCanvas(tempState, tempUser._id, tilesets, false);
@@ -262,6 +267,27 @@ export class GamePage extends Component {
   };
 
   render() {
+    let canTag = false;
+    let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
+    let taggedPlayer = null;
+    if (this.state.gameState) {
+      Object.keys(this.state.gameState.players).every((player, index) => {
+        if (
+          this.state.user._id !== player &&
+          Math.sqrt(
+            Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
+              Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
+          ) <= 100
+        ) {
+          canTag = true;
+          tagClass = "gamepage-ui-button gamepage-tag-button";
+          taggedPlayer = player;
+        }
+      });
+    }
+
+    console.log(this.state.gameState);
+
     return (
       <div className="gamepage-base">
         <div className="gamepage-game-container">
@@ -337,31 +363,16 @@ export class GamePage extends Component {
             >
               {({ start, resume, reset, getTime }) => (
                 <button
-                  className="gamepage-ui-button gamepage-tag-button"
+                  className={tagClass}
+                  disabled={canTag}
                   onClick={() => {
                     if (this.state.tag.ready) {
-                      Object.keys(this.state.gameState.players).every((player, index) => {
-                        if (
-                          this.state.user._id !== player &&
-                          Math.sqrt(
-                            Math.pow(
-                              this.state.gameState.players[player].position.x -
-                                this.state.position.x,
-                              2
-                            ) +
-                              Math.pow(
-                                this.state.gameState.players[player].position.y -
-                                  this.state.position.y,
-                                2
-                              )
-                          ) <= 100
-                        ) {
-                          tagPlayer(this.props.gameId, this.state.gameState.players[player]);
-                          start();
-                          this.setState({ tag: { ...this.state.tag, ready: false } });
-                          return false;
-                        }
-                      });
+                      if (canTag) {
+                        tagPlayer(this.props.gameId, this.state.gameState.players[taggedPlayer]);
+                        start();
+                        this.setState({ tag: { ...this.state.tag, ready: false } });
+                        return false;
+                      }
                     }
                   }}
                 >
