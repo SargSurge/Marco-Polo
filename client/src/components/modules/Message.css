@@ -3,7 +3,7 @@
  */
 
 .message-base {
-
+    word-break: break-all;
 }
 
 .message-sender {

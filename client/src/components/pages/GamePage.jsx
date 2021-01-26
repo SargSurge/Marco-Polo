@@ -80,6 +80,10 @@ export class GamePage extends Component {
           this.processUpdate(currState, user);
         }
         let isMarco = currState.players[user._id].role == "marco";
+        console.log(currState.settings.marcoRadar);
+        console.log(
+          isMarco ? currState.settings.marcoRadar * 1000 : currState.settings.poloTP * 1000
+        );
         this.setState(
           {
             user: user,
@@ -194,7 +198,7 @@ export class GamePage extends Component {
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
-    const SPEED = 7;
+    const SPEED = this.state.isMarco ? 7 : 5;
     const dirMap = {
       up: ["y", 1],
       down: ["y", -1],
@@ -337,7 +341,7 @@ export class GamePage extends Component {
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              post("/api/leaveGameState", { gameId: this.props.gameId, winner : null })
+              post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                 .then(() => {
                   navigate("/");
                 })
@@ -368,37 +372,41 @@ export class GamePage extends Component {
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
-          <Timer
-            initialTime={this.state.powerup.cooldown}
-            startImmediately={false}
-            direction="backward"
-            onStart={() => console.log("onStart hook")}
-            onResume={() => console.log("onResume hook")}
-            onReset={() => console.log("onReset hook")}
-          >
-            {({ start, resume, reset, getTime }) => (
-              <button
-                className="gamepage-ui-button gamepage-powerup-button"
-                onClick={() => {
-                  if (this.state.powerup.ready) {
-                    start();
-                    this.handlePowerUp(this.state.powerup.name);
-                    this.setState({ powerup: { ...this.state.powerup, ready: false } });
-                  }
-                }}
-              >
-                {this.state.powerup.ready ? (
-                  this.state.powerup.name
-                ) : getTime() <= 0 ? (
-                  (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
-                  reset(),
-                  resume())
-                ) : (
-                  <Timer.Seconds />
-                )}
-              </button>
-            )}
-          </Timer>
+          {this.state.isMarco ? (
+            <Timer
+              initialTime={this.state.powerup.cooldown}
+              startImmediately={false}
+              direction="backward"
+              onStart={() => console.log("onStart hook")}
+              onResume={() => console.log("onResume hook")}
+              onReset={() => console.log("onReset hook")}
+            >
+              {({ start, resume, reset, getTime }) => (
+                <button
+                  className="gamepage-ui-button gamepage-powerup-button"
+                  onClick={() => {
+                    if (this.state.powerup.ready) {
+                      start();
+                      this.handlePowerUp(this.state.powerup.name);
+                      this.setState({ powerup: { ...this.state.powerup, ready: false } });
+                    }
+                  }}
+                >
+                  {this.state.powerup.ready ? (
+                    this.state.powerup.name
+                  ) : getTime() <= 0 ? (
+                    (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
+                    reset(),
+                    resume())
+                  ) : (
+                    <Timer.Seconds />
+                  )}
+                </button>
+              )}
+            </Timer>
+          ) : (
+            ""
+          )}
           {this.state.isMarco ? (
             <Timer
               initialTime={this.state.tag.cooldown}
