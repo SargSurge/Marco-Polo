@@ -269,7 +269,7 @@ export class GamePage extends Component {
       this.setState({
         position: newPos,
       });
-    } else if (this.state.gameState.mapSize === 1) {
+    } else if (gameState.mapSize === 1) {
     }
     drawCanvas(gameState, user._id, tilesets, true, thermal);
   };

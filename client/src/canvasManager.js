@@ -286,15 +286,20 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   //big map
 
   view = {
-    x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width,
+    x: 0,
     y:
-      -y +
-      ((window.screen.height - canvas.height) / (numy * tilesizey)) * canvas.height -
-      canvas.height / 2,
+      0,
     w: canvas.width,
     h: canvas.height,
   };
 
+  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  }
+
+  //context.viewport(0, 0, canvas.width, canvas.height);
+/*
   context.translate(
     -x -
       ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
@@ -303,7 +308,9 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height -
       canvas.height / 2 +
       view.y
-  );
+  );*/
+
+  context.translate(-x - mapData.width*tileSize/2 + canvas.width/2,y-mapData.height*tileSize/2+canvas.height/2);
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
@@ -320,7 +327,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   } else {
     context.beginPath();
     context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-    context.clip();
+    //context.clip();
   }
 
   if (drawState.players[userId].role === "marco") {
