@@ -22,6 +22,7 @@ let tilesizex = json.tilewidth;
 let tilesizey = json.tileheight;
 let tileset_imgs = [A2, A2, A4, A5, B, C];
 let thermal = { active: false, time: null };
+let renderId;
 
 export class GamePage extends Component {
   constructor(props) {
@@ -105,6 +106,7 @@ export class GamePage extends Component {
           },
           () => {
             if (loadCount == json.tilesets.length) {
+              renderId = undefined;
               this.gameLoop(currState, user);
             }
             socket.on("update", (gameState) => {
@@ -133,13 +135,20 @@ export class GamePage extends Component {
     }
   }
 
+  stop = () => {
+    if (renderId) {
+    window.cancelAnimationFrame(renderId);
+    }
+  }
+
   gameLoop = (gamestate, user) => {
-    requestAnimationFrame(() => {
+    renderId = window.requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
 
       try {
         if (tempState.finalTime - new Date().getTime() <= 0) {
+          stop();
           post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
             .then(() => {
               navigate("/");

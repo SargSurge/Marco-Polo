@@ -90,6 +90,7 @@ router.post("/joingame", (req, res) => {
                                     };
                                   }
                                   gameState.players = playersObject;
+                                  console.log("api", gameState.players);
                                   gameState
                                     .save()
                                     .then(() => {
