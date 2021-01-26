@@ -8,7 +8,7 @@ const GameStateSchema = new mongoose.Schema({
   players: Object,
   settings: gamesettings,
   finalTime: Number,
-  tagged: Number,
+  tagged: Array,
   poloCaught: Number,
 });
 

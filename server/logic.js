@@ -28,8 +28,8 @@ updatePlayerPosition = (userId, gameId, position, io) => {
   gameStates[gameId] = stream;
 };
 
-tagPlayer = (gameId, tagged) => {
-  let stream = GameState.findOneAndUpdate(
+tagPlayerUpdate = async (gameId, tagged) => {
+  let stream = await GameState.findOneAndUpdate(
     { gameId: gameId },
     {
       $inc: { poloCaught: 1 },
@@ -37,13 +37,17 @@ tagPlayer = (gameId, tagged) => {
       new: true,
     }
   );
-  gameStates[gameId] = stream;
+  return stream;
+};
 
-  // polo counter, tagged
+tagPlayerWrapper = (gameId, tagged) => {
+  let stream = tagPlayerUpdate(gameId, tagged);
+  gameStates[gameId] = stream;
+  return stream;
 };
 
 module.exports = {
   updatePlayerPosition: updatePlayerPosition,
   gameStates: gameStates,
-  tagPlayer: tagPlayer,
+  tagPlayerWrapper: tagPlayerWrapper,
 };

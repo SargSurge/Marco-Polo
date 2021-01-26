@@ -10,7 +10,10 @@ export const move = (userId, gameId, position) => {
   socket.emit("move", position, gameId, userId);
 };
 
-export const startGame = (gameId) => {
-  socket.emit("startGame",gameId);
+export const tagPlayer = (gameId, tagged) => {
+  socket.emit("tagged", gameId, tagged);
 };
 
+export const startGame = (gameId) => {
+  socket.emit("startGame", gameId);
+};

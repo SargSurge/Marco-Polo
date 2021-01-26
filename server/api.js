@@ -188,6 +188,8 @@ router.post("/hostgame", (req, res) => {
               players: playersObject,
               settings: gamesettings,
               finalTime: null,
+              tagged: [],
+              poloCaught: 0,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -370,7 +372,7 @@ router.get("/initialRender", (req, res) => {
 });
 
 router.post("/leaveGameState", (req, res) => {
-  const {gameId} = req.body;
+  const { gameId } = req.body;
   if (req.user) {
     GameState.findOne({ gameId: gameId }).then((gamestate) => {
       if (gamestate) {
@@ -397,7 +399,7 @@ router.post("/leaveGameState", (req, res) => {
         }
         //console.log(doc);
       }
-    );  
+    );
   }
   res.send({});
 });

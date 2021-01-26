@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { socket } from "../../client-socket";
+import { socket, tagPlayer } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
 import A2 from "./assets/Inside_A2.png";
 import A4 from "./assets/Inside_A4.png";
 import A5 from "./assets/Inside_A5.png";
@@ -13,7 +13,7 @@ import C from "./assets/Inside_C.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
 import { navigate } from "@reach/router";
-import { tagPlayer } from "../../../../server/logic";
+//import { tagPlayerWrapper } from "../../../../server/logic";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
@@ -268,11 +268,10 @@ export class GamePage extends Component {
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              post("/api/leaveGameState", {gameId: this.props.gameId}).then(() => {
+              post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
                 navigate("/");
               });
             }}
-
           >
             Leave Game
           </button>
@@ -341,8 +340,9 @@ export class GamePage extends Component {
                   className="gamepage-ui-button gamepage-tag-button"
                   onClick={() => {
                     if (this.state.tag.ready) {
-                      Object.keys(this.state.gameState.players).every((player) => {
+                      Object.keys(this.state.gameState.players).every((player, index) => {
                         if (
+                          this.state.user._id !== player &&
                           Math.sqrt(
                             Math.pow(
                               this.state.gameState.players[player].position.x -
