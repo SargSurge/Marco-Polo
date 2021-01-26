@@ -3,7 +3,7 @@ import { socket } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas, init , drawThermal} from "../../canvasManager";
 import A2 from "./assets/Inside_A2.png";
 import A4 from "./assets/Inside_A4.png";
 import A5 from "./assets/Inside_A5.png";
@@ -22,6 +22,7 @@ let numy = json.height;
 let tilesizex = json.tilewidth;
 let tilesizey = json.tileheight;
 let tileset_imgs = [A2, A2, A4, A5, B, C];
+let thermal = {active: false,time: null};
 
 export class GamePage extends Component {
   constructor(props) {
@@ -112,6 +113,12 @@ export class GamePage extends Component {
     });
   }
 
+  componentDidUpdate() {
+    if ((new Date().getTime() - thermal.time)/1000 >= 5) {
+      thermal = {active : false, time : new Date().getTime()};
+    }
+  }
+
   gameLoop = (gamestate, user) => {
     requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
@@ -123,7 +130,7 @@ export class GamePage extends Component {
       this.updatePosition();
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
-      drawCanvas(tempState, tempUser._id, tilesets, false);
+      drawCanvas(tempState, tempUser._id, tilesets, false,thermal);
       this.gameLoop(gamestate, user);
     });
   };
@@ -222,7 +229,7 @@ export class GamePage extends Component {
   };
 
   processUpdate = (gameState, user) => {
-    drawCanvas(gameState, user._id, tilesets, true);
+    drawCanvas(gameState, user._id, tilesets, true,thermal);
   };
 
   handleTeleport = () => {
@@ -253,10 +260,12 @@ export class GamePage extends Component {
     }
   };
 
+
   handlePowerUp = (powerup) => {
     if (powerup === "Instant Transmission") {
       this.handleTeleport();
     } else if (powerup === "Thermal Radar") {
+      thermal = {active : true, time: new Date().getTime()};
     }
   };
 

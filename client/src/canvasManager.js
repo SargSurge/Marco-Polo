@@ -184,11 +184,21 @@ const drawPlayer = (context, x, y, color, view) => {
   fillCircle(context, drawX - view.x, drawY - view.y, charSize, color);
 };
 
-export const drawAllPlayers = (drawState, context, view) => {
+export const drawAllPlayers = (drawState, context, view, color) => {
   Object.keys(drawState.players).map((id, index) => {
     const { x, y } = drawState.players[id].position;
-    const color = "green"; // drawState.player.color
+    // drawState.player.color
     drawPlayer(context, x, y, color, view);
+  });
+};
+
+export const drawOtherPlayers = (drawState, context, view, color, userId) => {
+  Object.keys(drawState.players).map((id, index) => {
+    if (id !== userId) {
+      const { x, y } = drawState.players[id].position;
+       // drawState.player.color
+      drawPlayer(context, x, y, color, view);
+    }
   });
 };
 
@@ -216,7 +226,7 @@ const getTile = (t_ind, tilesets) => {
 };
 
 /** main draw */
-export const drawCanvas = (drawState, userId, tilesets, initial) => {
+export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   // get the canvas element
 
   if (drawState.settings.mapSize === 1 && initial) {
@@ -283,16 +293,30 @@ export const drawCanvas = (drawState, userId, tilesets, initial) => {
   );
 
   context.clearRect(0, 0, canvas.width, canvas.height);
+  //console.log(thermal);
+  if (thermal.active) {
+    console.log(thermal);
+    if (Math.floor((new Date().getTime() - thermal.time)/1000) % 2 == 0) {
+      context.beginPath();
+      context.arc(drawX - view.x, drawY - view.y, 3*vision, 0, 2 * Math.PI, false);
+      context.clip();
+    } else {
+      context.beginPath();
+      context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+      context.clip();
+    }
+    
+  } else {
+    context.beginPath();
+    context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+    context.clip();
+  }
 
-  context.beginPath();
-  context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-  context.clip();
+  
 
   if (drawState.players[userId].role === "marco") {
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
-
-  console.log(vision);
 
   for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
     if (json.layers[layer_ind].type != "tilelayer") continue;
@@ -301,19 +325,12 @@ export const drawCanvas = (drawState, userId, tilesets, initial) => {
     for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
       let t_id = d[tile_ind];
       if (t_id == 0) continue;
-      // Bit 32 is used for storing whether the tile is horizontally flipped, bit 31 is used for the vertically flipped tiles and
-      //bit 30 indicates whether the tile is flipped (anti) diagonally, enabling tile rotation
 
       let worldX = Math.floor(tile_ind % numx) * tilesizex;
       let worldY = Math.floor(tile_ind / numy) * tilesizey;
       worldX -= view.x;
       worldY -= view.y;
 
-      //let gid = d[tile_ind];
-
-      //let flipped_horizontally = Boolean(gid & FLIPPED_HORIZONTALLY_FLAG);
-      //let flipped_vertically = Boolean(gid & FLIPPED_VERTICALLY_FLAG);
-      //let flipped_diagonally = Boolean(gid & FLIPPED_DIAGONALLY_FLAG);
       let tpkt;
       tpkt = getTile(t_id, tilesets);
       context.drawImage(
@@ -330,6 +347,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial) => {
     }
   }
 
-  drawAllPlayers(drawState, context, view);
+  drawAllPlayers(drawState, context, view, "red");
   context.restore();
 };
