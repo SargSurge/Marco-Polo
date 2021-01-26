@@ -271,6 +271,7 @@ export class GamePage extends Component {
                 navigate("/");
               });
             }}
+
           >
             Leave Game
           </button>

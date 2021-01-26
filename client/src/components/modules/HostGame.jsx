@@ -15,9 +15,9 @@ const settings = {
   "General SettingsTime Limit0": 6,
   "Marco SettingsTag Timer2": 20,
   "Marco SettingsThermal Radar Timer1": 15,
-  "Marco SettingsVision Radius0": 25,
+  "Marco SettingsVision Radius0": 100,
   "Polo SettingsInstant Transmission Timer1": 50,
-  "Polo SettingsVision Radius0": 50,
+  "Polo SettingsVision Radius0": 250,
 };
 
 const marks = [

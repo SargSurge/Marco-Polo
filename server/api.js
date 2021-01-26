@@ -175,10 +175,10 @@ router.post("/hostgame", (req, res) => {
             let gamesettings = new GameSettings({
               timeLimit: 6,
               mapSize: 2,
-              marcoVision: 50,
+              marcoVision: 100,
               marcoRadar: 15,
               marcoTimer: 20,
-              poloVision: 50,
+              poloVision: 250,
               poloTP: 50,
             });
 
@@ -384,7 +384,7 @@ router.post("/leaveGameState", (req, res) => {
                 .catch((err) => console.log("Delete failed with error: ${err}"));
             }
           })
-          .then(socketManager.getIo().in(gameId).emit("updatePoloCount"));
+          .then(socketManager.getIo().in(gameId).emit("updatePoloLeft"));
       }
     });
     User.findOneAndUpdate(
