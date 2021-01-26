@@ -367,14 +367,8 @@ export class GamePage extends Component {
       let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
       let taggedPlayer = null;
       if (this.state.isMarco) {
+        console.log("Outside LOOP", this.state.gameState.players);
         Object.keys(this.state.gameState.players).every((player, index) => {
-          console.log(this.state.user.name);
-          console.log(this.state.gameState.players[player].user.name);
-          console.log(this.state.position.x, this.state.position.y);
-          console.log(
-            this.state.gameState.players[player].position.x,
-            this.state.gameState.players[player].position.y
-          );
           if (
             this.state.user._id !== player &&
             this.state.gameState.players[player].active &&
@@ -399,7 +393,6 @@ export class GamePage extends Component {
               onClick={() => {
                 post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                   .then(() => {
-                    alert("The Polos have won!");
                     navigate("/");
                     window.location.reload();
                   })
