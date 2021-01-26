@@ -135,7 +135,7 @@ export class GamePage extends Component {
       let tempUser = this.state.user || user;
 
       if (tempState.finalTime - new Date().getTime() <= 0) {
-        post("/api/leaveGameState", { gameId: this.props.gameId })
+        post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
           .then(() => {
             navigate("/");
           })
