@@ -113,20 +113,32 @@ export class GamePage extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!prevState.user) {
+      get("/api/whoami", {}).then((user) => {
+        this.setState({
+          user: user,
+        });
+      });
+    }
+  }
+
   gameLoop = (gamestate, user) => {
     requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
 
       if (tempState.finalTime - new Date().getTime() <= 0) {
-        post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
-          navigate("/");
-          alert("Congrats to the Polos!");
-        });
+        post("/api/leaveGameState", { gameId: this.props.gameId })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
 
       this.updatePosition();
-      console.log(tempState, tempUser);
       tempState.players[tempUser._id].position = this.state.position;
       this.move(tempUser);
       drawCanvas(tempState, tempUser._id, tilesets, false);
@@ -286,17 +298,19 @@ export class GamePage extends Component {
       });
     }
 
-    console.log(this.state.gameState);
-
     return (
       <div className="gamepage-base">
         <div className="gamepage-game-container">
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
-                navigate("/");
-              });
+              post("/api/leaveGameState", { gameId: this.props.gameId })
+                .then(() => {
+                  navigate("/");
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
             }}
           >
             Leave Game
