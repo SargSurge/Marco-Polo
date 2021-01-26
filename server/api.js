@@ -200,9 +200,9 @@ router.post("/hostgame", (req, res) => {
                 poloVision: 250,
                 poloTP: 50,
               });
-
-<<<<<<< HEAD
               const gameState = new GameState({
+                name: name,
+                creator: req.user.name,
                 gameId: gameId,
                 winner: null,
                 players: playersObject,
@@ -211,20 +211,6 @@ router.post("/hostgame", (req, res) => {
                 tagged: [],
                 poloCaught: 0,
               });
-=======
-            const gameState = new GameState({
-              name: name,
-              creator: req.user.name,
-              gameId: gameId,
-              winner: null,
-              players: playersObject,
-              settings: gamesettings,
-              finalTime: null,
-              tagged: [],
-              poloCaught: 0,
-            });
->>>>>>> 0c2c6c7140d4cfb53f6c38230e68c8bcbb6defb6
-
               gameState
                 .save()
                 .then(res.send({ gameId: gameId }))
@@ -423,10 +409,25 @@ router.get("/initialRender", (req, res) => {
 router.post("/leaveGameState", (req, res) => {
   const { gameId, winner } = req.body;
   if (req.user) {
-<<<<<<< HEAD
     GameState.findOne({ gameId: gameId })
       .then((gamestate) => {
         if (gamestate) {
+          if (winner) {
+            let match = {
+              name: gamestate.name,
+              creator: gamestate.creator,
+              win: winner === gamestate.players[req.user._id].role,
+              gameId: gameId,
+            };
+            User.findOne({ googleid: req.user.googleid })
+              .then((user) => {
+                user.matchHistory.push(match);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+
           delete gamestate.players[req.user._id];
           gamestate
             .save()
@@ -449,35 +450,6 @@ router.post("/leaveGameState", (req, res) => {
       .catch((e) => {
         console.log(e);
       });
-=======
-    GameState.findOne({ gameId: gameId }).then((gamestate) => {
-      if (gamestate) {
-        if (winner) {
-          let match = {
-            name: gamestate.name,
-            creator: gamestate.creator,
-            win: (winner === gamestate.players[req.user._id].role),
-            gameId: gameId,
-          }  
-          User.findOne({googleid: req.user.googleid}).then((user) => {
-            user.matchHistory.push(match);
-          })
-        }
-
-        delete gamestate.players[req.user._id];
-        gamestate
-          .save()
-          .then((gamestate) => {
-            if (Object.keys(gamestate.players).length === 0) {
-              GameState.deleteOne({ gameId: gameId })
-                .then((result) => console.log("deleted one gamestate"))
-                .catch((err) => console.log("Delete failed with error: ${err}"));
-            }
-          })
-          .then(socketManager.getIo().in(gameId).emit("updatePoloLeft"));
-      }
-    });
->>>>>>> 0c2c6c7140d4cfb53f6c38230e68c8bcbb6defb6
     User.findOneAndUpdate(
       { googleid: req.user.googleid },
       { $set: { currentGame: null } },
@@ -495,9 +467,13 @@ router.post("/leaveGameState", (req, res) => {
 
 router.get("/matchHistory", (req, res) => {
   let { userId } = req.query;
-  User.findOne({ googleid: userId }).then((user) => {
-    res.send({ user: user, matches: user.matchHistory });
-  });
+  User.findOne({ googleid: userId })
+    .then((user) => {
+      res.send({ user: user, matches: user.matchHistory });
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 // anything else falls to this "not found" case
