@@ -327,7 +327,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   } else {
     context.beginPath();
     context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-    //context.clip();
+    context.clip();
   }
 
   if (drawState.players[userId].role === "marco") {
