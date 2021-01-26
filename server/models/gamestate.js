@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const gamesettings = require("./gamesettings").schema;
 
 const GameStateSchema = new mongoose.Schema({
+  name: String,
+  creator: String,
   gameId: String,
   winner: Object,
   players: Object,

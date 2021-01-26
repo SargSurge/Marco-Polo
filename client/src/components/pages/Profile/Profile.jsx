@@ -52,12 +52,13 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        get('/api/whoami', {}).then((user) => {
-            this.setState({user: user});
-        });
+
+        get('/api/matchHistory', {userId: this.props.userId}).then((res) => {
+            this.setState({user: res.user, matches: res.matches})
+        }).catch((e) => console.log(e))
 
         this.setState({
-            winLoss: this.calculateWinLoss(matchHistory),
+            winLoss: this.calculateWinLoss(this.state.matches),
         });
     }
 
@@ -83,7 +84,7 @@ export class Profile extends Component {
                         </div>
                         <div className="profile-bottom">
                             <div className="profile-table">
-                                <MatchTable matches={matchHistory} />
+                                <MatchTable matches={this.state.matches} />
                             </div>
                         </div>
                     </div>
