@@ -87,7 +87,7 @@ class Lobby extends Component {
     socket.on("updateLobbySettings", (lobby) => {
       this.updateLobbySettings(lobby);
     });
-    socket.once("startGame", () => {
+    socket.once("startGame", (gameId) => {
       alert("Starting the game!");
       navigate(`../game/${this.state.lobby.gameId}`);
     });

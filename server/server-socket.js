@@ -115,7 +115,7 @@ module.exports = {
       socket.on("logout", () => userLeaveGame(socket));
       socket.on("disconnecting", () => userLeaveGame(socket));
       socket.on("move", (userId, gameId, position) => userMove(socket, userId, gameId, position));
-      socket.on("startGame", (gameId) => io.in(gameId).emit("startGame"));
+      socket.on("startGame", (gameId) => io.in(gameId).emit("startGame",gameId));
       socket.on("transport close", () => {
         userLeaveGame(socket);
         const user = getUserFromSocketID(socket.id);
