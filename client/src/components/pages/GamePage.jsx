@@ -296,12 +296,12 @@ export class GamePage extends Component {
       { x: -160.76000000000022, y: -439.5700000000011 },
     ];
     if (gameState.settings.mapSize === 2) {
-      let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
+      let newPos = largeMapCoords[Object.keys(gameState.players).indexOf(user._id)];
       this.setState({
         position: newPos,
       });
     } else if (gameState.mapSize === 1) {
-      let newPos = smallMapCoords[Math.floor(Math.random() * smallMapCoords.length)];
+      let newPos = smallMapCoords[Object.keys(gameState.players).indexOf(user._id)];
       this.setState({
         position: newPos,
       });
