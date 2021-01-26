@@ -87,7 +87,6 @@ router.post("/joingame", (req, res) => {
                                       user: player,
                                       color: "white",
                                       role: "polo",
-                                      //powerups: { lightbomb: 45 },
                                     };
                                   }
                                   gameState.players = playersObject;
@@ -187,7 +186,6 @@ router.post("/hostgame", (req, res) => {
                   user: player,
                   color: "white",
                   role: "polo",
-                  //powerups: { lightbomb: 45 },
                 };
               }
 
@@ -325,34 +323,7 @@ router.post("/leavegame", (req, res) => {
   }
   res.send({});
 });
-/*
-router.post("/creategame", (req, res) => {
-  const { gameId } = req.body;
 
-  Room.findOne({ gameId: gameId }).then((room) => {
-    let playersObject = {};
-    let playersArray = room.players;
-    for (let i = 0; i < playersArray.length; i++) {
-      let player = playersArray[i];
-      playersObject[player._id] = {
-        position: { x: 0, y: 0 },
-        user: player,
-        color: "white",
-        role: "marco",
-        powerups: { lightbomb: 45 },
-      };
-    }
-
-    const gameState = new GameState({
-      gameId: gameId,
-      winner: null,
-      players: playersObject,
-    });
-
-    gameState.save().then({});
-  });
-});
-*/
 router.post("/startGame", (req, res) => {
   const { gameId } = req.body;
   Room.findOne({ gameId: gameId })
@@ -361,7 +332,7 @@ router.post("/startGame", (req, res) => {
         timeLimit: room.settings["General SettingsTime Limit0"],
         mapSize: room.settings["General SettingsMap Size1"],
         marcoVision: room.settings["Marco SettingsVision Radius0"],
-        marcoRadar: room.settings["Marco SettingsThermal Radar Timer1"],
+        marcoRadar: room.settings["Marco SettingsIllumination Timer1"],
         marcoTimer: room.settings["Marco SettingsTag Timer2"],
         poloVision: room.settings["Polo SettingsVision Radius0"],
         poloTP: room.settings["Polo SettingsInstant Transmission Timer1"],

@@ -18,7 +18,7 @@ class Lobby extends Component {
       "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
         "Vision Radius": [100, 100, 500, 5],
-        "Thermal Radar Timer": [10, 40, 80, 5],
+        "Illumination Timer": [10, 40, 80, 5],
         "Tag Timer": [10, 20, 50, 5],
       },
       "Polo Settings": {
