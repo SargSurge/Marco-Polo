@@ -268,9 +268,11 @@ export class GamePage extends Component {
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              console.log("hello");
+              post("/api/leaveGameState", {gameId: this.props.gameId}).then(() => {
+                navigate("/");
+              });
             }}
-            // Make an on click for this
+
           >
             Leave Game
           </button>

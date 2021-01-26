@@ -13,7 +13,7 @@ export class GameCanvas extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props.update)
+       // console.log(this.props.update)
         this.processUpdate(this.props.update);
     }
 

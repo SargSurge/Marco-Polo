@@ -218,9 +218,8 @@ const getTile = (t_ind, tilesets) => {
 /** main draw */
 export const drawCanvas = (drawState, userId, tilesets, initial) => {
   // get the canvas element
-  console.log(drawState);
+
   if (drawState.settings.mapSize === 1 && initial) {
-    console.log("small");
     json = maps.smallMap;
   } else if (drawState.settings.mapSize === 2 && initial) {
     json = maps.mediumMap;
@@ -286,7 +285,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial) => {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   context.beginPath();
-  console.log(vision);
   context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
   context.clip();
 
