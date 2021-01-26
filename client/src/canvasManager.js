@@ -1,4 +1,7 @@
-let maps = {smallMap: require("../src/components/pages/assets/smallMapRemake.json"), mediumMap : require("../src/components/pages/assets/MediumMapFinished.json")};
+let maps = {
+  smallMap: require("../src/components/pages/assets/smallMapRemake.json"),
+  mediumMap: require("../src/components/pages/assets/MediumMapFinished.json"),
+};
 let json;
 let mapData;
 let map;
@@ -71,29 +74,29 @@ export const collisionManager = (isY, x, y, intent) => {
 
     if (
       map[
-      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
-      Math.floor(templeft / tileSize)
+        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+          Math.floor(templeft / tileSize)
       ] === 257
     ) {
       return y - displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
-      Math.floor(tempright / tileSize)
+        (Math.abs(mapData.height - Math.floor(tryPositionup / tileSize)) - 1) * mapData.width +
+          Math.floor(tempright / tileSize)
       ] === 257
     ) {
       return y - displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
-      Math.floor(templeft / tileSize)
+        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+          Math.floor(templeft / tileSize)
       ] === 257
     ) {
       return y + displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
-      Math.floor(tempright / tileSize)
+        (Math.abs(mapData.height - Math.floor(tryPositiondown / tileSize)) - 1) * mapData.width +
+          Math.floor(tempright / tileSize)
       ] === 257
     ) {
       return y + displacement;
@@ -121,29 +124,29 @@ export const collisionManager = (isY, x, y, intent) => {
 
     if (
       map[
-      (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
-      Math.floor(tryPositionleft / tileSize)
+        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionleft / tileSize)
       ] === 257
     ) {
       return x + displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
-      Math.floor(tryPositionright / tileSize)
+        (Math.abs(mapData.height - Math.floor(tempup / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionright / tileSize)
       ] === 257
     ) {
       return x - displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
-      Math.floor(tryPositionleft / tileSize)
+        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionleft / tileSize)
       ] === 257
     ) {
       return x + displacement;
     } else if (
       map[
-      (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
-      Math.floor(tryPositionright / tileSize)
+        (Math.abs(mapData.height - Math.floor(tempdown / tileSize)) - 1) * mapData.width +
+          Math.floor(tryPositionright / tileSize)
       ] === 257
     ) {
       return x - displacement;
@@ -213,9 +216,9 @@ const getTile = (t_ind, tilesets) => {
 };
 
 /** main draw */
-export const drawCanvas = (drawState, userId, tilesets,initial) => {
+export const drawCanvas = (drawState, userId, tilesets, initial) => {
   // get the canvas element
-  console.log(drawState.settings);
+  console.log(drawState);
   if (drawState.settings.mapSize === 1 && initial) {
     console.log("small");
     json = maps.smallMap;
@@ -228,7 +231,6 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
     } else {
       vision = drawState.settings.poloVision;
     }
-    
   }
   mapData = json.layers[0];
   map = mapData.data;
@@ -255,7 +257,7 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
   const { drawX, drawY } = convertCoordToCanvas(x, y);
 
   // clear the canvas to black
-  
+
   //big map
   context.clearRect(0, 0, canvas.width, canvas.height);
   view = {
@@ -319,7 +321,7 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
       view.y
   );*/
 
-/*small map new doesnt work for small screens
+  /*small map new doesnt work for small screens
   view = {
     x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width + 2*canvas.width + mapData.width*tileSize,
     y:
@@ -341,7 +343,6 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
 
   //view = { x : -x + map[0].length / 2, y: y - map.length / 2}
   //context.translate(view.x,view.y;)
-  
 
   context.beginPath();
   context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
@@ -351,7 +352,7 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  //console.log(vision);
+  console.log(vision);
 
   //let gradient = context.createRadialGradient(drawX - view.x, drawY - view.y, 20, drawX - view.x, drawY - view.y, vision);
   //let opacity = 0.20; //55% visible
@@ -366,38 +367,37 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
     for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
       let t_id = d[tile_ind];
       if (t_id == 0) continue;
-    // Bit 32 is used for storing whether the tile is horizontally flipped, bit 31 is used for the vertically flipped tiles and 
-    //bit 30 indicates whether the tile is flipped (anti) diagonally, enabling tile rotation
+      // Bit 32 is used for storing whether the tile is horizontally flipped, bit 31 is used for the vertically flipped tiles and
+      //bit 30 indicates whether the tile is flipped (anti) diagonally, enabling tile rotation
 
-    let worldX = Math.floor(tile_ind % numx) * tilesizex;
-    let worldY = Math.floor(tile_ind / numy) * tilesizey;
-    worldX -= view.x;
-    worldY -= view.y;
+      let worldX = Math.floor(tile_ind % numx) * tilesizex;
+      let worldY = Math.floor(tile_ind / numy) * tilesizey;
+      worldX -= view.x;
+      worldY -= view.y;
 
       //let gid = d[tile_ind];
-
-
 
       //let flipped_horizontally = Boolean(gid & FLIPPED_HORIZONTALLY_FLAG);
       //let flipped_vertically = Boolean(gid & FLIPPED_VERTICALLY_FLAG);
       //let flipped_diagonally = Boolean(gid & FLIPPED_DIAGONALLY_FLAG);
       let tpkt;
       tpkt = getTile(t_id, tilesets);
-        context.drawImage(
-          tpkt.img,
-          tpkt.px,
-          tpkt.py,
-          tilesizex,
-          tilesizey,
-          worldX,
-          worldY,
-          tilesizex,
-          tilesizey);
-        }
-      }
-
-      drawAllPlayers(drawState, context, view);
+      context.drawImage(
+        tpkt.img,
+        tpkt.px,
+        tpkt.py,
+        tilesizex,
+        tilesizey,
+        worldX,
+        worldY,
+        tilesizex,
+        tilesizey
+      );
     }
+  }
+
+  drawAllPlayers(drawState, context, view);
+};
 
 /*
       gid &= ~(FLIPPED_HORIZONTALLY_FLAG |

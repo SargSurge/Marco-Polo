@@ -17,12 +17,12 @@ class Lobby extends Component {
     this.settings = {
       "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
-        "Vision Radius": [0, 50, 100, 5],
+        "Vision Radius": [100, 100, 500, 5],
         "Thermal Radar Timer": [0, 15, 30, 5],
         "Tag Timer": [10, 20, 40, 5],
       },
       "Polo Settings": {
-        "Vision Radius": [0, 50, 100, 5],
+        "Vision Radius": [100, 250, 500, 5],
         "Instant Transmission Timer": [0, 50, 100, 5],
       },
     };
