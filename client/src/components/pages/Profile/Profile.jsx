@@ -58,7 +58,7 @@ export class Profile extends Component {
         }).catch((e) => console.log(e))
 
         this.setState({
-            winLoss: this.calculateWinLoss(matchHistory),
+            winLoss: this.calculateWinLoss(this.state.matches),
         });
     }
 

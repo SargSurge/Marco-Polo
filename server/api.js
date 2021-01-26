@@ -383,6 +383,7 @@ router.post("/leaveGameState", (req, res) => {
             name: gamestate.name,
             creator: gamestate.creator,
             win: (winner === gamestate.players[req.user._id].role),
+            gameId: gameId,
           }  
           User.findOne({googleid: req.user.googleid}).then((user) => {
             user.matchHistory.push(match);
