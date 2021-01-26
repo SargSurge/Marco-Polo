@@ -39,7 +39,7 @@ export class GamePage extends Component {
         y: 0,
       },
       powerup: {
-        name: "Light Bomb",
+        name: "Illuminate",
         cooldown: 10000,
         ready: true,
       },
@@ -91,7 +91,7 @@ export class GamePage extends Component {
             finalTime: currState.finalTime,
             isMarco: isMarco,
             powerup: {
-              name: isMarco ? "Thermal Radar" : "Instant Transmission",
+              name: isMarco ? "Illuminate" : "Warp",
               cooldown: isMarco
                 ? currState.settings.marcoRadar * 1000
                 : currState.settings.poloTP * 1000,
@@ -323,9 +323,9 @@ export class GamePage extends Component {
   };
 
   handlePowerUp = (powerup) => {
-    if (powerup === "Instant Transmission") {
+    if (powerup === "Warp") {
       this.handleTeleport();
-    } else if (powerup === "Thermal Radar") {
+    } else if (powerup === "Illuminate") {
       thermal = { active: true, time: new Date().getTime() };
     }
   };
@@ -388,7 +388,7 @@ export class GamePage extends Component {
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
-          {this.state.isMarco === false ? (
+          {this.state.isMarco !== undefined ? (
             <Timer
               initialTime={this.state.powerup.cooldown}
               startImmediately={false}

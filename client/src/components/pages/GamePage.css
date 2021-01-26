@@ -87,7 +87,7 @@ html, body {
     font-family: 'Orbitron';
     transform: translate(-50%, 0);
     color: #e5f77d;
-    animation: revealTimer 5s linear;
+    animation: revealTimer 1s linear;
     animation-fill-mode: forwards;
     border-bottom: 1px solid #e5f77d;
     border-radius: 10px;

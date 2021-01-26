@@ -332,10 +332,10 @@ router.post("/startGame", (req, res) => {
         timeLimit: room.settings["General SettingsTime Limit0"],
         mapSize: room.settings["General SettingsMap Size1"],
         marcoVision: room.settings["Marco SettingsVision Radius0"],
-        marcoRadar: room.settings["Marco SettingsIllumination Timer1"],
+        marcoRadar: room.settings["Marco SettingsIlluminate Timer1"],
         marcoTimer: room.settings["Marco SettingsTag Timer2"],
         poloVision: room.settings["Polo SettingsVision Radius0"],
-        poloTP: room.settings["Polo SettingsInstant Transmission Timer1"],
+        poloTP: room.settings["Polo SettingsWarp Timer1"],
       });
       let player = room.players[Math.floor(Math.random() * room.players.length)];
       const roleToUpdate = `players.${player._id}.role`;
