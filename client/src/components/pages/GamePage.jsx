@@ -119,7 +119,8 @@ export class GamePage extends Component {
       let tempUser = this.state.user || user;
 
       if (tempState.finalTime - new Date().getTime() <= 0) {
-        post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
+        // post("/api/gameWin", { gameId: this.props.gameId, winner: "polo" }).catch((e) => console.log(e));
+        post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" }).then(() => {
           navigate("/");
           alert("Congrats to the Polos!");
         });
@@ -294,7 +295,7 @@ export class GamePage extends Component {
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
+              post("/api/leaveGameState", { gameId: this.props.gameId, winner: null }).then(() => {
                 navigate("/");
               });
             }}
