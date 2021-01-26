@@ -155,15 +155,18 @@ export class GamePage extends Component {
               console.log(e);
             });
         }
-        console.log(tempState);
+      } catch (e) {
+        navigate("/");
+        window.location.reload();
+      }
+      try {
         this.updatePosition();
         tempState.players[tempUser._id].position = this.state.position;
         this.move(tempUser);
         drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
         this.gameLoop(gamestate, user);
       } catch (e) {
-        navigate("/");
-        window.location.reload();
+        this.gameLoop(gamestate, user);
       }
     });
   };
