@@ -318,23 +318,23 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
-  if (drawState.players[userId].active) {
-    if (thermal.active) {
-      if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-        context.beginPath();
-        context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-        context.clip();
-      } else {
-        context.beginPath();
-        context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-        context.clip();
-      }
-    } else {
+  //if (drawState.players[userId].active) {
+  //  if (thermal.active) {
+  ///    if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
+  //      context.beginPath();
+  //      context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
+   //     context.clip();
+   //   } else {
+   //     context.beginPath();
+    //    context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+   //     context.clip();
+  //    }
+   // } else {
       context.beginPath();
       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
       context.clip();
-    }
-  }
+   // }
+  //}
 
   if (drawState.players[userId].role === "marco") {
     context.clearRect(0, 0, canvas.width, canvas.height);
