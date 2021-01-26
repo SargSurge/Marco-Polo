@@ -354,7 +354,7 @@ export class GamePage extends Component {
                                   this.state.position.y,
                                 2
                               )
-                          ) <= 30
+                          ) <= 100
                         ) {
                           tagPlayer(this.props.gameId, this.state.gameState.players[player]);
                           start();
