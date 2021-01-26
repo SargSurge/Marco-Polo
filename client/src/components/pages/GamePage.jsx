@@ -3,7 +3,7 @@ import { socket } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas, init, getTeleportCoords } from "../../canvasManager";
 import A2 from "./assets/Inside_A2.png";
 import A4 from "./assets/Inside_A4.png";
 import A5 from "./assets/Inside_A5.png";
@@ -118,7 +118,6 @@ export class GamePage extends Component {
       //if((new Date().getTime() - this.state.initialTime)*1000/60 >= 5) {
       //  this.
       //}
-      console.log(this.state);
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
       this.updatePosition();
@@ -222,6 +221,29 @@ export class GamePage extends Component {
     move(user._id, this.props.gameId, this.state.position);
   };
 
+  handleTeleport = () => {
+    let largeMapCoords = [{x: 266, y: 434}, {x: 21, y: 791}, {x: -175, y: -364}, {x: 308, y: -147}, {x: 287, y: -623}, {x: 610, y: 455}, {x: 883, y: 805}, {x: 771, y: -300}, {x: -222, y: 378}, {x: -643, y: 714}, {x: -880, y: 455}, {x: -782, y: -888}, {x: 43, y: -853}, {x: 694, y: 266}, {x: 43, y: -202}]
+    let smallMapCoords = []
+    if (this.state.gameState.settings.mapSize === 2) {
+      let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
+      console.log(newPos);
+      this.setState({
+        position: newPos,
+      })
+    } else if (this.state.gameState.mapSize === 1) {
+
+    }
+  }
+
+  handlePowerUp = (powerup) => {
+    if (powerup === "Instant Transmission") {
+      this.handleTeleport();
+      console.log('teleported');
+    } else if (powerup === "Thermal Radar") {
+
+    }
+  }
+
   processUpdate = (gameState, user) => {
     drawCanvas(gameState, user._id, tilesets);
   };
@@ -251,7 +273,9 @@ export class GamePage extends Component {
                 onClick={() => {
                   if (this.state.powerup.ready) {
                     start();
-                    this.setState({ powerup: { ...this.state.powerup, ready: false } });
+                    this.setState({ powerup: { ...this.state.powerup, ready: false } }, () => {
+                      this.handlePowerUp(this.state.powerup.name);
+                    });
                   }
                 }}
               >

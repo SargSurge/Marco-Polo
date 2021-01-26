@@ -22,6 +22,27 @@ const FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
 /** utils */
 
+// const randomIntFromInterval = (min, max) => { // min and max included 
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
+
+// export const getTeleportCoords = () => {
+//   let w = view.x;
+//   let h = view.y;
+//   let potentialX = randomIntFromInterval(-800, 800);
+//   let potentialY = randomIntFromInterval(-800, 800);
+//   let tile = map[(Math.abs(mapData.height - Math.floor(potentialX / tileSize)) - 1) * mapData.width + Math.floor(potentialY / tileSize)];
+//   console.log('teleport riiip', `(${potentialX}, ${potentialY})`)
+//   while ( tile === 257 || tile === 218 || tile === 180 || tile === undefined) {
+//     console.log('stuck');
+//     potentialX = randomIntFromInterval(-w/2, w/2);
+//     potentialY = randomIntFromInterval(-h/2, h/2);
+//     tile = map[(Math.abs(mapData.height - Math.floor(potentialX / tileSize)) - 1) * mapData.width + Math.floor(potentialY / tileSize)];
+//   }
+//   console.log('tile', map[(Math.abs(mapData.height - Math.floor(potentialX / tileSize)) - 1) * mapData.width + Math.floor(potentialY / tileSize)])
+//   return {x: potentialX, y: potentialY};
+// }
+
 export const collisionManager = (isY, x, y, intent) => {
   let left = x - charSize;
   let right = x + charSize;
