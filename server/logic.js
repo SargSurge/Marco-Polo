@@ -29,9 +29,11 @@ updatePlayerPosition = (userId, gameId, position, io) => {
 };
 
 tagPlayerUpdate = async (gameId, tagged) => {
+  let toUpdate = `players.${tagged.user._id}.active`;
   let stream = await GameState.findOneAndUpdate(
     { gameId: gameId },
     {
+      $set: {[toUpdate]: false},
       $inc: { poloCaught: 1 },
       $push: { tagged: tagged },
       new: true,

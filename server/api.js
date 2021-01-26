@@ -83,6 +83,7 @@ router.post("/joingame", (req, res) => {
                                   for (let i = 0; i < playersArray.length; i++) {
                                     let player = playersArray[i];
                                     playersObject[player._id] = {
+                                      active: true,
                                       position: { x: 0, y: 0 },
                                       user: player,
                                       color: "white",
@@ -183,6 +184,7 @@ router.post("/hostgame", (req, res) => {
               for (let i = 0; i < playersArray.length; i++) {
                 let player = playersArray[i];
                 playersObject[player._id] = {
+                  active : true,
                   position: { x: 0, y: 0 },
                   user: player,
                   color: "white",
