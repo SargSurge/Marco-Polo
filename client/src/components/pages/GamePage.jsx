@@ -39,7 +39,7 @@ export class GamePage extends Component {
         y: 0,
       },
       powerup: {
-        name: "Light Bomb",
+        name: "Illuminate",
         cooldown: 10000,
         ready: true,
       },
@@ -91,7 +91,7 @@ export class GamePage extends Component {
             finalTime: currState.finalTime,
             isMarco: isMarco,
             powerup: {
-              name: isMarco ? "Thermal Radar" : "Instant Transmission",
+              name: isMarco ? "Illuminate" : "Warp",
               cooldown: isMarco
                 ? currState.settings.marcoRadar * 1000
                 : currState.settings.poloTP * 1000,
@@ -268,17 +268,17 @@ export class GamePage extends Component {
       { x: 43, y: -202 },
     ];
     let smallMapCoords = [
-      {x: -49, y: -189},
-      {x: -483, y: -517.97},
-      {x: -455, y: 280.03},
-      {x: 364, y: 581.03},
-      {x: 637, y: -376.94000000000096},
-      {x: 504.03999999999996, y: 120.05999999999904},
-      {x: -538.94, y: 43.07999999999902},
-      {x: 126.05999999999995, y: 281.079999999999},
-      {x: -258.7600000000002, y: 596.4199999999989},
-      {x: 273.2399999999998, y: -495.5700000000011},
-      {x: -160.76000000000022, y: -439.5700000000011},
+      { x: -49, y: -189 },
+      { x: -483, y: -517.97 },
+      { x: -455, y: 280.03 },
+      { x: 364, y: 581.03 },
+      { x: 637, y: -376.94000000000096 },
+      { x: 504.03999999999996, y: 120.05999999999904 },
+      { x: -538.94, y: 43.07999999999902 },
+      { x: 126.05999999999995, y: 281.079999999999 },
+      { x: -258.7600000000002, y: 596.4199999999989 },
+      { x: 273.2399999999998, y: -495.5700000000011 },
+      { x: -160.76000000000022, y: -439.5700000000011 },
     ];
     if (gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
@@ -323,9 +323,9 @@ export class GamePage extends Component {
   };
 
   handlePowerUp = (powerup) => {
-    if (powerup === "Instant Transmission") {
+    if (powerup === "Warp") {
       this.handleTeleport();
-    } else if (powerup === "Thermal Radar") {
+    } else if (powerup === "Illuminate") {
       thermal = { active: true, time: new Date().getTime() };
     }
   };
@@ -388,7 +388,7 @@ export class GamePage extends Component {
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
           </div>
-          {this.state.isMarco ? (
+          {this.state.isMarco !== undefined ? (
             <Timer
               initialTime={this.state.powerup.cooldown}
               startImmediately={false}
