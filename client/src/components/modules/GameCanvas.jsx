@@ -18,7 +18,7 @@ export class GameCanvas extends Component {
     }
 
     processUpdate = (update) => {
-        drawCanvas(update);
+       // drawCanvas(update);
     }
 
     // playerData = [{x: 0, y: 0}], a position object for each player on the map   

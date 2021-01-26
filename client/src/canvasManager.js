@@ -250,6 +250,9 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
   //{players: [{x: 0, y: 0, color: white}]}
 
   context.setTransform(1, 0, 0, 1, 0, 0);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  context.save();
 
   const { x, y } = drawState.players[userId].position;
   const { drawX, drawY } = convertCoordToCanvas(x, y);
@@ -257,7 +260,7 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
   // clear the canvas to black
   
   //big map
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  
   view = {
     x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width,
     y:
@@ -277,77 +280,15 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
       canvas.height / 2 +
       view.y
   );
-  /*
-  view = {
-    x: x - ((canvas.width) / (numx * tilesizex)) * canvas.width,
-    y:
-      -y +
-      ((canvas.height) / (numy * tilesizey)) * canvas.height -
-      canvas.height / 2,
-    w: canvas.width,
-    h: canvas.height,
-  };
 
-  context.translate(
-    -x -
-      (1/ (mapData.width * tileSize)) * canvas.width +
-      view.x,
-    y -
-      (1 / (mapData.height * tileSize)) * canvas.height -
-      canvas.height / 2 +
-      view.y
-  );
-  */
-  /*
   context.clearRect(0, 0, canvas.width, canvas.height);
-  view = {
-    x: x - ((window.screen.width - canvas.width) / (60 * tilesizex)) * canvas.width/2 ,
-    y:
-      -y +
-      ((window.screen.height - canvas.height) / (60 * tilesizey)) * canvas.height/2 +
-      canvas.height ,
-    w: canvas.width,
-    h: canvas.height,
-  };
-
-  context.translate(
-    -x -
-      ((window.screen.width - canvas.width) / (60 * tileSize)) * canvas.width/2 +
-      view.x,
-    y -
-      ((window.screen.height - canvas.height) / (60 * tileSize)) * canvas.height/2  +
-      view.y
-  );*/
-
-/*small map new doesnt work for small screens
-  view = {
-    x: x - ((window.screen.width - canvas.width) / (numx * tilesizex)) * canvas.width + 2*canvas.width + mapData.width*tileSize,
-    y:
-      -y +
-      ((window.screen.height - canvas.height) / (numy * tilesizey)) * canvas.height +
-      2*canvas.height + mapData.height*tileSize,
-    w: canvas.width,
-    h: canvas.height,
-  };
-
-  context.translate(
-    -x -
-    ((window.screen.width - canvas.width) / (mapData.width * tileSize)) * canvas.width +
-    view.x + (canvas.width - mapData.width*tileSize)/2,
-    y -
-    ((window.screen.height - canvas.height) / (mapData.height * tileSize)) * canvas.height +
-    view.y + (canvas.height - mapData.height*tileSize)/2
-  );*/
-
-  //view = { x : -x + map[0].length / 2, y: y - map.length / 2}
-  //context.translate(view.x,view.y;)
-  
-
   context.beginPath();
+  console.log(vision);
   context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
   context.clip();
 
   if (drawState.players[userId].role === "marco") {
+    console.log("clearing");
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
@@ -397,279 +338,5 @@ export const drawCanvas = (drawState, userId, tilesets,initial) => {
       }
 
       drawAllPlayers(drawState, context, view);
+      context.restore();
     }
-
-/*
-      gid &= ~(FLIPPED_HORIZONTALLY_FLAG |
-        FLIPPED_VERTICALLY_FLAG |
-        FLIPPED_DIAGONALLY_FLAG);
-        //console.log(flipped_horizontally,flipped_vertically,flipped_diagonally);
-      if (flipped_horizontally || flipped_vertically || flipped_diagonally) {
-        //console.log(flipped_horizontally);
-        tpkt = getTile(gid, tilesets, flipped_diagonally,flipped_horizontally,flipped_vertically);
-        if (flipped_vertically && flipped_diagonally && flipped_horizontally) {
-          context.save();
-          context.translate(view.x, view.y);
-          context.scale(-1, 1);
-          context.rotate(90 * Math.PI / 180); 
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            worldX,
-            worldY,
-            tilesizex,
-            tilesizey); 
-          context.restore();
-        
-      } else if (flipped_vertically && flipped_diagonally) { //0x6 270 deg rot
-          context.save();
-          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
-          context.rotate(270 * Math.PI / 180); 
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            worldX,
-            worldY,
-            tilesizex,
-            tilesizey); 
-          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
-          //context.rotate(90 * Math.PI / 180);
-          context.restore();
-        } else if (flipped_horizontally && flipped_diagonally) { //0xA 90 deg rot
-          context.save();
-          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
-          context.rotate(90 * Math.PI / 180); 
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            worldX,
-            worldY,
-            tilesizex,
-            tilesizey); 
-          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
-          //context.rotate(90 * Math.PI / 180);
-          context.restore();
-        } else if (flipped_horizontally && flipped_vertically) { //0xC 180 deg rot
-          context.save();
-          //context.setTransform(1, 0, 0, 1, tpkt.px, tpkt.py); 
-          context.rotate(180 * Math.PI / 180); 
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            worldX,
-            worldY,
-            tilesizex,
-            tilesizey); 
-          //context.translate(tpkt.px * 32 + pos.X+32, rowSource * 32 + pos.Y);
-          //context.rotate(90 * Math.PI / 180);
-          context.restore();
-        } else if (flipped_horizontally) {
-          context.save();
-          //context.translate(canvas.width, 0);
-          //context.scale(-1, 1);
-          
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            0,
-            0,
-            -tilesizex,
-            tilesizey); 
-            context.translate(worldX, worldY);
-          context.restore();
-        } /*else if (flipped_vertically) {
-          context.save();
-          //context.translate(tpkt.px + tilesizex/2, tpkt.py + tilesizey/2);
-          context.scale(1, -1);
-          //context.translate(view.x, view.y);
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            -tilesizey,
-            -worldX,
-            -worldY,
-            tilesizex,
-            -tilesizey); 
-          context.restore();
-        } else if (flipped_diagonally) {
-          context.save();
-          
-          
-          context.translate(tpkt.px + tilesizex/2, tpkt.py + tilesizey/2);
-          context.rotate(90 * Math.PI / 180); 
-          context.scale(1, -1);
-          context.translate(view.x, view.y);
-          
-          context.drawImage(tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            -tilesizey,
-            0,
-            0,
-            tilesizex,
-            tilesizey); 
-          context.restore();
-        }
-        else {
-          context.drawImage(
-            tpkt.img,
-            tpkt.px,
-            tpkt.py,
-            tilesizex,
-            tilesizey,
-            worldX,
-            worldY,
-            tilesizex,
-            tilesizey
-          );
-        }
-      } else {
-        tpkt = getTile(t_id, tilesets);
-        context.drawImage(
-          tpkt.img,
-          tpkt.px,
-          tpkt.py,
-          tilesizex,
-          tilesizey,
-          worldX,
-          worldY,
-          tilesizex,
-          tilesizey
-        );
-      }
-      
-  
-
- 
-
-  
-  //let camX = clamp(-x + canvas.width / 2, 0, map[0].length - canvas.width/2);
-  //let camY = clamp(-y + canvas.height / 2, 0, map.length - canvas.height/2);
-  //context.translate(camX, camY);
-
-  // clear the canvas to black
-  
-  
-  drawOtherPlayers(drawState, userId,context);
-/*
-  const { drawX, drawY } = convertCoordToCanvas(x, y);
-
-  const darkContext = canvasDark.getContext("2d");
-
-  darkContext.setTransform(1, 0, 0, 1, 0, 0);
-  darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
-
-  //darkContext.globalCompositeOperation = "destinaton-out";
-
-
-  //fillCircle(darkContext, drawX, drawY, 60, "white");
-  //darkContext.beginPath();
-  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
-  //darkContext.clip();
-
-  //darkContext.globalCompositeOperation = "destinaton-out";
-  darkContext.fillStyle = "black";
-  darkContext.fillRect(0, 0, canvasDark.width, canvasDark.height);
-  //darkContext.beginPath();
-  //darkContext.arc(drawX, drawY, 100, 0, 2 * Math.PI, false);
-  //darkContext.clip();
-  
-
-  //darkContext.clearRect(0,0,x,y);
-  
-  let gradient = darkContext.createRadialGradient(drawX, drawY, 20, drawX, drawY, 60);
-  gradient.addColorStop(0, "white");
-  gradient.addColorStop(0.5, "grey");
-  gradient.addColorStop(0.9, "black");
-  gradient.addColorStop(1, "black");
-  //darkContext.globalCompositeOperation = "destination-out";
-  fillCircle(darkContext, drawX, drawY, 60, "white");
-  
-  
-  
-
-  //darkContext.fillStyle = lingrad;
-  //darkContext.fillRect(0, 0, canvas.width, canvas.height);
-  darkContext.globalCompositeOperation = "source-over";
-  drawPlayer(darkContext, x, y, "red");
-  
-  //darkContext.clearRect(0, 0, canvasDark.width, canvasDark.height);
-*/
-//let tpkt = getTile(t_id, tilesets);
-
-// 11 rows
-// 27 columns
-
-/*
-$(function() {
-  //console.log(canvas);
-  var c = canvas.getContext("2d");
-  //console.log(c);
-
-  var scene = {
-    layers: [],
-    renderLayer: function(layer) {
-      // data: [array of tiles, 1-based, position of sprite from top-left]
-      // height: integer, height in number of sprites
-      // name: "string", internal name of layer
-      // opacity: integer
-      // type: "string", layer type (tile, object)
-      // visible: boolean
-      // width: integer, width in number of sprites
-      // x: integer, starting x position
-      // y: integer, starting y position
-      if (layer.type !== "tilelayer" || !layer.opacity) { return; }
-      var s = c.canvas.cloneNode(),
-          size = scene.data.tilewidth;
-      s = s.getContext("2d");
-      if (scene.layers.length < scene.data.layers.length) {
-        layer.data.forEach(function(tile_idx, i) {
-          if (!tile_idx) { return; }
-          var img_x, img_y, s_x, s_y,
-              tile = scene.data.tilesets[0];
-          tile_idx--;
-          img_x = (tile_idx % (tile.imagewidth / size)) * size;
-          img_y = ~~(tile_idx / (tile.imagewidth / size)) * size;
-          s_x = (i % layer.width) * size;
-          s_y = ~~(i / layer.width) * size;
-          s.drawImage(scene.tileset, img_x, img_y, size, size,
-                      s_x, s_y, size, size);
-        });
-        scene.layers.push(s.canvas.toDataURL());
-        c.drawImage(s.canvas, 0, 0);
-      }
-      else {
-        scene.layers.forEach(function(src) {
-          var i = $({ src: src })[0];
-          c.drawImage(i, 0, 0);
-        });
-      }
-    },
-    renderLayers: function(layers) {
-      layers = $.isArray(layers) ? layers : this.data.layers;
-      layers.forEach(this.renderLayer);
-    },
-    loadTileset: function(json) {
-      this.data = json;
-      //console.log(json);
-      this.tileset = $({ src: json.tilesets[0].image })[0]
-      //console.log(this.tileset);
-      this.tileset.onload = $.proxy(this.renderLayers, this);
-    },
-  };
-
-  scene.loadTileset("MediumMapFinished");
-});
-*/
