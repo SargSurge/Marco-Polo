@@ -373,6 +373,7 @@ export class GamePage extends Component {
         );
         if (
           this.state.user._id !== player &&
+          this.state.gameState.players[player].active &&
           Math.sqrt(
             Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
               Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
@@ -420,7 +421,12 @@ export class GamePage extends Component {
           )}
 
           <div className="gamepage-character-header">
-            You're a {this.state.isMarco ? "Marco!" : "Polo!"}
+            You're a{" "}
+            {this.state.isMarco
+              ? "Marco!"
+              : this.state.gameState.players[this.state.user._id].active
+              ? "Polo!"
+              : "Ghost!"}
           </div>
           <div className="gamepage-canvas-container">
             <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
