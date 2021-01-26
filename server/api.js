@@ -188,6 +188,8 @@ router.post("/hostgame", (req, res) => {
               players: playersObject,
               settings: gamesettings,
               finalTime: null,
+              tagged: [],
+              poloCaught: 0,
             });
 
             gameState.save().then(res.send({ gameId: gameId }));
@@ -367,6 +369,39 @@ router.get("/initialRender", (req, res) => {
   GameState.findOne({ gameId: gameId }).then((gameState) => {
     res.send({ initialRender: gameState });
   });
+});
+
+router.post("/leaveGameState", (req, res) => {
+  const { gameId } = req.body;
+  if (req.user) {
+    GameState.findOne({ gameId: gameId }).then((gamestate) => {
+      if (gamestate) {
+        delete gamestate.players[req.user._id];
+        gamestate
+          .save()
+          .then((gamestate) => {
+            if (Object.keys(gamestate.players).length === 0) {
+              GameState.deleteOne({ gameId: gameId })
+                .then((result) => console.log("deleted one gamestate"))
+                .catch((err) => console.log("Delete failed with error: ${err}"));
+            }
+          })
+          .then(socketManager.getIo().in(gameId).emit("updatePoloLeft"));
+      }
+    });
+    User.findOneAndUpdate(
+      { googleid: req.user.googleid },
+      { $set: { currentGame: null } },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+        }
+        //console.log(doc);
+      }
+    );
+  }
+  res.send({});
 });
 
 // anything else falls to this "not found" case

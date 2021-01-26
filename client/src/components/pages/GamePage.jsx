@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { socket } from "../../client-socket";
+import { socket, tagPlayer } from "../../client-socket";
 import { get, post } from "../../utilities";
 import GameCanvas from "../modules/GameCanvas";
 import { move } from "../../client-socket";
-import { collisionManager, drawAllPlayers, drawCanvas, init } from "../../canvasManager";
+import { collisionManager, drawAllPlayers, drawCanvas } from "../../canvasManager";
 import A2 from "./assets/Inside_A2.png";
 import A4 from "./assets/Inside_A4.png";
 import A5 from "./assets/Inside_A5.png";
@@ -13,6 +13,7 @@ import C from "./assets/Inside_C.png";
 import Timer from "react-compound-timer";
 import "./GamePage.css";
 import { navigate } from "@reach/router";
+//import { tagPlayerWrapper } from "../../../../server/logic";
 
 let loadCount;
 let json = require("./assets/MediumMapFinished.json");
@@ -226,25 +227,39 @@ export class GamePage extends Component {
   };
 
   handleTeleport = () => {
-    let largeMapCoords = [{x: 266, y: 434}, {x: 21, y: 791}, {x: -175, y: -364}, {x: 308, y: -147}, {x: 287, y: -623}, {x: 610, y: 455}, {x: 883, y: 805}, {x: 771, y: -300}, {x: -222, y: 378}, {x: -643, y: 714}, {x: -880, y: 455}, {x: -782, y: -888}, {x: 43, y: -853}, {x: 694, y: 266}, {x: 43, y: -202}]
-    let smallMapCoords = []
+    let largeMapCoords = [
+      { x: 266, y: 434 },
+      { x: 21, y: 791 },
+      { x: -175, y: -364 },
+      { x: 308, y: -147 },
+      { x: 287, y: -623 },
+      { x: 610, y: 455 },
+      { x: 883, y: 805 },
+      { x: 771, y: -300 },
+      { x: -222, y: 378 },
+      { x: -643, y: 714 },
+      { x: -880, y: 455 },
+      { x: -782, y: -888 },
+      { x: 43, y: -853 },
+      { x: 694, y: 266 },
+      { x: 43, y: -202 },
+    ];
+    let smallMapCoords = [];
     if (this.state.gameState.settings.mapSize === 2) {
       let newPos = largeMapCoords[Math.floor(Math.random() * largeMapCoords.length)];
       this.setState({
         position: newPos,
-      })
+      });
     } else if (this.state.gameState.mapSize === 1) {
-
     }
-  }
+  };
 
   handlePowerUp = (powerup) => {
     if (powerup === "Instant Transmission") {
       this.handleTeleport();
     } else if (powerup === "Thermal Radar") {
-
     }
-  }
+  };
 
   render() {
     return (
@@ -253,9 +268,10 @@ export class GamePage extends Component {
           <button
             className="gamepage-ui-button gamepage-leavegame-button"
             onClick={() => {
-              console.log("hello");
+              post("/api/leaveGameState", { gameId: this.props.gameId }).then(() => {
+                navigate("/");
+              });
             }}
-            // Make an on click for this
           >
             Leave Game
           </button>
@@ -324,8 +340,28 @@ export class GamePage extends Component {
                   className="gamepage-ui-button gamepage-tag-button"
                   onClick={() => {
                     if (this.state.tag.ready) {
-                      start();
-                      this.setState({ tag: { ...this.state.tag, ready: false } });
+                      Object.keys(this.state.gameState.players).every((player, index) => {
+                        if (
+                          this.state.user._id !== player &&
+                          Math.sqrt(
+                            Math.pow(
+                              this.state.gameState.players[player].position.x -
+                                this.state.position.x,
+                              2
+                            ) +
+                              Math.pow(
+                                this.state.gameState.players[player].position.y -
+                                  this.state.position.y,
+                                2
+                              )
+                          ) <= 100
+                        ) {
+                          tagPlayer(this.props.gameId, this.state.gameState.players[player]);
+                          start();
+                          this.setState({ tag: { ...this.state.tag, ready: false } });
+                          return false;
+                        }
+                      });
                     }
                   }}
                 >

@@ -8,6 +8,8 @@ const GameStateSchema = new mongoose.Schema({
   players: Object,
   settings: gamesettings,
   finalTime: Number,
+  tagged: Array,
+  poloCaught: Number,
 });
 
 module.exports = mongoose.model("gamestate", GameStateSchema);
