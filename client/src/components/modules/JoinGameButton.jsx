@@ -16,9 +16,8 @@ export class JoinGameButton extends Component {
     post("/api/joingame", { gameId: this.props.gameId })
       .then((res) => {
         if (res.msg === "Invalid") {
-          navigate('../');
+          navigate("../");
         }
-        alert(res.msg);
         if (res.canJoin) {
           navigate(`/lobby/${this.props.gameId}`);
         }

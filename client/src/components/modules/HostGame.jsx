@@ -100,16 +100,14 @@ export class HostGame extends Component {
           if (res.msg == "Invalid") {
             navigate("../");
           } else if (res.msg) {
-            alert(res.msg);
           } else {
-            alert("You just hosted a game with id: " + res.gameId);
             navigate(`/lobby/${res.gameId}`);
           }
         })
         .then(socket.emit("updateLobbies"))
         .catch((err) => console.log(err));
     } else {
-      alert("Enter a game id idiot");
+      alert("Please enter a game name");
     }
   };
 
