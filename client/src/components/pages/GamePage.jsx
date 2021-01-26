@@ -359,55 +359,55 @@ export class GamePage extends Component {
   };
 
   render() {
-    let canTag = false;
-    let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
-    let taggedPlayer = null;
-    if (this.state.isMarco && this.state.gameState.players) {
-      Object.keys(this.state.gameState.players).every((player, index) => {
-        console.log(this.state.user.name);
-        console.log(this.state.gameState.players[player].user.name);
-        console.log(this.state.position.x, this.state.position.y);
-        console.log(
-          this.state.gameState.players[player].position.x,
-          this.state.gameState.players[player].position.y
-        );
-        if (
-          this.state.user._id !== player &&
-          this.state.gameState.players[player].active &&
-          Math.sqrt(
-            Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
-              Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
-          ) <= 100
-        ) {
-          canTag = true;
-          tagClass = "gamepage-ui-button gamepage-tag-button";
-          taggedPlayer = player;
-          return false;
-        }
-      });
-    }
+    if (this.state.gameState && this.state.gameState.players) {
+      let canTag = false;
+      let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
+      let taggedPlayer = null;
+      if (this.state.isMarco) {
+        Object.keys(this.state.gameState.players).every((player, index) => {
+          console.log(this.state.user.name);
+          console.log(this.state.gameState.players[player].user.name);
+          console.log(this.state.position.x, this.state.position.y);
+          console.log(
+            this.state.gameState.players[player].position.x,
+            this.state.gameState.players[player].position.y
+          );
+          if (
+            this.state.user._id !== player &&
+            this.state.gameState.players[player].active &&
+            Math.sqrt(
+              Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
+                Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
+            ) <= 100
+          ) {
+            canTag = true;
+            tagClass = "gamepage-ui-button gamepage-tag-button";
+            taggedPlayer = player;
+            return false;
+          }
+        });
+      }
 
-    return (
-      <div className="gamepage-base">
-        <div className="gamepage-game-container">
-          <button
-            className="gamepage-ui-button gamepage-leavegame-button"
-            onClick={() => {
-              post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
-                .then(() => {
-                  alert("The Polos have won!");
-                  navigate("/");
-                  window.location.reload();
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
-            }}
-          >
-            Leave Game
-          </button>
-          <div className="gamepage-header">Welcome to Marco Polo!</div>
-          {this.state.gameState ? (
+      return (
+        <div className="gamepage-base">
+          <div className="gamepage-game-container">
+            <button
+              className="gamepage-ui-button gamepage-leavegame-button"
+              onClick={() => {
+                post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
+                  .then(() => {
+                    alert("The Polos have won!");
+                    navigate("/");
+                    window.location.reload();
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                  });
+              }}
+            >
+              Leave Game
+            </button>
+            <div className="gamepage-header">Welcome to Marco Polo!</div>
             <div className="gamepage-timer">
               {Math.floor((this.state.gameState.finalTime - new Date().getTime()) / 1000 / 60)} :
               {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60) >=
@@ -416,22 +416,18 @@ export class GamePage extends Component {
                 : " 0"}
               {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
             </div>
-          ) : (
-            ""
-          )}
-
-          <div className="gamepage-character-header">
-            You're a{" "}
-            {this.state.isMarco
-              ? "Marco!"
-              : this.state.gameState.players[this.state.user._id].active
-              ? "Polo!"
-              : "Ghost!"}
-          </div>
-          <div className="gamepage-canvas-container">
-            <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
-          </div>
-          {this.state.powerup.name !== "Null" ? (
+            )
+            <div className="gamepage-character-header">
+              You're a{" "}
+              {this.state.isMarco
+                ? "Marco!"
+                : this.state.gameState.players[this.state.user._id].active
+                ? "Polo!"
+                : "Ghost!"}
+            </div>
+            <div className="gamepage-canvas-container">
+              <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
+            </div>
             <Timer
               initialTime={this.state.powerup.cooldown}
               startImmediately={false}
@@ -463,48 +459,51 @@ export class GamePage extends Component {
                 </button>
               )}
             </Timer>
-          ) : (
-            ""
-          )}
-          {this.state.isMarco ? (
-            <Timer
-              initialTime={this.state.tag.cooldown}
-              startImmediately={false}
-              direction="backward"
-              onStart={() => console.log("onStart hook")}
-              onResume={() => console.log("onResume hook")}
-              onReset={() => console.log("onReset hook")}
-            >
-              {({ start, resume, reset, getTime }) => (
-                <button
-                  className={tagClass}
-                  onClick={() => {
-                    if (this.state.tag.ready) {
-                      if (canTag) {
-                        tagPlayer(this.props.gameId, this.state.gameState.players[taggedPlayer]);
-                        start();
-                        this.setState({ tag: { ...this.state.tag, ready: false } });
-                        return false;
+            )
+            {this.state.isMarco ? (
+              <Timer
+                initialTime={this.state.tag.cooldown}
+                startImmediately={false}
+                direction="backward"
+                onStart={() => console.log("onStart hook")}
+                onResume={() => console.log("onResume hook")}
+                onReset={() => console.log("onReset hook")}
+              >
+                {({ start, resume, reset, getTime }) => (
+                  <button
+                    className={tagClass}
+                    onClick={() => {
+                      if (this.state.tag.ready) {
+                        if (canTag) {
+                          tagPlayer(this.props.gameId, this.state.gameState.players[taggedPlayer]);
+                          start();
+                          this.setState({ tag: { ...this.state.tag, ready: false } });
+                          return false;
+                        }
                       }
-                    }
-                  }}
-                >
-                  {this.state.tag.ready ? (
-                    this.state.tag.name
-                  ) : getTime() <= 0 ? (
-                    (this.setState({ tag: { ...this.state.tag, ready: true } }), reset(), resume())
-                  ) : (
-                    <Timer.Seconds />
-                  )}
-                </button>
-              )}
-            </Timer>
-          ) : (
-            ""
-          )}
+                    }}
+                  >
+                    {this.state.tag.ready ? (
+                      this.state.tag.name
+                    ) : getTime() <= 0 ? (
+                      (this.setState({ tag: { ...this.state.tag, ready: true } }),
+                      reset(),
+                      resume())
+                    ) : (
+                      <Timer.Seconds />
+                    )}
+                  </button>
+                )}
+              </Timer>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <div></div>;
+    }
   }
 }
 
