@@ -22,7 +22,6 @@ let tilesizex = json.tilewidth;
 let tilesizey = json.tileheight;
 let tileset_imgs = [A2, A2, A4, A5, B, C];
 let thermal = { active: false, time: null };
-let renderId;
 
 export class GamePage extends Component {
   constructor(props) {
@@ -74,48 +73,52 @@ export class GamePage extends Component {
       tilesets.push(tileset);
     }
 
-    get("/api/whoami", {}).then((user) => {
-      get("/api/initialRender", { gameId: this.props.gameId }).then((res) => {
-        let currState = res.initialRender;
-        if (loadCount == json.tilesets.length) {
-          this.processUpdate(currState, user);
-        }
-        let isMarco = currState.players[user._id].role == "marco";
-        console.log(currState.settings.marcoRadar);
-        console.log(
-          isMarco ? currState.settings.marcoRadar * 1000 : currState.settings.poloTP * 1000
-        );
-        this.setState(
-          {
-            user: user,
-            gameState: currState,
-            finalTime: currState.finalTime,
-            isMarco: isMarco,
-            powerup: {
-              name: isMarco ? "Illuminate" : "Warp",
-              cooldown: isMarco
-                ? currState.settings.marcoRadar * 1000
-                : currState.settings.poloTP * 1000,
-              ready: true,
-            },
-            tag: {
-              name: "Tag",
-              cooldown: currState.settings.marcoTimer * 1000,
-              ready: true,
-            },
-          },
-          () => {
-            if (loadCount == json.tilesets.length) {
-              renderId = undefined;
-              this.gameLoop(currState, user);
-            }
-            socket.on("update", (gameState) => {
-              this.setState({ gameState: gameState });
-            });
+    try {
+      get("/api/whoami", {}).then((user) => {
+        get("/api/initialRender", { gameId: this.props.gameId }).then((res) => {
+          let currState = res.initialRender;
+          if (loadCount == json.tilesets.length) {
+            this.processUpdate(currState, user);
           }
-        );
+          let isMarco = currState.players[user._id].role == "marco";
+          console.log(currState.settings.marcoRadar);
+          console.log(
+            isMarco ? currState.settings.marcoRadar * 1000 : currState.settings.poloTP * 1000
+          );
+          this.setState(
+            {
+              user: user,
+              gameState: currState,
+              finalTime: currState.finalTime,
+              isMarco: isMarco,
+              powerup: {
+                name: isMarco ? "Illuminate" : "Warp",
+                cooldown: isMarco
+                  ? currState.settings.marcoRadar * 1000
+                  : currState.settings.poloTP * 1000,
+                ready: true,
+              },
+              tag: {
+                name: "Tag",
+                cooldown: currState.settings.marcoTimer * 1000,
+                ready: true,
+              },
+            },
+            () => {
+              if (loadCount == json.tilesets.length) {
+                this.gameLoop(currState, user);
+              }
+              socket.on("update", (gameState) => {
+                this.setState({ gameState: gameState });
+              });
+            }
+          );
+        });
       });
-    });
+    } catch (e) {
+      navigate("/");
+      window.location.reload();
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -135,14 +138,8 @@ export class GamePage extends Component {
     }
   }
 
-  stop = () => {
-    if (renderId) {
-    window.cancelAnimationFrame(renderId);
-    }
-  }
-
   gameLoop = (gamestate, user) => {
-    renderId = window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
 
@@ -152,6 +149,7 @@ export class GamePage extends Component {
           post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
             .then(() => {
               navigate("/");
+              window.location.reload();
             })
             .catch((e) => {
               console.log(e);
@@ -379,7 +377,9 @@ export class GamePage extends Component {
             onClick={() => {
               post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                 .then(() => {
+                  alert("The Polos have won!");
                   navigate("/");
+                  window.location.reload();
                 })
                 .catch((e) => {
                   console.log(e);
