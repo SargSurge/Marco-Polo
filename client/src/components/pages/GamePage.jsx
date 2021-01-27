@@ -373,7 +373,7 @@ export class GamePage extends Component {
       if (this.state.gameState.finalTime - new Date().getTime() <= 0) {
         winner = "polo";
       }
-      //console.log(this.state.tag);
+
       if (
         this.state.gameState.poloCaught ===
         Object.keys(this.state.gameState.players).length - 1
@@ -383,7 +383,6 @@ export class GamePage extends Component {
       if (Object.keys(this.state.gameState.players).length in [1, 2]) {
         winner = null;
       }
-      //console.log(this.state.gameState, winner);
 
       if (winner) {
         let headerClass = null;
