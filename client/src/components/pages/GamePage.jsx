@@ -140,38 +140,36 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        let tempState = this.state.gameState || gamestate;
-        let tempUser = this.state.user || user;
+    requestAnimationFrame(() => {
+      let tempState = this.state.gameState || gamestate;
+      let tempUser = this.state.user || user;
 
-        try {
-          if (tempState.finalTime - new Date().getTime() <= 0) {
-            stop();
-            post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
-              .then(() => {
-                navigate("/");
-                window.location.reload();
-              })
-              .catch((e) => {
-                console.log(e);
-              });
-          }
-        } catch (e) {
-          navigate("/");
-          window.location.reload();
+      try {
+        if (tempState.finalTime - new Date().getTime() <= 0) {
+          stop();
+          post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
+            .then(() => {
+              navigate("/");
+              window.location.reload();
+            })
+            .catch((e) => {
+              console.log(e);
+            });
         }
-        try {
-          this.updatePosition();
-          tempState.players[tempUser._id].position = this.state.position;
-          this.move(tempUser);
-          drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-          this.gameLoop(gamestate, user);
-        } catch (e) {
-          this.gameLoop(gamestate, user);
-        }
-      });
-    }, 1000 / 60);
+      } catch (e) {
+        navigate("/");
+        window.location.reload();
+      }
+      try {
+        this.updatePosition();
+        tempState.players[tempUser._id].position = this.state.position;
+        this.move(tempUser);
+        drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+        this.gameLoop(gamestate, user);
+      } catch (e) {
+        this.gameLoop(gamestate, user);
+      }
+    });
   };
 
   componentWillUnmount() {
@@ -427,7 +425,11 @@ export class GamePage extends Component {
             </div>
             <div className="gamepage-canvas-container">
               <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
-              <canvas id="player-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
+              <canvas
+                id="player-layer"
+                width={window.innerWidth}
+                height={window.innerHeight}
+              ></canvas>
             </div>
             <Timer
               initialTime={this.state.powerup.cooldown}
