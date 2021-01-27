@@ -69,7 +69,7 @@ export class Profile extends Component {
                                 {this.state.user ? this.state.user.name : 'Name'}
                             </div>
                             <div className="profile-header">
-                                Win / Loss : {this.state.matches.filter((match) => match.win === true).length / this.state.matches.length}
+                                Win / Loss : {this.state.matches.filter((match) => match.win === true).length / (this.state.matches.filter((match) => match.win === false).length === 0 ? 1 : this.state.matches.filter((match) => match.win === false).length)}
                             </div>
                         </div>
                         <div className="profile-bottom">
