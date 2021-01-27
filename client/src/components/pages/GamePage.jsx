@@ -105,6 +105,7 @@ export class GamePage extends Component {
                 this.gameLoop(currState, user);
               }
               socket.on("update", (gameState) => {
+                console.log(gameState.tagged);
                 this.setState({ gameState: gameState });
               });
             }
@@ -136,36 +137,19 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-      requestAnimationFrame(() => {
-        let tempState = this.state.gameState || gamestate;
-        let tempUser = this.state.user || user;
-
-        try {
-          if (tempState.finalTime - new Date().getTime() <= 0) {
-            stop();
-            post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
-              .then(() => {
-                navigate("/");
-                window.location.reload();
-              })
-              .catch((e) => {
-                console.log(e);
-              });
-          }
-        } catch (e) {
-          navigate("/");
-          window.location.reload();
-        }
-        try {
-          this.updatePosition();
-          tempState.players[tempUser._id].position = this.state.position;
-          this.move(tempUser);
-          drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-          this.gameLoop(gamestate, user);
-        } catch (e) {
-          this.gameLoop(gamestate, user);
-        }
-      });
+    window.requestAnimationFrame(() => {
+      let tempState = this.state.gameState || gamestate;
+      let tempUser = this.state.user || user;
+      try {
+        this.updatePosition();
+        tempState.players[tempUser._id].position = this.state.position;
+        this.move(tempUser);
+        drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+        this.gameLoop(tempState, tempUser);
+      } catch (e) {
+        this.gameLoop(tempState, tempUser);
+      }
+    });
   };
 
   componentWillUnmount() {
@@ -297,7 +281,7 @@ export class GamePage extends Component {
       this.setState({
         position: newPos,
       });
-    } else if (gameState.mapSize === 1) {
+    } else if (gameState.settings.mapSize === 1) {
       let newPos = smallMapCoords[Object.keys(gameState.players).indexOf(user._id)];
       this.setState({
         position: newPos,
@@ -382,81 +366,105 @@ export class GamePage extends Component {
         }
       }
 
-      return (
-        <div className="gamepage-base">
-          <div className="gamepage-game-container">
-            <button
-              className="gamepage-ui-button gamepage-leavegame-button"
-              onClick={() => {
-                post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
-                  .then(() => {
-                    navigate("/");
-                    window.location.reload();
-                  })
-                  .catch((e) => {
-                    console.log(e);
-                  });
-              }}
-            >
-              Leave Game
-            </button>
-            <div className="gamepage-header">Welcome to Marco Polo!</div>
-            <div className="gamepage-timer">
-              {Math.floor((this.state.gameState.finalTime - new Date().getTime()) / 1000 / 60)} :
-              {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60) >=
-              10
-                ? " "
-                : " 0"}
-              {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
+      let winner = null;
+      if (this.state.gameState.finalTime - new Date().getTime() <= 0) {
+        winner = "polo";
+      }
+      //console.log(this.state.tag);
+      if (
+        this.state.gameState.poloCaught ===
+        Object.keys(this.state.gameState.players).length - 1
+      ) {
+        winner = "marco";
+      }
+      if (Object.keys(this.state.gameState.players).length in [1, 2]) {
+        winner = null;
+      }
+      //console.log(this.state.gameState, winner);
+
+      if (winner) {
+        let headerClass = null;
+        let buttonClass = null;
+        if (this.state.gameState.winner === "marco") {
+          headerClass = "gamepage-header-marco gamepage-end-container";
+          buttonClass =
+            "gamepage-button-marco gamepage-ui-button-end gamepage-leavegame-button-end";
+        } else {
+          headerClass = "gamepage-header-polo gamepage-end-container";
+          buttonClass = "gamepage-button-polo gamepage-ui-button-end gamepage-leavegame-button-end";
+        }
+        return (
+          <div className="gamepage-base-end">
+            <div className={headerClass}>
+              <div className="gamepage-end-header">Congrats to the {winner}</div>
+              <button
+                id="leavegame"
+                className={buttonClass}
+                onClick={() => {
+                  post("/api/leaveGameState", { gameId: this.props.gameId, winner: winner })
+                    .then(() => {
+                      alert("Leaving Game!");
+                      navigate("/");
+                      window.location.reload();
+                    })
+                    .catch((e) => {
+                      console.log(e);
+                    });
+                }}
+              >
+                Leave Game
+              </button>
             </div>
-            )
-            <div className="gamepage-character-header">
-              You're a{" "}
-              {this.state.isMarco
-                ? "Marco!"
-                : this.state.gameState.players[this.state.user._id].active
-                ? "Polo!"
-                : "Ghost!"}
-            </div>
-            <div className="gamepage-canvas-container">
-              <canvas id="map-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
-              <canvas id="player-layer" width={window.innerWidth} height={window.innerHeight}></canvas>
-            </div>
-            <Timer
-              initialTime={this.state.powerup.cooldown}
-              startImmediately={false}
-              direction="backward"
-              onStart={() => console.log("onStart hook")}
-              onResume={() => console.log("onResume hook")}
-              onReset={() => console.log("onReset hook")}
-            >
-              {({ start, resume, reset, getTime }) => (
-                <button
-                  className="gamepage-ui-button gamepage-powerup-button"
-                  onClick={() => {
-                    if (this.state.powerup.ready) {
-                      start();
-                      this.handlePowerUp(this.state.powerup.name);
-                      this.setState({ powerup: { ...this.state.powerup, ready: false } });
-                    }
-                  }}
-                >
-                  {this.state.powerup.ready ? (
-                    this.state.powerup.name
-                  ) : getTime() <= 0 ? (
-                    (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
-                    reset(),
-                    resume())
-                  ) : (
-                    <Timer.Seconds />
-                  )}
-                </button>
-              )}
-            </Timer>
-            )
-            {this.state.isMarco ? (
+          </div>
+        );
+      } else {
+        return (
+          <div className="gamepage-base">
+            <div className="gamepage-game-container">
+              <button
+                id="leavegame"
+                className="gamepage-ui-button gamepage-leavegame-button"
+                onClick={() => {
+                  post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
+                    .then(() => {
+                      alert("Leaving Game!");
+                      navigate("/");
+                      window.location.reload();
+                    })
+                    .catch((e) => {
+                      console.log(e);
+                    });
+                }}
+              >
+                Leave Game
+              </button>
+              <div className="gamepage-header">Welcome to Marco Polo!</div>
+              <div className="gamepage-timer">
+                {Math.floor((this.state.gameState.finalTime - new Date().getTime()) / 1000 / 60)} :
+                {Math.floor(
+                  ((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60
+                ) >= 10
+                  ? " "
+                  : " 0"}
+                {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
+              </div>
+              <div className="gamepage-character-header">
+                You're a{" "}
+                {this.state.isMarco
+                  ? "Marco!"
+                  : this.state.gameState.players[this.state.user._id].active
+                  ? "Polo!"
+                  : "Ghost!"}
+              </div>
+              <div className="gamepage-canvas-container">
+                <canvas
+                  id="map-layer"
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                ></canvas>
+              </div>
               <Timer
-                initialTime={this.state.tag.cooldown}
+                initialTime={this.state.powerup.cooldown}
                 startImmediately={false}
                 direction="backward"
                 onStart={() => console.log("onStart hook")}
@@ -465,22 +473,19 @@ export class GamePage extends Component {
               >
                 {({ start, resume, reset, getTime }) => (
                   <button
-                    className={tagClass}
+                    className="gamepage-ui-button gamepage-powerup-button"
                     onClick={() => {
-                      if (this.state.tag.ready) {
-                        if (canTag) {
-                          tagPlayer(this.props.gameId, this.state.gameState.players[taggedPlayer]);
-                          start();
-                          this.setState({ tag: { ...this.state.tag, ready: false } });
-                          return false;
-                        }
+                      if (this.state.powerup.ready) {
+                        start();
+                        this.handlePowerUp(this.state.powerup.name);
+                        this.setState({ powerup: { ...this.state.powerup, ready: false } });
                       }
                     }}
                   >
-                    {this.state.tag.ready ? (
-                      this.state.tag.name
+                    {this.state.powerup.ready ? (
+                      this.state.powerup.name
                     ) : getTime() <= 0 ? (
-                      (this.setState({ tag: { ...this.state.tag, ready: true } }),
+                      (this.setState({ powerup: { ...this.state.powerup, ready: true } }),
                       reset(),
                       resume())
                     ) : (
@@ -489,12 +494,51 @@ export class GamePage extends Component {
                   </button>
                 )}
               </Timer>
-            ) : (
-              ""
-            )}
+              {this.state.isMarco ? (
+                <Timer
+                  initialTime={this.state.tag.cooldown}
+                  startImmediately={false}
+                  direction="backward"
+                  onStart={() => console.log("onStart hook")}
+                  onResume={() => console.log("onResume hook")}
+                  onReset={() => console.log("onReset hook")}
+                >
+                  {({ start, resume, reset, getTime }) => (
+                    <button
+                      className={tagClass}
+                      onClick={() => {
+                        if (this.state.tag.ready) {
+                          if (canTag) {
+                            tagPlayer(
+                              this.props.gameId,
+                              this.state.gameState.players[taggedPlayer]
+                            );
+                            start();
+                            this.setState({ tag: { ...this.state.tag, ready: false } });
+                            return false;
+                          }
+                        }
+                      }}
+                    >
+                      {this.state.tag.ready ? (
+                        this.state.tag.name
+                      ) : getTime() <= 0 ? (
+                        (this.setState({ tag: { ...this.state.tag, ready: true } }),
+                        reset(),
+                        resume())
+                      ) : (
+                        <Timer.Seconds />
+                      )}
+                    </button>
+                  )}
+                </Timer>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     } else {
       return <div></div>;
     }

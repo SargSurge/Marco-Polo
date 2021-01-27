@@ -52,19 +52,9 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-
         get('/api/matchHistory', {userId: this.props.userId}).then((res) => {
             this.setState({user: res.user, matches: res.matches})
         }).catch((e) => console.log(e))
-
-        this.setState({
-            winLoss: this.calculateWinLoss(this.state.matches),
-        });
-    }
-
-    calculateWinLoss = (matches) => {
-        const wins = matches.filter((match) => match.win === true);
-        return wins.length / matches.length;
     }
 
     render() {
@@ -79,7 +69,7 @@ export class Profile extends Component {
                                 {this.state.user ? this.state.user.name : 'Name'}
                             </div>
                             <div className="profile-header">
-                                Win / Loss : {this.state.winLoss}
+                                Win / Loss : {this.state.matches.filter((match) => match.win === true).length / (this.state.matches.filter((match) => match.win === false).length === 0 ? 1 : this.state.matches.filter((match) => match.win === false).length)}
                             </div>
                         </div>
                         <div className="profile-bottom">

@@ -396,6 +396,7 @@ router.post("/leaveGameState", (req, res) => {
             User.findOne({ googleid: req.user.googleid })
               .then((user) => {
                 user.matchHistory.push(match);
+                user.save();
               })
               .catch((e) => {
                 console.log(e);

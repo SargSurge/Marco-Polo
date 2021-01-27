@@ -33,7 +33,7 @@ tagPlayerUpdate = async (gameId, tagged) => {
   let stream = await GameState.findOneAndUpdate(
     { gameId: gameId },
     {
-      $set: {[toUpdate]: false},
+      $set: { [toUpdate]: false },
       $inc: { poloCaught: 1 },
       $push: { tagged: tagged },
       new: true,
