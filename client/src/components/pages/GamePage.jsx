@@ -136,7 +136,6 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-    setTimeout(() => {
       requestAnimationFrame(() => {
         let tempState = this.state.gameState || gamestate;
         let tempUser = this.state.user || user;
@@ -167,7 +166,6 @@ export class GamePage extends Component {
           this.gameLoop(gamestate, user);
         }
       });
-    }, 1000 / 60);
   };
 
   componentWillUnmount() {

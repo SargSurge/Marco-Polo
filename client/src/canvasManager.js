@@ -196,7 +196,7 @@ export const drawAllPlayers = (drawState, context, view, userId) => {
     //console.log(loadCountchar);
     if (drawState.players[id].active || id === userId) {
       if (drawState.players[id].role === "marco") {
-        context.shadowBlur = 10;
+        // context.shadowBlur = 10;
         context.shadowColor = "rgba(255, 141, 0, 1)";
         drawPlayer(context, x, y, "rgba(255, 141, 0, 1)", view);
       } else {
@@ -265,13 +265,10 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   canvasPlayer = document.getElementById("player-layer");
   if (!canvas) return;
   if (!canvasPlayer) return;
-  
 
   //canvas.offscreenCanvas.width = canvas.width;
   //canvas.offscreenCanvas.height = canvas.height;
-  
 
-  
   const context = canvas.getContext("2d");
   const playerContext = canvasPlayer.getContext("2d");
 
@@ -311,8 +308,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   //big map
 
-  
-
   view = {
     x: x + (mapData.width * tileSize) / 2 - canvas.width / 2,
     y: -y + (mapData.height * tileSize) / 2 - canvas.height / 2,
@@ -322,20 +317,20 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   //context.viewport(0, 0, canvas.width, canvas.height);
 
- // context.translate(
- //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
- //   +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
- // );
+  // context.translate(
+  //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
+  //   +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
+  // );
 
   playerContext.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
     +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
   );
 
- //  context.translate(
- //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
- //    y - (mapData.height * tileSize) / 2 + canvas.height / 2
- // );
+  //  context.translate(
+  //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
+  //    y - (mapData.height * tileSize) / 2 + canvas.height / 2
+  // );
 
   //context.clearRect(0, 0, canvas.width, canvas.height);
   //playerContext.clearRect(0, 0, canvas.width, canvas.height);
@@ -360,11 +355,19 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       //   playerContext.clip();
     }
   }
+  //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
+  //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
+  //);
 
-  
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  //  console.log(thermal);
+
+  //  if (drawState.players[userId].role === "marco") {
+  //    context.clearRect(0, 0, canvas.width, canvas.height);
+  //  }
 
   playerContext.globalCompositeOperation = "destination-out";
-  console.log(drawX - view.x,drawY - view.y);
+  console.log(drawX - view.x, drawY - view.y);
   fillCircle(playerContext, drawX - view.x, drawY - view.y, vision, "white");
   playerContext.globalCompositeOperation = "source-over";
   drawAllPlayers(drawState, playerContext, view, userId);
@@ -406,7 +409,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       }
     }
     drawn = true;
-    
   }
   context.save();
 };
