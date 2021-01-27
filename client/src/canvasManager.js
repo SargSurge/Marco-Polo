@@ -326,7 +326,8 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
  //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
   //);
 
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  //context.clearRect(0, 0, canvas.width, canvas.height);
+  playerContext.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
   if (drawState.players[userId].active) {
     if (thermal.active) {
