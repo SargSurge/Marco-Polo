@@ -105,8 +105,11 @@ export class GamePage extends Component {
                 this.gameLoop(currState, user);
               }
               socket.on("update", (gameState) => {
-                console.log(gameState.tagged);
-                this.setState({ gameState: gameState });
+                if (gameState !== "undefined") {
+                  this.setState({ gameState: gameState });
+                } else {
+                  console.log(gameState);
+                }
               });
             }
           );
