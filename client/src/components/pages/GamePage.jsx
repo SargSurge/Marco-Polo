@@ -352,7 +352,7 @@ export class GamePage extends Component {
           if (!this.state.gameState.players.hasOwnProperty(player)) continue;
           if (
             this.state.user._id !== player &&
-            //this.state.gameState.players[player].active &&
+            this.state.gameState.players[player].active &&
             Math.sqrt(
               Math.pow(this.state.gameState.players[player].position.x - this.state.position.x, 2) +
                 Math.pow(this.state.gameState.players[player].position.y - this.state.position.y, 2)
@@ -515,7 +515,6 @@ export class GamePage extends Component {
                             );
                             start();
                             this.setState({ tag: { ...this.state.tag, ready: false } });
-                            return false;
                           }
                         }
                       }}

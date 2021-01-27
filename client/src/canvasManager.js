@@ -193,18 +193,15 @@ export const drawAllPlayers = (drawState, context, view, userId) => {
     const { x, y } = drawState.players[id].position;
     // drawState.player.color
     //console.log(loadCountchar);
-
-    /////////// NASEEEEEEM HERRREEEE ///////////////
-
-    //if (drawState.players[id].active || id === userId) {
-    if (drawState.players[id].role === "marco") {
-      // context.shadowBlur = 10;
-      context.shadowColor = "rgba(255, 141, 0, 1)";
-      drawPlayer(context, x, y, "rgba(255, 141, 0, 1)", view);
-    } else {
-      context.shadowColor = "rgba(10, 126, 255, 1)";
-      drawPlayer(context, x, y, "rgba(10, 126, 255, 1)", view);
-      //   }
+    if (drawState.players[id].active || id === userId) {
+      if (drawState.players[id].role === "marco") {
+        // context.shadowBlur = 10;
+        context.shadowColor = "rgba(255, 141, 0, 1)";
+        drawPlayer(context, x, y, "rgba(255, 141, 0, 1)", view);
+      } else {
+        context.shadowColor = "rgba(10, 126, 255, 1)";
+        drawPlayer(context, x, y, "rgba(10, 126, 255, 1)", view);
+      }
     }
   });
 };
