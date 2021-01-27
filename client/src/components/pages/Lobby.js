@@ -15,7 +15,7 @@ class Lobby extends Component {
 
     // The array follows this schema: [min, default, max, step-size]
     this.settings = {
-      "General Settings": { "Time Limit": [2, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
+      "General Settings": { "Time Limit": [1, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
         "Vision Radius": [100, 100, 500, 5],
         "Illuminate Timer": [10, 40, 80, 5],

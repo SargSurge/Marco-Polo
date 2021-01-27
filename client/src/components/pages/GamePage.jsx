@@ -139,32 +139,23 @@ export class GamePage extends Component {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
       try {
-        let winner = null;
-        if (tempState.finalTime - new Date().getTime() <= 0) {
-          winner = "polo";
-        }
-        console.log(tempState.players, Object.keys(tempState.players));
-        console.log(tempState.poloCaught);
-        if (tempState.poloCaught === Object.keys(tempState.players).length - 1) {
-          winner = "marco";
-        }
-        if (Object.keys(tempState.players).length in [1, 2]) {
-          winner = null;
-        }
+        //let winner = null;
 
-        if (winner !== null) {
-          window.cancelAnimationFrame(frameID);
-          this.setState({
-            winner: winner,
-            gameState: { ...this.state.gameState, winner: winner },
-          });
-        } else {
-          this.updatePosition();
-          tempState.players[tempUser._id].position = this.state.position;
-          this.move(tempUser);
-          drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-          this.gameLoop(gamestate, user);
-        }
+        //console.log(tempState.players, Object.keys(tempState.players));
+        //console.log(tempState.poloCaught);
+
+        //if (winner !== null) {
+        //  window.cancelAnimationFrame(frameID);
+        // this.setState({
+        //    winner: winner,
+        //   gameState: { ...this.state.gameState, winner: winner },
+        // });
+        //} else {
+        this.updatePosition();
+        tempState.players[tempUser._id].position = this.state.position;
+        this.move(tempUser);
+        drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+        this.gameLoop(gamestate, user);
       } catch (e) {
         this.gameLoop(tempState, tempUser);
       }
@@ -384,7 +375,24 @@ export class GamePage extends Component {
           }
         }
       }
-      if (this.state.gameState.winner) {
+
+      let winner = null;
+      if (this.state.gameState.finalTime - new Date().getTime() <= 0) {
+        winner = "polo";
+      }
+      console.log(this.state.gameState.finalTime - new Date().getTime());
+      if (
+        this.state.gameState.poloCaught ===
+        Object.keys(this.state.gameState.players).length - 1
+      ) {
+        winner = "marco";
+      }
+      if (Object.keys(this.state.gameState.players).length in [1, 2]) {
+        winner = null;
+      }
+      console.log(this.state.gameState, winner);
+
+      if (winner) {
         let headerClass = null;
         let buttonClass = null;
         if (this.state.gameState.winner === "marco") {
@@ -398,9 +406,7 @@ export class GamePage extends Component {
         return (
           <div className="gamepage-base-end">
             <div className={headerClass}>
-              <div className="gamepage-end-header">
-                Congrats to the {this.state.gameState.winner}
-              </div>
+              <div className="gamepage-end-header">Congrats to the {winner}</div>
               <button
                 id="leavegame"
                 className={buttonClass}
