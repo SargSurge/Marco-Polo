@@ -45,7 +45,7 @@ tagPlayerUpdate = async (gameId, tagged) => {
 tagPlayerWrapper = (gameId, tagged) => {
   let stream = tagPlayerUpdate(gameId, tagged);
   gameStates[gameId] = stream;
-  //return stream;
+  return stream;
 };
 
 module.exports = {

@@ -105,6 +105,7 @@ export class GamePage extends Component {
                 this.gameLoop(currState, user);
               }
               socket.on("update", (gameState) => {
+                console.log(gameState.tagged);
                 this.setState({ gameState: gameState });
               });
             }
@@ -113,7 +114,7 @@ export class GamePage extends Component {
       });
     } catch (e) {
       navigate("/");
-      window.location = window.location;
+      window.location.reload();
     }
   }
 
@@ -380,7 +381,7 @@ export class GamePage extends Component {
       if (this.state.gameState.finalTime - new Date().getTime() <= 0) {
         winner = "polo";
       }
-      console.log(this.state.gameState.finalTime - new Date().getTime());
+      //console.log(this.state.tag);
       if (
         this.state.gameState.poloCaught ===
         Object.keys(this.state.gameState.players).length - 1
@@ -390,7 +391,7 @@ export class GamePage extends Component {
       if (Object.keys(this.state.gameState.players).length in [1, 2]) {
         winner = null;
       }
-      console.log(this.state.gameState, winner);
+      //console.log(this.state.gameState, winner);
 
       if (winner) {
         let headerClass = null;
