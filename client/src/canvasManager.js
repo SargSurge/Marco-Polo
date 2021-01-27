@@ -301,10 +301,8 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   context.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
+    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
   );
-
- 
 
   //context.viewport(0, 0, canvas.width, canvas.height);
   /*
@@ -318,29 +316,34 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       view.y
   );*/
 
- // context.translate(
+  // context.translate(
   //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
- //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
+  //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
   //);
 
+<<<<<<< HEAD
 //  context.clearRect(0, 0, canvas.width, canvas.height);
 //  console.log(thermal);
+=======
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  //  console.log(thermal);
+>>>>>>> 76e04cf7bf0bcb83fc396e026bf77b5fa9d81a3b
   if (drawState.players[userId].active) {
-   if (thermal.active) {
+    if (thermal.active) {
       if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-       context.beginPath();
-       context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-       context.clip();
-     } else {
-       context.beginPath();
-       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-       context.clip();
-     }
-   } else {
+        context.beginPath();
+        context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
+        context.clip();
+      } else {
+        context.beginPath();
+        context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+        context.clip();
+      }
+    } else {
       context.beginPath();
       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
       context.clip();
-   }
+    }
   }
 
   if (drawState.players[userId].role === "marco") {
