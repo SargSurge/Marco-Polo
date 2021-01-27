@@ -143,16 +143,19 @@ export class GamePage extends Component {
         if (tempState.finalTime - new Date().getTime() <= 0) {
           winner = "polo";
         }
-
+        console.log(tempState.players, Object.keys(tempState.players));
         if (tempState.poloCaught === Object.keys(tempState.players).length - 1) {
           winner = "marco";
+        }
+        if (Object.keys(tempState.players).length in [1, 2]) {
+          winner = null;
         }
 
         if (winner !== null) {
           window.cancelAnimationFrame(frameID);
           this.setState({
             winner: winner,
-            gameState: { ...tempState, winner: winner },
+            gameState: { ...this.state.gameState, winner: winner },
           });
         } else {
           try {
