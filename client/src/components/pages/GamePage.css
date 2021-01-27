@@ -162,3 +162,69 @@ canvas {
 #player-layer {z-index : 24}
 #map-layer {z-index : 20}
 
+
+.gamepage-base-end {
+    overflow: hidden;
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: revealTimer 3s linear;
+}
+
+.gamepage-end-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 50%;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.gamepage-header-marco {
+    background-color: #ff8d00;
+    box-shadow: 0 0 12px 8px #ff8d00;
+}
+
+.gamepage-header-polo {
+    background-color: #459bc5;
+    box-shadow: 0 0 12px 8px #459bc5;
+}
+
+
+
+.gamepage-end-header {
+    color: white;
+    font-family: Orbitron;
+    border-bottom: 4px solid;
+    font-size: 50px;
+    margin-bottom: 80px;
+}
+
+.gamepage-ui-button-end {
+    font-family: 'Orbitron';
+    width: 250px;
+    font-size: 25px;
+    height: 100px;
+    box-shadow: 0 0 8px 1px;
+    background: #262626;
+}
+
+gamepage-leavegame-button-end {
+    height: 75px;
+    width: 100px;
+    z-index: 30;
+}
+
+.gamepage-button-marco {
+    color: #459bc5;
+    border: 1px solid #459bc5;
+}
+
+.gamepage-button-polo {
+    color: #ff8d00;
+    border: 1px solid #ff8d00;
+}
