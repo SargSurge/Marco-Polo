@@ -18,12 +18,12 @@ class Lobby extends Component {
       "General Settings": { "Time Limit": [1, 6, 10, 1], "Map Size": [1, 2, 2, 1] },
       "Marco Settings": {
         "Vision Radius": [100, 100, 500, 5],
-        "Illuminate Timer": [10, 40, 80, 5],
+        "Illuminate Timer": [10, 20, 80, 5],
         "Tag Timer": [10, 20, 50, 5],
       },
       "Polo Settings": {
         "Vision Radius": [100, 250, 500, 5],
-        "Warp Timer": [0, 40, 80, 5],
+        "Warp Timer": [0, 20, 80, 5],
       },
     };
 

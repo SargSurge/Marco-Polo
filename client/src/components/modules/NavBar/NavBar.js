@@ -16,7 +16,6 @@ class NavBar extends Component {
   }
 
   leaveGame = (user) => {
-    console.log(user);
     post("/api/leavegame", {user: user}).then(() => navigate("/"));
   }
 

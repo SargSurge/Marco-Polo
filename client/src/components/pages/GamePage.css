@@ -99,9 +99,9 @@ html, body {
 .gamepage-character-header {
     font-family: Orbitron;
     font-size: 25px;
-    color: red;
+    color: #459bc5;
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 20px;
     z-index: 30;
 }
@@ -151,15 +151,19 @@ html, body {
     outline: none;
 }
 
-
 canvas {
     position : absolute;
     bottom: 0;
     top: 0;
     background-color: transparent;
 }
-
-#player-layer {z-index : 24}
+/*
+#darkness-layer {
+    z-index : 22;
+    background-color: transparent;
+}*/
+#player-layer {z-index : 21;
+    background-color:transparent;}
 #map-layer {z-index : 20}
 
 
@@ -171,6 +175,26 @@ canvas {
     justify-content: center;
     align-items: center;
     animation: revealTimer 3s linear;
+}
+
+.gamepage-charactar-counter {
+    font-family: Orbitron;
+    font-size: 25px;
+    color: #0eff00;
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    z-index: 30;
+}
+
+.gamepage-currentMarco {
+    font-family: Orbitron;
+    font-size: 25px;
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 30;
 }
 
 .gamepage-end-container {
@@ -222,9 +246,23 @@ gamepage-leavegame-button-end {
 .gamepage-button-marco {
     color: #459bc5;
     border: 1px solid #459bc5;
+    transition: all 0.2s;
 }
 
 .gamepage-button-polo {
     color: #ff8d00;
     border: 1px solid #ff8d00;
+    transition: all 0.2s;
+}
+
+.gamepage-button-polo:hover {
+    color: black;
+    background-color: #ff8d00;
+    text-decoration: none;
+}
+
+.gamepage-button-marco:hover {
+    color: black;
+    background-color: #459bc5;
+    text-decoration: none;
 }

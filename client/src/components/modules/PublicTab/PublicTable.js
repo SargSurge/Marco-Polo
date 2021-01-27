@@ -34,9 +34,6 @@ export class PublicTable extends Component {
         this.setState({ user: user });
       });
     }
-   // post("/api/confirmActive", {}).then((lobbies) => {
-   //   this.setState({ lobbies: lobbies });
-   // });
   }
 
   componentWillUnmount() {
