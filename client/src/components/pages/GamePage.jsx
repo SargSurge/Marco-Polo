@@ -113,6 +113,7 @@ export class GamePage extends Component {
         });
       });
     } catch (e) {
+      console.log(e);
       navigate("/");
       window.location.reload();
     }
@@ -136,27 +137,15 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-    let frameID = window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
       try {
-        //let winner = null;
-
-        //console.log(tempState.players, Object.keys(tempState.players));
-        //console.log(tempState.poloCaught);
-
-        //if (winner !== null) {
-        //  window.cancelAnimationFrame(frameID);
-        // this.setState({
-        //    winner: winner,
-        //   gameState: { ...this.state.gameState, winner: winner },
-        // });
-        //} else {
         this.updatePosition();
         tempState.players[tempUser._id].position = this.state.position;
         this.move(tempUser);
         drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-        this.gameLoop(gamestate, user);
+        this.gameLoop(tempState, tempUser);
       } catch (e) {
         this.gameLoop(tempState, tempUser);
       }
