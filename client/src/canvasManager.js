@@ -320,48 +320,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     h: canvas.height,
   };
 
-<<<<<<< HEAD
-  //context.viewport(0, 0, canvas.width, canvas.height);
-
-  // context.translate(
-  //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-  //   +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
-  // );
-
-  playerContext.translate(
-    -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
-  );
-
-  //  context.translate(
-  //   -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
-  //    y - (mapData.height * tileSize) / 2 + canvas.height / 2
-  // );
-
-  //context.clearRect(0, 0, canvas.width, canvas.height);
-  //playerContext.clearRect(0, 0, canvas.width, canvas.height);
-  //console.log(thermal);
-  playerContext.fillStyle = "black";
-  playerContext.fillRect(0, 0, canvas.width, canvas.height);
-
-  if (drawState.players[userId].active) {
-    if (thermal.active) {
-      if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-        playerContext.beginPath();
-        playerContext.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-        playerContext.clip();
-      } else {
-        playerContext.beginPath();
-        playerContext.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-        playerContext.clip();
-      }
-    } else {
-      playerContext.beginPath();
-      playerContext.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-      //   playerContext.clip();
-    }
-  }
-=======
   context.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
     +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
@@ -380,15 +338,12 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   );*/
 
   // context.translate(
->>>>>>> 608c8b7620b1b46635ba800ca6bc9ee69bd3f887
   //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
   //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
   //);
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   //  console.log(thermal);
-<<<<<<< HEAD
-=======
   if (drawState.players[userId].active) {
     if (thermal.active) {
       if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
@@ -406,7 +361,6 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
       context.clip();
     }
   }
->>>>>>> 608c8b7620b1b46635ba800ca6bc9ee69bd3f887
 
   //  if (drawState.players[userId].role === "marco") {
   //    context.clearRect(0, 0, canvas.width, canvas.height);
