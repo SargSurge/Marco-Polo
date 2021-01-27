@@ -458,7 +458,6 @@ export class GamePage extends Component {
                   : " 0"}
                 {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
               </div>
-              )
               <div className="gamepage-character-header">
                 You're a{" "}
                 {this.state.isMarco
@@ -505,7 +504,6 @@ export class GamePage extends Component {
                   </button>
                 )}
               </Timer>
-              )
               {this.state.isMarco ? (
                 <Timer
                   initialTime={this.state.tag.cooldown}
