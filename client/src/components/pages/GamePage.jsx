@@ -114,7 +114,7 @@ export class GamePage extends Component {
       });
     } catch (e) {
       navigate("/");
-      window.location = window.location;
+      window.location.reload();
     }
   }
 
