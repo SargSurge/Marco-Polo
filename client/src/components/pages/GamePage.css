@@ -99,9 +99,9 @@ html, body {
 .gamepage-character-header {
     font-family: Orbitron;
     font-size: 25px;
-    color: red;
+    color: #459bc5;
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 20px;
     z-index: 30;
 }
@@ -175,6 +175,26 @@ canvas {
     justify-content: center;
     align-items: center;
     animation: revealTimer 3s linear;
+}
+
+.gamepage-charactar-counter {
+    font-family: Orbitron;
+    font-size: 25px;
+    color: #0eff00;
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    z-index: 30;
+}
+
+.gamepage-currentMarco {
+    font-family: Orbitron;
+    font-size: 25px;
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 30;
 }
 
 .gamepage-end-container {
