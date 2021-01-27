@@ -81,10 +81,6 @@ export class GamePage extends Component {
             this.processUpdate(currState, user);
           }
           let isMarco = currState.players[user._id].role == "marco";
-          console.log(currState.settings.marcoRadar);
-          console.log(
-            isMarco ? currState.settings.marcoRadar * 1000 : currState.settings.poloTP * 1000
-          );
           this.setState(
             {
               user: user,
@@ -139,7 +135,6 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-    setTimeout(() => {
       requestAnimationFrame(() => {
         let tempState = this.state.gameState || gamestate;
         let tempUser = this.state.user || user;
@@ -170,7 +165,6 @@ export class GamePage extends Component {
           this.gameLoop(gamestate, user);
         }
       });
-    }, 1000 / 60);
   };
 
   componentWillUnmount() {
@@ -369,7 +363,6 @@ export class GamePage extends Component {
       let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
       let taggedPlayer = null;
       if (this.state.isMarco) {
-        console.log("Outside LOOP", this.state.gameState.players);
         for (let player in this.state.gameState.players) {
           if (!this.state.gameState.players.hasOwnProperty(player)) continue;
           if (

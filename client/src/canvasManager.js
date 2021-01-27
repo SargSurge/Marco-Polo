@@ -195,7 +195,7 @@ export const drawAllPlayers = (drawState, context, view, userId) => {
     //console.log(loadCountchar);
     if (drawState.players[id].active || id === userId) {
       if (drawState.players[id].role === "marco") {
-        context.shadowBlur = 10;
+        // context.shadowBlur = 10;
         context.shadowColor = "rgba(255, 141, 0, 1)";
         drawPlayer(context, x, y, "rgba(255, 141, 0, 1)", view);
       } else {
@@ -287,6 +287,11 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   //big map
 
+  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  }
+
   view = {
     x: x + (mapData.width * tileSize) / 2 - canvas.width / 2,
     y: -y + (mapData.height * tileSize) / 2 - canvas.height / 2,
@@ -294,10 +299,12 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     h: canvas.height,
   };
 
-  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-  }
+  context.translate(
+    -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
+    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
+  );
+
+ 
 
   //context.viewport(0, 0, canvas.width, canvas.height);
   /*
@@ -317,24 +324,24 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   //);
 
   context.clearRect(0, 0, canvas.width, canvas.height);
-  //console.log(thermal);
-  //if (drawState.players[userId].active) {
-  //  if (thermal.active) {
-  ///    if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-  //      context.beginPath();
-  //      context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-   //     context.clip();
-   //   } else {
-   //     context.beginPath();
-    //    context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-   //     context.clip();
-  //    }
-   // } else {
+//  console.log(thermal);
+  if (drawState.players[userId].active) {
+   if (thermal.active) {
+      if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
+       context.beginPath();
+       context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
+       context.clip();
+     } else {
+       context.beginPath();
+       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+       context.clip();
+     }
+   } else {
       context.beginPath();
       context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
       context.clip();
-   // }
-  //}
+   }
+  }
 
   if (drawState.players[userId].role === "marco") {
     context.clearRect(0, 0, canvas.width, canvas.height);
