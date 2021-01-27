@@ -389,7 +389,7 @@ export class GamePage extends Component {
       if (winner) {
         let headerClass = null;
         let buttonClass = null;
-        if (this.state.gameState.winner === "marco") {
+        if (winner === "marco") {
           headerClass = "gamepage-header-marco gamepage-end-container";
           buttonClass =
             "gamepage-button-marco gamepage-ui-button-end gamepage-leavegame-button-end";
@@ -407,7 +407,6 @@ export class GamePage extends Component {
                 onClick={() => {
                   post("/api/leaveGameState", { gameId: this.props.gameId, winner: winner })
                     .then(() => {
-                      alert("Leaving Game!");
                       navigate("/");
                       window.location.reload();
                     })
@@ -431,7 +430,6 @@ export class GamePage extends Component {
                 onClick={() => {
                   post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                     .then(() => {
-                      alert("Leaving Game!");
                       navigate("/");
                       window.location.reload();
                     })
