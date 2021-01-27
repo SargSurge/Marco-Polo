@@ -226,9 +226,23 @@ gamepage-leavegame-button-end {
 .gamepage-button-marco {
     color: #459bc5;
     border: 1px solid #459bc5;
+    transition: all 0.2s;
 }
 
 .gamepage-button-polo {
     color: #ff8d00;
     border: 1px solid #ff8d00;
+    transition: all 0.2s;
+}
+
+.gamepage-button-polo:hover {
+    color: black;
+    background-color: #ff8d00;
+    text-decoration: none;
+}
+
+.gamepage-button-marco:hover {
+    color: black;
+    background-color: #459bc5;
+    text-decoration: none;
 }
