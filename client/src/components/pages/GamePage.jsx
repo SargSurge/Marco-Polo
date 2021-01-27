@@ -300,7 +300,7 @@ export class GamePage extends Component {
       this.setState({
         position: newPos,
       });
-    } else if (gameState.mapSize === 1) {
+    } else if (gameState.settings.mapSize === 1) {
       let newPos = smallMapCoords[Object.keys(gameState.players).indexOf(user._id)];
       this.setState({
         position: newPos,
