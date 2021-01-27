@@ -144,6 +144,7 @@ export class GamePage extends Component {
           winner = "polo";
         }
         console.log(tempState.players, Object.keys(tempState.players));
+        console.log(tempState.poloCaught);
         if (tempState.poloCaught === Object.keys(tempState.players).length - 1) {
           winner = "marco";
         }
@@ -158,18 +159,14 @@ export class GamePage extends Component {
             gameState: { ...this.state.gameState, winner: winner },
           });
         } else {
-          try {
-            this.updatePosition();
-            tempState.players[tempUser._id].position = this.state.position;
-            this.move(tempUser);
-            drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-            this.gameLoop(gamestate, user);
-          } catch (e) {
-            this.gameLoop(tempState, tempUser);
-          }
+          this.updatePosition();
+          tempState.players[tempUser._id].position = this.state.position;
+          this.move(tempUser);
+          drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+          this.gameLoop(gamestate, user);
         }
       } catch (e) {
-        console.log(e);
+        this.gameLoop(tempState, tempUser);
       }
     });
   };
