@@ -49,7 +49,7 @@ class NavBarDropdown extends Component {
                 <ExpandMoreIcon />
               </a>
               <ol className="sub-menu">
-                <li className="menu-item">How to Play</li>
+                <li className="menu-item" onClick={() => navigate('/howto')}>How to Play</li>
                 <li className="menu-item" onClick={() => navigate(`/profile/${this.props.user.googleid}`)}>Profile</li>
                 <li className="menu-item"> {this.props.logoutButton}</li>
               </ol>
