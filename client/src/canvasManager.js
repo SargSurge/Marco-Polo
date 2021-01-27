@@ -7,9 +7,10 @@ let json;
 let mapData;
 let map;
 let canvas;
+let canvasPlayer;
 let isMarco = false;
 let loadCountchar = 0;
-
+let drawn;
 let camera;
 let numx;
 let numy;
@@ -261,9 +262,21 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   numx = json.width;
   numy = json.height;
   canvas = document.getElementById("map-layer");
-  canvasPlayer = document.getElementById("map-layer");
-
+  canvasPlayer = document.getElementById("player-layer");
   if (!canvas) return;
+  if (!canvasPlayer) return;
+  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    canvasPlayer.width = canvas.clientWidth;
+    canvasPlayer.height = canvas.clientHeight;
+  }
+
+  //canvas.offscreenCanvas.width = canvas.width;
+  //canvas.offscreenCanvas.height = canvas.height;
+  
+
+  
   const context = canvas.getContext("2d");
   const playerContext = canvasPlayer.getContext("2d");
 
@@ -277,13 +290,17 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   //canvas.setAttribute("width", style_width * dpi);
   //{players: [{x: 0, y: 0, color: white}]}
 
-  context.setTransform(1, 0, 0, 1, 0, 0);
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  if (!drawn) {
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  } else {
+    context.restore();
+  }
 
   playerContext.setTransform(1, 0, 0, 1, 0, 0);
   playerContext.clearRect(0, 0, canvas.width, canvas.height);
 
-  context.save();
+  playerContext.save();
 
   const { x, y } = drawState.players[userId].position;
   const { drawX, drawY } = convertCoordToCanvas(x, y);
@@ -292,12 +309,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   //big map
 
-  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    canvasPlayer.width = canvas.clientWidth;
-    canvasPlayer.height = canvas.clientHeight;
-  }
+  
 
   view = {
     x: x + (mapData.width * tileSize) / 2 - canvas.width / 2,
@@ -306,85 +318,93 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     h: canvas.height,
   };
 
-  
   //context.viewport(0, 0, canvas.width, canvas.height);
-  
+
   context.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
+    y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
   );
 
   playerContext.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
-  )
+    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
+  );
 
-
-
- // context.translate(
+  // context.translate(
   //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
- //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
+  //   y - (mapData.height * tileSize) / 2 + canvas.height / 2
   //);
 
   //context.clearRect(0, 0, canvas.width, canvas.height);
-  playerContext.clearRect(0, 0, canvas.width, canvas.height);
+  //playerContext.clearRect(0, 0, canvas.width, canvas.height);
   //console.log(thermal);
+  playerContext.fillStyle = "black";
+  playerContext.fillRect(0, 0, canvas.width, canvas.height);
+
   if (drawState.players[userId].active) {
     if (thermal.active) {
       if (Math.floor((new Date().getTime() - thermal.time) / 1000) % 2 == 0) {
-        context.beginPath();
-        context.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
-        context.clip();
+        playerContext.beginPath();
+        playerContext.arc(drawX - view.x, drawY - view.y, 3 * vision, 0, 2 * Math.PI, false);
+        playerContext.clip();
       } else {
-        context.beginPath();
-        context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-        context.clip();
+        playerContext.beginPath();
+        playerContext.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+        playerContext.clip();
       }
     } else {
-      context.beginPath();
-      context.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
-      context.clip();
+      playerContext.beginPath();
+      playerContext.arc(drawX - view.x, drawY - view.y, vision, 0, 2 * Math.PI, false);
+      //   playerContext.clip();
     }
   }
 
-  if (drawState.players[userId].role === "marco") {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  }
+  console.log(drawX,drawY);
 
-  for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
-    if (json.layers[layer_ind].type != "tilelayer") continue;
-    let d = json.layers[layer_ind].data;
+  playerContext.globalCompositeOperation = "destination-out";
 
-    for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
-      let t_id = d[tile_ind];
-      if (t_id == 0) continue;
+  fillCircle(playerContext, drawX - view.x, drawY - view.y, vision, "white");
+  playerContext.globalCompositeOperation = "source-over";
+  drawAllPlayers(drawState, playerContext, view, userId);
+  playerContext.restore();
 
-      let worldX = Math.floor(tile_ind % numx) * tilesizex;
-      let worldY = Math.floor(tile_ind / numy) * tilesizey;
-      worldX -= view.x;
-      worldY -= view.y;
+  //fillCircle(playerContext, x, y, 3*vision, "white");
 
-      let tpkt;
-      tpkt = getTile(t_id, tilesets);
-      context.drawImage(
-        tpkt.img,
-        tpkt.px,
-        tpkt.py,
-        tilesizex,
-        tilesizey,
-        worldX,
-        worldY,
-        tilesizex,
-        tilesizey
-      );
-    }
-  }
-  // if (isMarco) {
-  //   drawPlayer(context, x, y, marco, view);
-  //} else {
-  //  drawPlayer(context, x, y, polo, view);
+  //if (drawState.players[userId].role === "marco") {
+  //playerContext.clearRect(0, 0, canvas.width, canvas.height);
   //}
-  //console.log(marco_img);
-  drawAllPlayers(drawState, context, view, userId);
-  context.restore();
+
+  if (!drawn) {
+    for (let layer_ind = 0; layer_ind < json.layers.length; layer_ind++) {
+      if (json.layers[layer_ind].type != "tilelayer") continue;
+      let d = json.layers[layer_ind].data;
+
+      for (let tile_ind = 0; tile_ind < d.length; tile_ind++) {
+        let t_id = d[tile_ind];
+        if (t_id == 0) continue;
+
+        let worldX = Math.floor(tile_ind % numx) * tilesizex;
+        let worldY = Math.floor(tile_ind / numy) * tilesizey;
+        worldX -= view.x;
+        worldY -= view.y;
+
+        let tpkt;
+        tpkt = getTile(t_id, tilesets);
+        context.drawImage(
+          tpkt.img,
+          tpkt.px,
+          tpkt.py,
+          tilesizex,
+          tilesizey,
+          worldX,
+          worldY,
+          tilesizex,
+          tilesizey
+        );
+      }
+    }
+    drawn = true;
+    
+  }
+  context.save();
 };

@@ -157,7 +157,12 @@ canvas {
     top: 0;
     background-color: transparent;
 }
-
-#player-layer {z-index : 24}
+/*
+#darkness-layer {
+    z-index : 22;
+    background-color: transparent;
+}*/
+#player-layer {z-index : 21;
+    background-color:transparent;}
 #map-layer {z-index : 20}
 
