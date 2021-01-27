@@ -151,15 +151,19 @@ html, body {
     outline: none;
 }
 
-
 canvas {
     position : absolute;
     bottom: 0;
     top: 0;
     background-color: transparent;
 }
-
-#player-layer {z-index : 24}
+/*
+#darkness-layer {
+    z-index : 22;
+    background-color: transparent;
+}*/
+#player-layer {z-index : 21;
+    background-color:transparent;}
 #map-layer {z-index : 20}
 
 
