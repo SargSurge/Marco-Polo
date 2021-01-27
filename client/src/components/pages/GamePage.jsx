@@ -81,12 +81,21 @@ export class GamePage extends Component {
             this.processUpdate(currState, user);
           }
           let isMarco = currState.players[user._id].role == "marco";
+          let currMarco = null;
+          for (let player in currState.players) {
+            if (!currState.players.hasOwnProperty(player)) continue;
+            if (currState.players[player].role === "marco") {
+              currMarco = currState.players[player].user.name;
+              break;
+            }
+          }
           this.setState(
             {
               user: user,
               gameState: currState,
               finalTime: currState.finalTime,
               isMarco: isMarco,
+              marco: currMarco,
               powerup: {
                 name: isMarco ? "Illuminate" : "Warp",
                 cooldown: isMarco
@@ -438,7 +447,21 @@ export class GamePage extends Component {
               >
                 Leave Game
               </button>
-              <div className="gamepage-header">Welcome to Marco Polo!</div>
+              <div className="gamepage-currentMarco">{this.state.marco} is Marco</div>
+              <div className="gamepage-character-header">
+                You're a{" "}
+                {this.state.isMarco
+                  ? "Marco!"
+                  : this.state.gameState.players[this.state.user._id].active
+                  ? "Polo!"
+                  : "Ghost!"}
+              </div>
+              <div className="gamepage-charactar-counter">
+                Polo's Left:{" "}
+                {Object.keys(this.state.gameState.players).length -
+                  1 -
+                  this.state.gameState.poloCaught}
+              </div>
               <div className="gamepage-timer">
                 {Math.floor((this.state.gameState.finalTime - new Date().getTime()) / 1000 / 60)} :
                 {Math.floor(
