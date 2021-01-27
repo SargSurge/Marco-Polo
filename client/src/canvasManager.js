@@ -367,7 +367,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   //  }
 
   playerContext.globalCompositeOperation = "destination-out";
-  console.log(drawX - view.x, drawY - view.y);
+  //console.log(drawX - view.x, drawY - view.y);
   fillCircle(playerContext, drawX - view.x, drawY - view.y, vision, "white");
   playerContext.globalCompositeOperation = "source-over";
   drawAllPlayers(drawState, playerContext, view, userId);

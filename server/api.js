@@ -356,7 +356,6 @@ router.post("/startGame", (req, res) => {
           if (err) {
             console.log(err);
           } else {
-            console.log(doc);
           }
         }
       );
@@ -433,7 +432,6 @@ router.post("/leaveGameState", (req, res) => {
         if (err) {
           console.log(err);
         }
-        //console.log(doc);
       }
     );
   }

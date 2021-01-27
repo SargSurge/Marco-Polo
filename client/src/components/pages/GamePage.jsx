@@ -117,7 +117,7 @@ export class GamePage extends Component {
                 if (typeof gameState.tagged !== "undefined") {
                   this.setState({ gameState: gameState });
                 } else {
-                  console.log(gameState);
+                  //console.log(gameState);
                 }
               });
             }

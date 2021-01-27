@@ -49,7 +49,6 @@ const userLeaveGame = (socket) => {
     let user = getUserFromSocketID(socket.id);
 
     if (user) {
-      console.log(user);
       let gameId = roomKeys[0];
       Room.findOne({ gameId: gameId }).then((room) => {
         if (room) {
@@ -59,7 +58,6 @@ const userLeaveGame = (socket) => {
           if (index != -1) {
             room.players.splice(index, 1);
           }
-          console.log(room.players, index);
           room
             .save()
             .then((room) => {
@@ -80,7 +78,6 @@ const userLeaveGame = (socket) => {
           if (err) {
             console.log(err);
           }
-          //console.log(doc);
         }
       );
     }
