@@ -106,13 +106,18 @@ export class GamePage extends Component {
               }
               socket.on("update", (gameState) => {
                 console.log(gameState.tagged);
-                this.setState({ gameState: gameState });
+                if (typeof gameState.tagged !== "undefined") {
+                  this.setState({ gameState: gameState });
+                } else {
+                  console.log(gameState);
+                }
               });
             }
           );
         });
       });
     } catch (e) {
+      console.log(e);
       navigate("/");
       window.location.reload();
     }
@@ -136,27 +141,15 @@ export class GamePage extends Component {
   }
 
   gameLoop = (gamestate, user) => {
-    let frameID = window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       let tempState = this.state.gameState || gamestate;
       let tempUser = this.state.user || user;
       try {
-        //let winner = null;
-
-        //console.log(tempState.players, Object.keys(tempState.players));
-        //console.log(tempState.poloCaught);
-
-        //if (winner !== null) {
-        //  window.cancelAnimationFrame(frameID);
-        // this.setState({
-        //    winner: winner,
-        //   gameState: { ...this.state.gameState, winner: winner },
-        // });
-        //} else {
         this.updatePosition();
         tempState.players[tempUser._id].position = this.state.position;
         this.move(tempUser);
         drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-        this.gameLoop(gamestate, user);
+        this.gameLoop(tempState, tempUser);
       } catch (e) {
         this.gameLoop(tempState, tempUser);
       }
@@ -396,7 +389,7 @@ export class GamePage extends Component {
       if (winner) {
         let headerClass = null;
         let buttonClass = null;
-        if (this.state.gameState.winner === "marco") {
+        if (winner === "marco") {
           headerClass = "gamepage-header-marco gamepage-end-container";
           buttonClass =
             "gamepage-button-marco gamepage-ui-button-end gamepage-leavegame-button-end";
@@ -414,7 +407,6 @@ export class GamePage extends Component {
                 onClick={() => {
                   post("/api/leaveGameState", { gameId: this.props.gameId, winner: winner })
                     .then(() => {
-                      alert("Leaving Game!");
                       navigate("/");
                       window.location.reload();
                     })
@@ -438,7 +430,6 @@ export class GamePage extends Component {
                 onClick={() => {
                   post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                     .then(() => {
-                      alert("Leaving Game!");
                       navigate("/");
                       window.location.reload();
                     })
@@ -526,7 +517,6 @@ export class GamePage extends Component {
                             );
                             start();
                             this.setState({ tag: { ...this.state.tag, ready: false } });
-                            return false;
                           }
                         }
                       }}
