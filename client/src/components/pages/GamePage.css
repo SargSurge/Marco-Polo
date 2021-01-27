@@ -56,10 +56,10 @@ html, body {
     overflow: hidden;
 }
 
-
 .gamepage-canvas-container {
     position: relative;
-
+    width: 100vw;
+    height: 100vh;
 }
 
 .gamepage-header {
@@ -128,12 +128,14 @@ html, body {
 .gamepage-powerup-button {
     bottom: 186px;
     right: 23px;
+    z-index: 30;
 
 }
 
 .gamepage-tag-button {
     bottom: 71px;
     right: 23px;
+    z-index: 30;
 }
 
 .gamepage-tag-disabled {
@@ -151,17 +153,11 @@ html, body {
 
 canvas {
     position : absolute;
-    left:0px;
-    top:0px;
+    bottom: 0;
+    top: 0;
     background-color: transparent;
 }
 
-
-#ui-layer {z-index : 4}
-#darkness-layer {
-    z-index : 1;
-    background-color: transparent;
-}
 #player-layer {z-index : 24}
 #map-layer {z-index : 20}
 

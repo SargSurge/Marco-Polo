@@ -265,6 +265,7 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   if (!canvas) return;
   const context = canvas.getContext("2d");
+  const playerContext = canvasPlayer.getContext("2d");
 
   // Makes the canvas responsive to width changes
 
@@ -279,6 +280,9 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
   context.setTransform(1, 0, 0, 1, 0, 0);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
+  playerContext.setTransform(1, 0, 0, 1, 0, 0);
+  playerContext.clearRect(0, 0, canvas.width, canvas.height);
+
   context.save();
 
   const { x, y } = drawState.players[userId].position;
@@ -288,6 +292,13 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
 
   //big map
 
+  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    canvasPlayer.width = canvas.clientWidth;
+    canvasPlayer.height = canvas.clientHeight;
+  }
+
   view = {
     x: x + (mapData.width * tileSize) / 2 - canvas.width / 2,
     y: -y + (mapData.height * tileSize) / 2 - canvas.height / 2,
@@ -295,16 +306,20 @@ export const drawCanvas = (drawState, userId, tilesets, initial, thermal) => {
     h: canvas.height,
   };
 
-  if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-  }
+  
   //context.viewport(0, 0, canvas.width, canvas.height);
   
   context.translate(
     -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
-    y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y
+    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
   );
+
+  playerContext.translate(
+    -x - (mapData.width * tileSize) / 2 + canvas.width / 2 + view.x,
+    +y - (mapData.height * tileSize) / 2 + canvas.height / 2 + view.y,
+  )
+
+
 
  // context.translate(
   //  -x - (mapData.width * tileSize) / 2 + canvas.width / 2,
