@@ -44,7 +44,7 @@ export class GamePage extends Component {
         ready: true,
       },
       tag: {
-        name: "Tag",
+        name: "Tag  [Space]",
         cooldown: 30000,
         ready: true,
       },
@@ -53,7 +53,8 @@ export class GamePage extends Component {
 
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeyDown);
-    document.addEventListener("keyup", this.handleKeyUp);
+    window.addEventListener("keyup", this.handleKeyUp);
+    window.addEventListener("keypress", this.handleKeyPress);
 
     loadCount = 0;
     for (let i = 0; i < json.tilesets.length; i++) {
@@ -88,14 +89,14 @@ export class GamePage extends Component {
               finalTime: currState.finalTime,
               isMarco: isMarco,
               powerup: {
-                name: isMarco ? "Illuminate" : "Warp",
+                name: isMarco ? "Illuminate  [E]" : "Warp  [Space]",
                 cooldown: isMarco
                   ? currState.settings.marcoRadar * 1000
                   : currState.settings.poloTP * 1000,
                 ready: true,
               },
               tag: {
-                name: "Tag",
+                name: "Tag [Space]",
                 cooldown: currState.settings.marcoTimer * 1000,
                 ready: true,
               },
@@ -159,20 +160,25 @@ export class GamePage extends Component {
   componentWillUnmount() {
     window.removeEventListener("keydown", this.handleKeyDown);
     window.removeEventListener("keyup", this.handleKeyUp);
+    window.removeEventListener("keypress", this.handleKeyPress);
     socket.off("update");
   }
 
   handleKeyDown = (event) => {
     switch (event.code) {
+      case "ArrowLeft":
       case "KeyA": // A
         this.setState({ movement: { ...this.state.movement, left: true } });
         break;
+      case "ArrowUp":
       case "KeyW": // W
         this.setState({ movement: { ...this.state.movement, up: true } });
         break;
+      case "ArrowRight":
       case "KeyD": // D
         this.setState({ movement: { ...this.state.movement, right: true } });
         break;
+      case "ArrowDown":
       case "KeyS": // S
         this.setState({ movement: { ...this.state.movement, down: true } });
         break;
@@ -181,20 +187,40 @@ export class GamePage extends Component {
 
   handleKeyUp = (event) => {
     switch (event.code) {
+      case "ArrowLeft":
       case "KeyA": // A
         this.setState({ movement: { ...this.state.movement, left: false } });
         break;
+      case "ArrowUp":
       case "KeyW": // W
         this.setState({ movement: { ...this.state.movement, up: false } });
         break;
+      case "ArrowRight":
       case "KeyD": // D
         this.setState({ movement: { ...this.state.movement, right: false } });
         break;
+      case "ArrowDown":
       case "KeyS": // S
         this.setState({ movement: { ...this.state.movement, down: false } });
         break;
     }
   };
+
+  handleKeyPress = (event) => {
+    switch (event.code) {
+      case "KeyE":
+        if (this.state.isMarco) {
+          this.clickPowerUp();
+        }
+        break;
+      case "Space":
+        if (this.state.isMarco) {
+          this.clickTag();
+        } else {
+          this.clickPowerUp();
+        }
+    }
+  }
 
   updatePosition() {
     let positionUpdate = { x: 0, y: 0 };
@@ -339,12 +365,24 @@ export class GamePage extends Component {
   };
 
   handlePowerUp = (powerup) => {
-    if (powerup === "Warp") {
+    if (powerup === "Warp  [Space]") {
       this.handleTeleport();
-    } else if (powerup === "Illuminate") {
+    } else if (powerup === "Illuminate  [E]") {
       thermal = { active: true, time: new Date().getTime() };
     }
   };
+
+  clickPowerUp = () => {
+    try {
+      document.getElementById("power-up-button").click();
+    } catch(e) {}
+  }
+
+  clickTag = () => {
+    try {
+      document.getElementById("tag-button").click();
+    } catch(e) {}
+  }
 
   render() {
     if (this.state.gameState && this.state.gameState.players) {
@@ -475,6 +513,7 @@ export class GamePage extends Component {
               >
                 {({ start, resume, reset, getTime }) => (
                   <button
+                    id="power-up-button"
                     className="gamepage-ui-button gamepage-powerup-button"
                     onClick={() => {
                       if (this.state.powerup.ready) {
@@ -507,6 +546,7 @@ export class GamePage extends Component {
                 >
                   {({ start, resume, reset, getTime }) => (
                     <button
+                      id="tag-button"
                       className={tagClass}
                       onClick={() => {
                         if (this.state.tag.ready) {
