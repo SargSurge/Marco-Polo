@@ -117,7 +117,7 @@ export class GamePage extends Component {
       });
     } catch (e) {
       navigate("/");
-      window.location.reload();
+      window.location = window.location;
     }
   }
 
@@ -138,39 +138,46 @@ export class GamePage extends Component {
     }
   }
 
-  gameLoop = (gamestate, user) => {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        let tempState = this.state.gameState || gamestate;
-        let tempUser = this.state.user || user;
+  gameLoop = (gamestate, user, done = false) => {
+    let frameID = window.requestAnimationFrame(() => {
+      let tempState = this.state.gameState || gamestate;
+      let tempUser = this.state.user || user;
 
-        try {
-          if (tempState.finalTime - new Date().getTime() <= 0) {
-            stop();
-            post("/api/leaveGameState", { gameId: this.props.gameId, winner: "polo" })
-              .then(() => {
-                navigate("/");
-                window.location.reload();
-              })
-              .catch((e) => {
-                console.log(e);
-              });
-          }
-        } catch (e) {
-          navigate("/");
-          window.location.reload();
+      try {
+        let winner = null;
+        if (tempState.finalTime - new Date().getTime() <= 0) {
+          winner = "polo";
         }
-        try {
-          this.updatePosition();
-          tempState.players[tempUser._id].position = this.state.position;
-          this.move(tempUser);
-          drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
-          this.gameLoop(gamestate, user);
-        } catch (e) {
-          this.gameLoop(gamestate, user);
+
+        if (tempState.poloCaught === Object.keys(tempState.players).length - 1) {
+          winner = "marco";
         }
-      });
-    }, 1000 / 60);
+        if (winner !== null) {
+          post("/api/leaveGameState", { gameId: this.props.gameId, winner: winner })
+            .then(() => {
+              done = true;
+              alert("Congrats to the: " + winner);
+              window.cancelAnimationFrame(frameID);
+              document.getElementById("leavegame").click();
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      try {
+        console.log("try");
+        this.updatePosition();
+        tempState.players[tempUser._id].position = this.state.position;
+        this.move(tempUser);
+        drawCanvas(tempState, tempUser._id, tilesets, false, thermal);
+        this.gameLoop(gamestate, user);
+      } catch (e) {
+        this.gameLoop(tempState, tempUser);
+      }
+    });
   };
 
   componentWillUnmount() {
@@ -369,7 +376,6 @@ export class GamePage extends Component {
       let tagClass = "gamepage-ui-button gamepage-tag-button gamepage-tag-disabled";
       let taggedPlayer = null;
       if (this.state.isMarco) {
-        console.log("Outside LOOP", this.state.gameState.players);
         for (let player in this.state.gameState.players) {
           if (!this.state.gameState.players.hasOwnProperty(player)) continue;
           if (
@@ -392,10 +398,12 @@ export class GamePage extends Component {
         <div className="gamepage-base">
           <div className="gamepage-game-container">
             <button
+              id="leavegame"
               className="gamepage-ui-button gamepage-leavegame-button"
               onClick={() => {
                 post("/api/leaveGameState", { gameId: this.props.gameId, winner: null })
                   .then(() => {
+                    alert("Leaving Game!");
                     navigate("/");
                     window.location.reload();
                   })
