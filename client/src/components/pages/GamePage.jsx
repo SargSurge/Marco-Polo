@@ -106,7 +106,7 @@ export class GamePage extends Component {
               }
               socket.on("update", (gameState) => {
                 console.log(gameState.tagged);
-                if (gameState.tagged !== "undefined") {
+                if (typeof gameState.tagged !== "undefined") {
                   this.setState({ gameState: gameState });
                 } else {
                   console.log(gameState);
