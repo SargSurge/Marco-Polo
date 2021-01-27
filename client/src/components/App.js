@@ -5,6 +5,7 @@ import Skeleton from "./pages/Skeleton.js";
 import HomePage from "./pages/HomePage";
 import GamePage from "./pages/GamePage";
 import Profile from "./pages/Profile/Profile";
+import HowTo from "./pages/HowTo";
 
 import "../utilities.css";
 
@@ -113,6 +114,7 @@ class App extends Component {
           <Lobby path="/lobby/:gameId" userId={this.state.userId} logoutButton={logoutButton} />
           <GamePage path="/game/:gameId" user={this.state.user} />
           <Profile path="/profile/:userId" logoutButton={logoutButton} />
+          <HowTo path="/howto" />
           <NotFound default />
         </Router>
       </>
