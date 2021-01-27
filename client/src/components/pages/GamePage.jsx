@@ -81,21 +81,12 @@ export class GamePage extends Component {
             this.processUpdate(currState, user);
           }
           let isMarco = currState.players[user._id].role == "marco";
-          let currMarco = null;
-          for (let player in currState.players) {
-            if (!currState.players.hasOwnProperty(player)) continue;
-            if (currState.players[player].role === "marco") {
-              currMarco = currState.players[player].user.name;
-              break;
-            }
-          }
           this.setState(
             {
               user: user,
               gameState: currState,
               finalTime: currState.finalTime,
               isMarco: isMarco,
-              marco: currMarco,
               powerup: {
                 name: isMarco ? "Illuminate" : "Warp",
                 cooldown: isMarco
@@ -117,7 +108,7 @@ export class GamePage extends Component {
                 if (typeof gameState.tagged !== "undefined") {
                   this.setState({ gameState: gameState });
                 } else {
-                  //console.log(gameState);
+                  console.log(gameState);
                 }
               });
             }
@@ -457,7 +448,6 @@ export class GamePage extends Component {
                   : " 0"}
                 {Math.floor(((this.state.gameState.finalTime - new Date().getTime()) / 1000) % 60)}
               </div>
-              <div className="gamepage-currentMarco">{this.state.marco} is Marco</div>
               <div className="gamepage-character-header">
                 You're a{" "}
                 {this.state.isMarco
@@ -465,12 +455,6 @@ export class GamePage extends Component {
                   : this.state.gameState.players[this.state.user._id].active
                   ? "Polo!"
                   : "Ghost!"}
-              </div>
-              <div className="gamepage-charactar-counter">
-                Polo's Left:{" "}
-                {Object.keys(this.state.gameState.players).length -
-                  1 -
-                  this.state.gameState.poloCaught}
               </div>
               <div className="gamepage-canvas-container">
                 <canvas
