@@ -91,9 +91,7 @@ export class GamePage extends Component {
                 break;
               }
             }
-          } catch (error) {
-            
-          }
+          
           
           this.setState(
             {
@@ -128,6 +126,9 @@ export class GamePage extends Component {
               });
             }
           );
+        } catch (error) {
+            
+        }
         });
       });
     } catch (e) {
