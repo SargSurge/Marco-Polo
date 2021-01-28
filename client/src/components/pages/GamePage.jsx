@@ -91,8 +91,6 @@ export class GamePage extends Component {
                 break;
               }
             }
-          
-          
           this.setState(
             {
               user: user,
