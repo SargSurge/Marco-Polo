@@ -4,6 +4,7 @@ let io;
 
 const Room = require("./models/room");
 const User = require("./models/user");
+const GameState = require('./models/gamestate');
 
 const userToSocketMap = {}; // maps user ID to socket object
 const socketToUserMap = {}; // maps socket ID to user object
@@ -69,7 +70,17 @@ const userLeaveGame = (socket) => {
             })
             .then(io.emit("updateLobbiesAll"));
         }
-      });
+      }).catch((e) => console.log(e));
+      GameState.findOne({gameId: gameId}).then((gameState) => {
+        if (gameState && user.currentGame) {
+          delete gameState.players[user._id];
+          if (Object.keys(gamestate.players).length === 0) {
+            GameState.deleteOne({ gameId: gameId })
+              .then((result) => console.log("deleted one gamestate"))
+              .catch((err) => console.log("Delete failed with error: ${err}"));
+          }
+        }
+      }).catch((e) => console.log(e))
       User.findOneAndUpdate(
         { googleid: user.googleid },
         { $set: { currentGame: null } },
