@@ -81,15 +81,20 @@ export class GamePage extends Component {
           if (loadCount == json.tilesets.length) {
             this.processUpdate(currState, user);
           }
-          let isMarco = currState.players[user._id].role == "marco";
-          let currMarco = null;
-          for (let player in currState.players) {
-            if (!currState.players.hasOwnProperty(player)) continue;
-            if (currState.players[player].role === "marco") {
-              currMarco = currState.players[player].user.name;
-              break;
+          try {
+            let isMarco = currState.players[user._id].role == "marco";
+            let currMarco = null;
+            for (let player in currState.players) {
+              if (!currState.players.hasOwnProperty(player)) continue;
+              if (currState.players[player].role === "marco") {
+                currMarco = currState.players[player].user.name;
+                break;
+              }
             }
+          } catch (error) {
+            
           }
+          
           this.setState(
             {
               user: user,
